@@ -9,6 +9,7 @@ import Map from '../../Components/Map/Map'; // esta no se esta usando, se puede 
 import { getPostService, getUserDataService } from '../../Services/properties.service';
 import { addBookingService, sendBookingEmailService } from '../../Services/booking.service';
 import styles from './Details.module.css';
+// import GoogleMaps from '../../Components/GoogleMaps/GoogleMaps';
 
 export default function Details({ routerProps }) {
   const { id } = routerProps.match.params;
@@ -73,7 +74,7 @@ export default function Details({ routerProps }) {
       console.log('respuesta: ', error.message);
     }
   }
-  
+
   return (
     <div>
       {!loading && (
@@ -134,6 +135,10 @@ export default function Details({ routerProps }) {
                   lat={property.latitude}
                   lon={property.longitude}
                 />
+                // <GoogleMaps
+                //   lat={property.latitude}
+                //   lng={property.longitude}
+                // />
               }
               </div>
             </article>

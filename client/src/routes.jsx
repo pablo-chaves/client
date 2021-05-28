@@ -14,9 +14,9 @@ import PanelRoutes from './Pages/Panel/PanelRoutes';
 import NotFound from './Pages/NotFound/NotFound';
 import MercadoPago from './Components/MercadoPago/MercadoPago';
 import CreatePostContext from './Pages/NewPost/Contexts/CreatePostContext';
-// import CreatePost from './Pages/NewPost/CreatePost/CreatePost';
 import ProgressBar from './Pages/NewPost/ProgressBar';
 import ProtectedRoute from './Components/Auth0/ProtectedRoute/ProtectedRoute';
+import Render from './Components/GoogleMaps/FormMap';
 
 export default function MyHouseRoutes() {
   return (
@@ -24,6 +24,7 @@ export default function MyHouseRoutes() {
       <div>
         <NavBar />
         <Switch>
+          <Route path="/maps" component={Render}/>
           <Route path="/home" component={Home} />
           <Route
             exact path="/post/:id"

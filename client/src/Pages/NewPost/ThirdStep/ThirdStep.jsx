@@ -1,5 +1,6 @@
 // import useCreatePost from '../hooks/useCreatePost';
 import Form from '../Form/Form';
+import FormMap from '../../../Components/GoogleMaps/FormMap'
 import '../step.css';
 
 const formInputsConfig = [
@@ -19,20 +20,7 @@ const ThirdStep = () => {
       <h1>Ubicación del inmueble</h1>
       <Form config={formInputsConfig} />
       <div>
-        {/*  <button
-          onClick={() => {
-            setCurrentComponent('FourthStep');
-          }}
-        >
-          Siguiente...
-        </button>
-        <button
-          onClick={() => {
-            setCurrentComponent('SecondStep');
-          }}
-        >
-          Volver...
-        </button> */}
+        <FormMap />
       </div>
     </div>
   );
