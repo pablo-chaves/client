@@ -9,14 +9,12 @@ import MercadoPago from '../../../Components/MercadoPago/MercadoPago';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { valueTypes } from '../../../Services/properties.service';
-import axios from 'axios';
 
 export const CreatePostContext = createContext({});
 
 const CreatePostProvider = ({ children, match, ...routerProps }) => {
   const [current, setCurrent] = useState(0);
   const [infoPlan, setInfoPlan] = useState({});
-  const { REACT_APP_API_BASE_ENDPOINT } = process.env;
   const { session } = useSelector((store) => store);
   const search = useLocation().search;
   // const orderId = new URLSearchParams(search).get('orderId');
@@ -42,24 +40,6 @@ const CreatePostProvider = ({ children, match, ...routerProps }) => {
     payment_id, // se usa para crear la order
     external_reference, // va a ser el id de la orden en la db
   } = query(search);
-
-  const [order, setOrder] = useState('');
-  useEffect(() => {
-    const obj = {
-      userId: session.id,
-      servicePlanId: planId,
-      status: 'active',
-      paymentStatus: status,
-      paymentId: payment_id,
-      id: external_reference,
-    };
-    axios
-      .post(`${REACT_APP_API_BASE_ENDPOINT}/mercadopago/order`, obj)
-      .then((r) => {
-        setOrder(r.data.id);
-      });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [session.id]);
   // ======================================================================
   const [postDetails, setPostDetails] = useState({});
   useEffect(() => {
