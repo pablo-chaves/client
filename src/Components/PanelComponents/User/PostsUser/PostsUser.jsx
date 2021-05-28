@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { getUserData, deletePost } from '../../../../Redux/Actions/index';
 import TablePage from '../../TablePage/TablePage';
 import TableButtonBar from '../../ButtonsBar/TableButtonBar/TableButtonBar';
+import { sendBookingEmailService } from '../../../../Services/booking.service';
 
 function PostsUser({
   panelUser, getUserData, match, deletePost,
@@ -30,8 +31,16 @@ function PostsUser({
     return data;
   };
   async function deleteAndGet(id, userId) {
-    await deletePost(id)
-    await getUserData(userId)
+    try {
+      await deletePost(id)
+      const notificarReservaCanselada = [];
+      const bookingsId = posts.find(post => post.id=== id).visitDates.map(booking => booking.id);
+      bookingsId.forEach( id => notificarReservaCanselada.push(sendBookingEmailService(id)));
+      await Promise.all(notificarReservaCanselada);
+      await getUserData(userId);  
+    } catch (error) {
+      console.log(error);
+    }
   }
   
   return (
