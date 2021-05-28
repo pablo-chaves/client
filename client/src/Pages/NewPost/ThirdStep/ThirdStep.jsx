@@ -18,7 +18,7 @@ const ThirdStep = () => {
   return (
     <div className='ctn'>
       <h1>Ubicación del inmueble</h1>
-      <Form config={formInputsConfig} />
+      {/* <Form config={formInputsConfig} /> */}
       <div>
         <FormMap />
       </div>
