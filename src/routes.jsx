@@ -17,6 +17,7 @@ import CreatePostContext from './Pages/NewPost/Contexts/CreatePostContext';
 // import CreatePost from './Pages/NewPost/CreatePost/CreatePost';
 import ProgressBar from './Pages/NewPost/ProgressBar';
 import ProtectedRoute from './Components/Auth0/ProtectedRoute/ProtectedRoute';
+import Successful from './Pages/Successful/Successful'
 
 export default function MyHouseRoutes() {
   return (
@@ -52,10 +53,10 @@ export default function MyHouseRoutes() {
             path="/panel"
             component={PanelRoutes}
           />
-          {/*<ProtectedRoute
-            path="/create"
-            component={MercadoPago}
-          />*/}
+          <ProtectedRoute
+            exact path="/Success/:planId/:planTitle"
+            component={Successful}
+          />
           <Route
             component={NotFound}
             />
