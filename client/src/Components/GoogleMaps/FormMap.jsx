@@ -1,5 +1,5 @@
 import React from 'react';
-import { withGoogleMap, GoogleMap, withScriptjs, InfoWindow, Marker, Circle } from "react-google-maps";
+import { withGoogleMap, GoogleMap, InfoWindow, Marker, Circle } from "react-google-maps";
 import Geocode from "react-geocode";
 import Autocomplete from 'react-google-autocomplete';
 import { Descriptions } from 'antd';
@@ -189,29 +189,31 @@ class LocationSearchModal extends React.Component {
 
 
     render() {
-        const AsyncMap = /* withScriptjs( */
+        const AsyncMap = 
             withGoogleMap(
                 props => (
+                    // For Auto complete Search Box 
+                    <>
+                    <Autocomplete
+                        style={{
+                            width: '100%',
+                            height: '40px',
+                            paddingLeft: '16px',
+                            marginTop: '2px',
+                            marginBottom: '2rem'
+                        }}
+                        onPlaceSelected={this.onPlaceSelected}
+                        options={{
+                            types: ["address"],
+                            componentRestrictions: { country: "co" },
+                        }}
+                    />
                     <GoogleMap
                         defaultZoom={this.state.zoom}
                         defaultCenter={{ lat: this.state.mapPosition.lat, lng: this.state.mapPosition.lng }}
                     >
 
-                         {/* For Auto complete Search Box */}
-                         <Autocomplete
-                            style={{
-                                width: '100%',
-                                height: '40px',
-                                paddingLeft: '16px',
-                                marginTop: '2px',
-                                marginBottom: '2rem'
-                            }}
-                            onPlaceSelected={this.onPlaceSelected}
-                            options={{
-                                types: ["address"],
-                                componentRestrictions: { country: "co" },
-                            }}
-                        />
+                         
                         {/* InfoWindow on top of marker */}
                         {/*Marker*/}
                         {this.state.allowAddress === true && 
@@ -257,9 +259,9 @@ class LocationSearchModal extends React.Component {
                             </Circle> 
                         }
                     </GoogleMap>
+                    </>
                 )
               )
-        /* ); */
 
         return (
             <div style={{ padding: '1rem', margin: '0 auto', maxWidth: 1000 }}>

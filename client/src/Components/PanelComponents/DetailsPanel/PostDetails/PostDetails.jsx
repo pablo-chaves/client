@@ -6,7 +6,7 @@ import { faBed, faBath, faRulerCombined } from '@fortawesome/free-solid-svg-icon
 import { FaCheck } from 'react-icons/fa';
 import { deletePostService, getPostService } from '../../../../Services/properties.service';
 import SliderCarousel from '../../../SliderCarousel/SliderCarousel';
-import Map from '../../../Map/Map'; // esta no se esta usando, se puede eliminar? @rennygalindez
+import Map from '../../../GoogleMaps/GoogleMap'; // esta no se esta usando, se puede eliminar? @rennygalindez
 import DetailButtonBar from '../../ButtonsBar/DetailButtonBar/DetailButtonBar';
 import styles from './PostDetails.module.css';
 
@@ -80,7 +80,14 @@ function PostDetails({ session, id }) {
               {(property.latitude && property.longitude) &&
                 <Map
                   lat={property.latitude}
-                  lon={property.longitude}
+                  lng={property.longitude}
+                  allowAddress={property.allowAddress ? property.allowAddress : true}
+                  mapElement={
+                    <div style={{ height: `350px`, width: '600px' }} />
+                  }
+                  containerElement={
+                      <div style={{ height: '350px', width: '600px'}} />
+                  }
                 />
               }
               </div>
