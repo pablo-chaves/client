@@ -17,7 +17,7 @@ import CreatePostContext from './Pages/NewPost/Contexts/CreatePostContext';
 import ProgressBar from './Pages/NewPost/ProgressBar';
 import ProtectedRoute from './Components/Auth0/ProtectedRoute/ProtectedRoute';
 import Successful from './Pages/Successful/Successful'
-import Render from './Components/GoogleMaps/FormMap';
+import Render from './Components/GoogleMaps/FormMap.jsx';
 
 export default function MyHouseRoutes() {
   return (
