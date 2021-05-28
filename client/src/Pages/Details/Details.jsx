@@ -5,7 +5,6 @@ import { FaCheck } from 'react-icons/fa';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBed, faBath, faRulerCombined } from '@fortawesome/free-solid-svg-icons';
 import SliderCarousel from '../../Components/SliderCarousel/SliderCarousel';
-// import Map from '../../Components/Map/Map'; // esta no se esta usando, se puede eliminar? @rennygalindez
 import { getPostService, getUserDataService } from '../../Services/properties.service';
 import { addBookingService, sendBookingEmailService } from '../../Services/booking.service';
 import styles from './Details.module.css';
@@ -131,13 +130,16 @@ export default function Details({ routerProps }) {
             <article className={styles.map_container}>
               <div>
               {(property.latitude && property.longitude) &&
-                // <Map
-                //   lat={property.latitude}
-                //   lon={property.longitude}
-                // />
                 <GoogleMap
                   lat={property.latitude}
                   lng={property.longitude}
+                  allowAddress={property.allowAddress ? property.allowAddress : true}
+                  mapElement={
+                    <div style={{ height: `350px`, width: '600px' }} />
+                  }
+                  containerElement={
+                      <div style={{ height: '350px', width: '600px'}} />
+                  }
                 />
               }
               </div>

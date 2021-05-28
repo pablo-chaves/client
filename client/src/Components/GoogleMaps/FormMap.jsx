@@ -189,7 +189,7 @@ class LocationSearchModal extends React.Component {
 
 
     render() {
-        const AsyncMap = withScriptjs(
+        const AsyncMap = /* withScriptjs( */
             withGoogleMap(
                 props => (
                     <GoogleMap
@@ -258,8 +258,8 @@ class LocationSearchModal extends React.Component {
                         }
                     </GoogleMap>
                 )
-            )
-        );
+              )
+        /* ); */
 
         return (
             <div style={{ padding: '1rem', margin: '0 auto', maxWidth: 1000 }}>
@@ -278,16 +278,12 @@ class LocationSearchModal extends React.Component {
                     }} 
                 />
 
-                <AsyncMap
-                    googleMapURL={"https://maps.googleapis.com/maps/api/js?key=AIzaSyCCaK8oT79dfAfz9C4jEzYRwLu1IV0yw3A&libraries=places"}
-                    loadingElement={
-                        <div style={{ height: `100%` }} />
-                    }
+                <AsyncMap                   
+                   mapElement={
+                       <div style={{ height: `100%` }} />
+                   }
                     containerElement={
                         <div style={{ height: this.state.height }} />
-                    }
-                    mapElement={
-                        <div style={{ height: `100%` }} />
                     }
                 />
             </div>
