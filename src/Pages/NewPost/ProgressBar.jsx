@@ -59,8 +59,8 @@ const ProgressBar = () => {
 
     useEffect(() => {
       if(current === 5) {
-        axios.post(`http://localhost:3001/mercadopago`, infoPlan)
-        // axios.post(`${REACT_APP_API_BASE_ENDPOINT}/mercadopago`, infoPlan)
+        // axios.post(`http://localhost:3001/mercadopago`, infoPlan)
+        axios.post(`${REACT_APP_API_BASE_ENDPOINT}/mercadopago`, infoPlan)
           .then((r) => {
             createCheckoutButton(r.data);
           })
