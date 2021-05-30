@@ -19,7 +19,6 @@ const ProgressBar = () => {
   const { postDetails, current, setCurrent, steps, infoPlan } = useCreatePost();
   const { user } = useAuth0();
 
-
   const prev = () => {
     setCurrent(current - 1);
   };
@@ -95,8 +94,8 @@ const ProgressBar = () => {
           <Button
             type='primary'
             id='buttonId'
-            /*onClick={handlerClick}
-            /*onClick={() => {
+            onClick={handlerClick}
+            onClick={() => {
               const resp = window.confirm(
                 `¿Quieres crear la publicación ${postDetails.post_name}?`
               );
@@ -107,7 +106,7 @@ const ProgressBar = () => {
                 );
                 sendPaymentEmail(post);
               }
-            }}*/
+            }}
           >
             Publicar
           </Button>
@@ -121,5 +120,7 @@ const ProgressBar = () => {
     </div>
   );
 };
+
+
 
 export default ProgressBar;
