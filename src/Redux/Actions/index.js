@@ -40,6 +40,7 @@ import {
   GET_ADMIN_USERS_DATA,
   CHANGE_URL,
   USER_SESSION,
+  ADD_LOCATION,
 } from './types';
 
 // Actions
@@ -381,4 +382,16 @@ export function changeURL(url) {
       },
     );
   };
+}
+
+// ADD_LOCATION
+export function addLocation(location) {
+  return function (dispatch) {
+    return dispatch(
+      {
+        type: ADD_LOCATION,
+        payload: location,
+      }
+    )
+  }
 }

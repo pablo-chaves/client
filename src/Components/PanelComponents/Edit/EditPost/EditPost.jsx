@@ -8,11 +8,13 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEraser } from '@fortawesome/free-solid-svg-icons';
 import { getPostService, editPostService, addPostService, valueTypes } from '../../../../Services/properties.service';
+import { addLocation } from '../../../../Redux/Actions/index';
 import Loading from '../../../Auth0/Loading/loading';
 import EditButtonBar from '../../ButtonsBar/EditButtonBar/EditButtonBar';
+import FormMap from '../../../GoogleMaps/FormMap';
 import style from '../Edit.module.css';
 
-function EditPosts({ id, action, session }) {
+function EditPosts({ id, action, session, location, addLocation }) {
 
   const [input, setInput] = useState({})
   const [postDetail, setPostDetail] = useState({});
@@ -32,15 +34,18 @@ function EditPosts({ id, action, session }) {
   }, []);
   
   useEffect(() => {
+    addLocation(postDetail)
     setInput({
       premium: action === 'edit' ? postDetail.premium : false,
       post_name: action === 'edit' ? postDetail.post_name : '',
-      department: action === 'edit' ? postDetail.department : '',
-      city: action === 'edit' ? postDetail.city : '',
-      street_number: action === 'edit' ? postDetail.street_number : '',
+      department: action === 'edit' ? location.department : '',
+      city: action === 'edit' ? location.city : '',
+      street_number: action === 'edit' ? location.street_number : '',
+      longitude: action === 'edit' ? location.longitude : '',
+      latitude: action === 'edit' ? location.latitude : '',
+      neighborhood: action === 'edit' ? location.neighborhood : '',
       description: action === 'edit' ? postDetail.description : '',
       stratum: action === 'edit' ? postDetail.street_number : 1,
-      neighborhood: action === 'edit' ? postDetail.neighborhood : '',
       price: action === 'edit' ? postDetail.price : 1,
       prop_type: action === 'edit' ? postDetail.prop_type : '',
       m2: action === 'edit' ? postDetail.m2 : 1,
@@ -57,7 +62,6 @@ function EditPosts({ id, action, session }) {
       bbq: action === 'edit' ? postDetail.bbq : false,
       images: action === 'edit' ? postDetail.images : [],
       status: action === 'edit' ? postDetail.status : 'Available',
-      // createdAt: action === 'edit' ? postDetail.createdAt : '',
       idUser: session.id,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -146,12 +150,8 @@ function EditPosts({ id, action, session }) {
     setInput({
       premium: '',
       post_name: '',
-      department: '',
-      city: '',
-      street_number: '',
       description: '',
       stratum: '',
-      neighborhood: '',
       price: '',
       m2: '',
       rooms: '',
@@ -208,46 +208,7 @@ function EditPosts({ id, action, session }) {
               {errors.status && (<p className={style.pdanger}>{errors.status}</p>) }
             </>
             }
-            <div className={style.field}>
-              <label htmlFor="department">Departmento</label>
-              <input
-                type="text"
-                value={input.department}
-                name="department"
-                onChange={handleChange}
-              />
-            </div>
-            {errors.department && (<p className={style.pdanger}>{errors.department}</p>)}
-            <div className={style.field}>
-              <label htmlFor="city">Ciudad</label>
-              <input
-                type="text"
-                value={input.city}
-                name="city"
-                onChange={handleChange}
-              />
-            </div>
-            {errors.city && (<p className={style.pdanger}>{errors.city}</p>)}
-            <div className={style.field}>
-              <label htmlFor="street_number">Dirección</label>
-              <input
-                type="text"
-                value={input.street_number}
-                name="street_number"
-                onChange={handleChange}
-              />
-            </div>
-            {errors.street_number && (<p className={style.pdanger}>{errors.street_number}</p>)}
-            <div className={style.field}>
-              <label htmlFor="neighborhood">Barrio</label>
-              <input
-                type="text"
-                value={input.neighborhood}
-                name="neighborhood"
-                onChange={handleChange}
-              />
-            </div>
-            {errors.neighborhood && (<p className={style.pdanger}>{errors.neighborhood}</p>)}
+            < FormMap />
             <div className={style.field}>
               <label htmlFor="price">Precio</label>
               <input
@@ -386,6 +347,11 @@ function EditPosts({ id, action, session }) {
 
 const mapStateToProps = (state) => ({
   session: state.session,
+  location: state.location,
 });
 
-export default connect(mapStateToProps)(EditPosts);
+const mapDispatchToProps = (dispatch) => ({
+  addLocation: (address) => dispatch(addLocation(address)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditPosts);

@@ -15,7 +15,7 @@ export const CreatePostContext = createContext({});
 const CreatePostProvider = ({ children, match, ...routerProps }) => {
   const [current, setCurrent] = useState(0);
   const [infoPlan, setInfoPlan] = useState({});
-  const { session } = useSelector((store) => store);
+  const { session, location } = useSelector((store) => store);
   const search = useLocation().search;
   // const orderId = new URLSearchParams(search).get('orderId');
   // const plan = new URLSearchParams(search).get('plan');
@@ -29,7 +29,7 @@ const CreatePostProvider = ({ children, match, ...routerProps }) => {
     }
     return obj;
   }
-
+  
   const {
     planId, // id del plan
     planTitle, // basic o premium
@@ -48,9 +48,10 @@ const CreatePostProvider = ({ children, match, ...routerProps }) => {
       premium: planTitle === 'Premium' ? true : false,
       post_name: '',
       prop_type: '',
-      country: '',
       department: '',
       city: '',
+      longitude: '',
+      latitude: '',
       neighborhood: '',
       street_number: '',
       description: '',
@@ -82,7 +83,7 @@ const CreatePostProvider = ({ children, match, ...routerProps }) => {
     setPostDetails(JSON.parse(postDetailsLocalStorage));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
+  
   const handleOnchangeImage = (imageList) => {
     setPostDetails({ ...postDetails, images: imageList });
   };
@@ -96,10 +97,25 @@ const CreatePostProvider = ({ children, match, ...routerProps }) => {
         idUser: session.id,
         orderId: external_reference,
       })
-    );
-    // localStorage.setItem('postDetails', JSON.stringify(postDetails));
+      );
+      // localStorage.setItem('postDetails', JSON.stringify(postDetails));
   };
 
+  // Actualizar dirección
+  useEffect(() => {
+    setPostDetails(
+      valueTypes({
+        ...postDetails,
+        department: location.department,
+        city: location.city,
+        longitude: location.longitude,
+        latitude: location.latitude,
+        street_number: location.street_number,
+      })
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location])
+  
   const steps = [
     {
       title: 'Elige tu plan',
@@ -126,7 +142,7 @@ const CreatePostProvider = ({ children, match, ...routerProps }) => {
       content: <SixthStep />,
     },
   ];
-
+  
   return (
     <CreatePostContext.Provider
       value={{
@@ -141,10 +157,11 @@ const CreatePostProvider = ({ children, match, ...routerProps }) => {
         infoPlan,
         setInfoPlan,
       }}
-    >
+      >
       {children}
     </CreatePostContext.Provider>
   );
 };
 
+  // console.log('CNTX',CreatePostProvider)
 export default CreatePostProvider;

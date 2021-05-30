@@ -18,6 +18,7 @@ import {
   GET_ADMIN_USERS_DATA,
   CHANGE_URL,
   USER_SESSION,
+  ADD_LOCATION,
 } from '../Actions/types';
 
 const initialState = {
@@ -34,6 +35,7 @@ const initialState = {
   message: '',
   detail: {},
   session: {},
+  location: {},
 };
 
 export default function rootReducer(state = initialState, action) {
@@ -159,6 +161,11 @@ export default function rootReducer(state = initialState, action) {
       ...state,
       url: action.payload,
     };
+  case ADD_LOCATION:
+    return {
+      ...state,
+      location: action.payload
+    }
   default:
     return state;
   }
