@@ -45,7 +45,7 @@ const CreatePostProvider = ({ children, match, ...routerProps }) => {
   useEffect(() => {
     console.log('useEffect sessio.id');
     setPostDetails({
-      orderId: external_reference,
+      // orderId: external_reference,
       premium: planTitle === 'Premium' ? true : false,
       post_name: '',
       prop_type: '',
@@ -77,6 +77,14 @@ const CreatePostProvider = ({ children, match, ...routerProps }) => {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session.id]);
+  useEffect(() => {
+    const postDetailsLocalStorage = localStorage.getItem('postDetails');
+    if (!postDetailsLocalStorage) {
+      return;
+    }
+    setPostDetails(JSON.parse(postDetailsLocalStorage));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleOnchangeImage = (imageList) => {
     setPostDetails({ ...postDetails, images: imageList });
