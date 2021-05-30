@@ -68,6 +68,7 @@ const Successful = () => {
   useEffect(() => {
     (async function(){
       // await addPostService({...postDetails, external_reference})
+      console.log('prueba=======', postDetails)
       if(session.id){
         const obj = {
           userId: session.id,
@@ -76,7 +77,7 @@ const Successful = () => {
           paymentStatus: status,
           paymentId: payment_id,
           id: merchant_order_id,
-          postId: external_reference || "008f7095-3213-459a-841f-06f0d4956d37",
+          postId: "008f7095-3213-459a-841f-06f0d4956d37" || external_reference,
         };
         axios
           .post(`${REACT_APP_API_BASE_ENDPOINT}/mercadopago/order`, obj)
@@ -105,7 +106,7 @@ const Successful = () => {
         <Link to='/home'>
           <button className={style.buttonExit}>Salir</button>
         </Link>
-        <Link to='/home'>
+        <Link to='/post/008f7095-3213-459a-841f-06f0d4956d37'>
           <button>Ver publicación</button>
         </Link>
         </div>
