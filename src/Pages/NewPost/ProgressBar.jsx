@@ -19,7 +19,6 @@ const ProgressBar = () => {
   const { postDetails, current, setCurrent, steps, infoPlan } = useCreatePost();
   const { user } = useAuth0();
 
-
   const prev = () => {
     setCurrent(current - 1);
   };
@@ -41,34 +40,37 @@ const ProgressBar = () => {
     date: expirationDate,
   };
   //====================Mercadopago=======================================================
-    const { REACT_APP_API_BASE_ENDPOINT } = process.env;
-    function createCheckoutButton(preference) {
-    const script = document.createElement("script");
-    const attrDataPreference = document.createAttribute('data-preference-id')
-    attrDataPreference.value = preference.id
-    script.src = "https://www.mercadopago.com.co/integrations/v1/web-payment-checkout.js";
-    script.setAttributeNode(attrDataPreference)
-    document.getElementById('buttonId').innerHTML = "";
+  const { REACT_APP_API_BASE_ENDPOINT } = process.env;
+  function createCheckoutButton(preference) {
+    const script = document.createElement('script');
+    const attrDataPreference = document.createAttribute('data-preference-id');
+    attrDataPreference.value = preference.id;
+    script.src =
+      'https://www.mercadopago.com.co/integrations/v1/web-payment-checkout.js';
+    script.setAttributeNode(attrDataPreference);
+    document.getElementById('buttonId').innerHTML = '';
     document.getElementById('buttonId').appendChild(script);
-    return () =>{
-        document.getElementById('buttonId').removeChild(script);
-      }
+    return () => {
+      document.getElementById('buttonId').removeChild(script);
     };
-    const handlerClick = async () => {
-      const dataAxios = await axios.post(`http://localhost:3001/mercadopago`, infoPlan)
-      // const dataAxios = await axios.post(`${REACT_APP_API_BASE_ENDPOINT}/mercadopago`, infoPlan)
-      console.log('Im axios', dataAxios.data)
-      if (document.getElementById('buttonId').innerHTML === 'Publicar'){
-        document.getElementById('buttonId').style.width = '80%';
-        createCheckoutButton(dataAxios.data);
-
-      }else{
-        createCheckoutButton(dataAxios.data)();
-        document.getElementById('buttonId').style.width = '8em';
-        document.getElementById('buttonId').innerHTML = 'Publicar';
-      }
-    };
-    //====================Mercadopago=======================================================
+  }
+  const handlerClick = async () => {
+    const dataAxios = await axios.post(
+      `http://localhost:3001/mercadopago`,
+      infoPlan
+    );
+    // const dataAxios = await axios.post(`${REACT_APP_API_BASE_ENDPOINT}/mercadopago`, infoPlan)
+    console.log('Im axios', dataAxios.data);
+    if (document.getElementById('buttonId').innerHTML === 'Publicar') {
+      document.getElementById('buttonId').style.width = '80%';
+      createCheckoutButton(dataAxios.data);
+    } else {
+      createCheckoutButton(dataAxios.data)();
+      document.getElementById('buttonId').style.width = '8em';
+      document.getElementById('buttonId').innerHTML = 'Publicar';
+    }
+  };
+  //====================Mercadopago=======================================================
 
   return (
     <div className='ctn'>
@@ -84,7 +86,7 @@ const ProgressBar = () => {
             type='primary'
             id='buttonId'
             onClick={handlerClick}
-            /*onClick={() => {
+            onClick={() => {
               const resp = window.confirm(
                 `¿Quieres crear la publicación ${postDetails.post_name}?`
               );
@@ -95,7 +97,7 @@ const ProgressBar = () => {
                 );
                 sendPaymentEmail(post);
               }
-            }}*/
+            }}
           >
             Publicar
           </Button>
@@ -109,5 +111,7 @@ const ProgressBar = () => {
     </div>
   );
 };
+
+
 
 export default ProgressBar;

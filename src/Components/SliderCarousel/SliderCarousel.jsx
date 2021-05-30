@@ -10,10 +10,19 @@ import {
   image,
 } from './SliderCarousel.module.css';
 
-const SliderCarousel = ({ elements }) => {
-  const [current, setCurrent] = useState(0);
 
-  const elementsLength = elements.length;
+const SliderCarousel = ({ elementsContainer }) => {
+
+  const [current, setCurrent] = useState(0);
+  let photo = [];
+  if (typeof elementsContainer[0] === 'string') {
+    photo = elementsContainer;
+  } else {
+    photo = elementsContainer[0].photo;
+  }
+ 
+
+  const elementsLength = photo.length;
 
   if (!elementsLength) {
     return (
@@ -51,7 +60,8 @@ const SliderCarousel = ({ elements }) => {
           />
         </>
       )}
-      {elements.map((element, index) => (
+
+      {photo.map((element, index) => (
         <div className={index === current ? `${slide} ${active}` : `${slide}`}>
           {index === current && (
             <img

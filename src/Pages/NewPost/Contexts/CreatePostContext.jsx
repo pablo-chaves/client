@@ -29,7 +29,7 @@ const CreatePostProvider = ({ children, match, ...routerProps }) => {
     }
     return obj;
   }
-  
+
   const {
     planId, // id del plan
     planTitle, // basic o premium
@@ -43,6 +43,7 @@ const CreatePostProvider = ({ children, match, ...routerProps }) => {
   // ======================================================================
   const [postDetails, setPostDetails] = useState({});
   useEffect(() => {
+    console.log('useEffect sessio.id');
     setPostDetails({
       orderId: external_reference,
       premium: planTitle === 'Premium' ? true : false,
@@ -76,15 +77,7 @@ const CreatePostProvider = ({ children, match, ...routerProps }) => {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session.id]);
-  useEffect(() => {
-    const postDetailsLocalStorage = localStorage.getItem('postDetails');
-    if (!postDetailsLocalStorage) {
-      return;
-    }
-    setPostDetails(JSON.parse(postDetailsLocalStorage));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  
+
   const handleOnchangeImage = (imageList) => {
     setPostDetails({ ...postDetails, images: imageList });
   };
@@ -98,26 +91,27 @@ const CreatePostProvider = ({ children, match, ...routerProps }) => {
         idUser: session.id,
         orderId: external_reference,
       })
-      );
-      // localStorage.setItem('postDetails', JSON.stringify(postDetails));
+    );
+    // localStorage.setItem('postDetails', JSON.stringify(postDetails));
   };
 
   // Actualizar dirección
+ 
   useEffect(() => {
-    setPostDetails(
-      valueTypes({
-        ...postDetails,
-        department: location.department,
-        city: location.city,
-        longitude: location.longitude,
-        latitude: location.latitude,
-        street_number: location.street_number,
-        allowAddress: location.allowAddress,
-      })
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location])
+    console.log('location en useEffect', location);
   
+    setPostDetails((postDetails) => ({
+      ...postDetails,
+      department: location.department,
+      city: location.city,
+      longitude: location.longitude,
+      latitude: location.latitude,
+      street_number: location.street_number,
+      allowAddress: location.allowAddress,
+    }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location]);
+
   const steps = [
     {
       title: 'Elige tu plan',
@@ -144,7 +138,7 @@ const CreatePostProvider = ({ children, match, ...routerProps }) => {
       content: <SixthStep />,
     },
   ];
-  
+
   return (
     <CreatePostContext.Provider
       value={{
@@ -159,7 +153,7 @@ const CreatePostProvider = ({ children, match, ...routerProps }) => {
         infoPlan,
         setInfoPlan,
       }}
-      >
+    >
       {children}
     </CreatePostContext.Provider>
   );

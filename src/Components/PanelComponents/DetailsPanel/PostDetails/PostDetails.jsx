@@ -2,20 +2,25 @@
 import { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBed, faBath, faRulerCombined } from '@fortawesome/free-solid-svg-icons';
+import {
+  faBed,
+  faBath,
+  faRulerCombined,
+} from '@fortawesome/free-solid-svg-icons';
 import { FaCheck } from 'react-icons/fa';
-import { deletePostService, getPostService } from '../../../../Services/properties.service';
+import {
+  deletePostService,
+  getPostService,
+} from '../../../../Services/properties.service';
 import SliderCarousel from '../../../SliderCarousel/SliderCarousel';
 import Map from '../../../GoogleMaps/GoogleMap'; // esta no se esta usando, se puede eliminar? @rennygalindez
 import DetailButtonBar from '../../ButtonsBar/DetailButtonBar/DetailButtonBar';
 import styles from './PostDetails.module.css';
 
 function PostDetails({ session, id }) {
-
   const [property, setProperty] = useState('');
   const [loading, setLoading] = useState(true);
 
-  
   useEffect(() => {
     async function fetchApi(propertyId) {
       const propertyFetch = await getPostService(propertyId);
@@ -28,7 +33,13 @@ function PostDetails({ session, id }) {
 
   return (
     <div>
-      <DetailButtonBar rol={session.type} id={id} path='post' userId={session.id} deleteAction={deletePostService}/>
+      <DetailButtonBar
+        rol={session.type}
+        id={id}
+        path='post'
+        userId={session.id}
+        deleteAction={deletePostService}
+      />
       {!loading && (
         <main className={styles.container}>
           <div className={styles.status}>
@@ -44,7 +55,9 @@ function PostDetails({ session, id }) {
                 <h2>{`${property.department}, ${property.city}`}</h2>
                 <p>{property.neighborhood}</p>
                 <p>{`Stratum ${property.stratum}`}</p>
-                <p className={styles.price}>{`$${new Intl.NumberFormat('de-DE').format(property.price)}`}</p>
+                <p className={styles.price}>{`$${new Intl.NumberFormat(
+                  'de-DE'
+                ).format(property.price)}`}</p>
                 <p>{property.description}</p>
                 <div className={styles.details}>
                   <p>
@@ -70,26 +83,28 @@ function PostDetails({ session, id }) {
             </article>
             <article className={styles.hero_carousel}>
               <div className={styles.photo_gallery}>
-                <SliderCarousel elements={property.images} />
+                <SliderCarousel elementsContainer={property.images} />
               </div>
             </article>
           </section>
           <section className={styles.map_facilities}>
             <article className={styles.map_container}>
               <div>
-              {(property.latitude && property.longitude) &&
-                <Map
-                  lat={property.latitude}
-                  lng={property.longitude}
-                  allowAddress={property.allowAddress ? property.allowAddress : true}
-                  mapElement={
-                    <div style={{ height: `350px`, width: '600px' }} />
-                  }
-                  containerElement={
-                      <div style={{ height: '350px', width: '600px'}} />
-                  }
-                />
-              }
+                {property.latitude && property.longitude && (
+                  <Map
+                    lat={property.latitude}
+                    lng={property.longitude}
+                    allowAddress={
+                      property.allowAddress ? property.allowAddress : true
+                    }
+                    mapElement={
+                      <div style={{ height: `350px`, width: '600px' }} />
+                    }
+                    containerElement={
+                      <div style={{ height: '350px', width: '600px' }} />
+                    }
+                  />
+                )}
               </div>
             </article>
             <article className={styles.facilities_container}>
@@ -98,49 +113,65 @@ function PostDetails({ session, id }) {
                 {property.parking_lot && (
                   <div className={styles.facility}>
                     PARKING LOT
-                    <span className={styles.icon}><FaCheck /></span>
+                    <span className={styles.icon}>
+                      <FaCheck />
+                    </span>
                   </div>
                 )}
                 {property.gym && (
                   <div className={styles.facility}>
                     GYM
-                    <span className={styles.icon}><FaCheck /></span>
+                    <span className={styles.icon}>
+                      <FaCheck />
+                    </span>
                   </div>
                 )}
                 {property.elevator && (
                   <div className={styles.facility}>
                     ELEVATOR
-                    <span className={styles.icon}><FaCheck /></span>
+                    <span className={styles.icon}>
+                      <FaCheck />
+                    </span>
                   </div>
                 )}
                 {property.garden && (
                   <div className={styles.facility}>
                     GARDEN
-                    <span className={styles.icon}><FaCheck /></span>
+                    <span className={styles.icon}>
+                      <FaCheck />
+                    </span>
                   </div>
                 )}
                 {property.backyard && (
                   <div className={styles.facility}>
                     BACKYARD
-                    <span className={styles.icon}><FaCheck /></span>
+                    <span className={styles.icon}>
+                      <FaCheck />
+                    </span>
                   </div>
                 )}
                 {property.private_security && (
                   <div className={styles.facility}>
                     PRIVATE SECURITY
-                    <span className={styles.icon}><FaCheck /></span>
+                    <span className={styles.icon}>
+                      <FaCheck />
+                    </span>
                   </div>
                 )}
                 {property.pool && (
                   <div className={styles.facility}>
                     SWIMMING POOL
-                    <span className={styles.icon}><FaCheck /></span>
+                    <span className={styles.icon}>
+                      <FaCheck />
+                    </span>
                   </div>
                 )}
                 {property.bbq && (
                   <div className={styles.facility}>
                     BARBECUE
-                    <span className={styles.icon}><FaCheck /></span>
+                    <span className={styles.icon}>
+                      <FaCheck />
+                    </span>
                   </div>
                 )}
               </div>
