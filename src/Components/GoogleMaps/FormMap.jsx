@@ -3,6 +3,8 @@ import { withGoogleMap, GoogleMap, InfoWindow, Marker, Circle } from "react-goog
 import Geocode from "react-geocode";
 import Autocomplete from 'react-google-autocomplete';
 import { Descriptions } from 'antd';
+import { connect } from 'react-redux';
+import { addLocation } from '../../Redux/Actions/index';
 
 const apiKey = process.env.REACT_APP_GOOGLE_MAP_API;
 Geocode.setApiKey(apiKey);
@@ -11,27 +13,43 @@ Geocode.enableDebug();
 class LocationSearchModal extends React.Component {
 
     state = {
-        address: '',
-        city: '',
-        area: '',
-        state: '',
-        zoom: 15,
-        height: 400,
+        street_number: this.props.location.street_number || '',
+        city: this.props.location.city || '',
+        department: this.props.location.department || '',
+        neighborhood: this.props.location.neighborhood || '',
         mapPosition: {
-            lat: 0,
-            lng: 0,
+            lat: this.props.location.latitude || 0,
+            lng: this.props.location.longitude || 0,
         },
         markerPosition: {
-            lat: 0,
-            lng: 0,
+            lat: this.props.location.latitude || 0, 
+            lng: this.props.location.longitude || 0,
         },
-        allowAddress: true,
+        zoom: 15,
+        height: 400,
+        allowAddress: this.props.location.state || true,
         confirmed: false,
     }
 
 
     componentDidMount() {
-        if (navigator.geolocation) {
+        if (Object.values(this.props.location).length > 0) {
+            this.setState({
+                street_number: this.props.location.street_number,
+                city: this.props.location.city,
+                department: this.props.location.department,
+                neighborhood: this.props.location.neighborhood,
+                mapPosition: {
+                    lat: this.props.location.latitude,
+                    lng: this.props.location.longitude,
+                },
+                markerPosition: {
+                    lat: this.props.location.latitude, 
+                    lng: this.props.location.longitude,
+                },
+                allowAddress: this.props.location.state,
+            })
+        } else if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(position => {
                 this.setState({
                     mapPosition: {
@@ -47,17 +65,17 @@ class LocationSearchModal extends React.Component {
                         Geocode.fromLatLng(position.coords.latitude, position.coords.longitude).then(
                             response => {
                                 console.log(response)
-                                const address = response.results[0].formatted_address,
+                                const street_number = response.results[0].formatted_address,
                                     addressArray = response.results[0].address_components,
                                     city = this.getCity(addressArray),
-                                    area = this.getArea(addressArray),
-                                    state = this.getState(addressArray);
-                                console.log('city', city, area, state);
+                                    department = this.getDepartment(addressArray),
+                                    neighborhood = this.getNeighborhood(addressArray);
+                                console.log(city, department);
                                 this.setState({
-                                    address: (address) ? address : '',
-                                    area: (area) ? area : '',
+                                    street_number: (street_number) ? street_number : '',
                                     city: (city) ? city : '',
-                                    state: (state) ? state : '',
+                                    department: (department) ? department : '',
+                                    neighborhood: (neighborhood) ? neighborhood : '',
                                 })
                             },
                             error => {
@@ -66,10 +84,9 @@ class LocationSearchModal extends React.Component {
                         );
 
                     })
-            });
-        } else {
-            console.error("Geolocation is not supported by this browser!");
-        }
+            })} else {
+                console.error("Geolocation is not supported by this browser!");
+            }
     };
 
     displayAddress = (e) => {
@@ -80,42 +97,45 @@ class LocationSearchModal extends React.Component {
     confirmAddress = (e) => {
         e.preventDefault();
         this.setState({ confirmed: true })
+        this.props.addLocation(this.state)
     }
 
     getCity = (addressArray) => {
         let city = '';
         for (let i = 0; i < addressArray.length; i++) {
-            if (addressArray[i].types[0] && 'administrative_area_level_2' === addressArray[i].types[0]) {
-                city = addressArray[i].long_name;
-                return city;
-            }
-        }
-    };
-
-    getArea = (addressArray) => {
-        let area = '';
-        for (let i = 0; i < addressArray.length; i++) {
             if (addressArray[i].types[0]) {
                 for (let j = 0; j < addressArray[i].types.length; j++) {
                     if ('sublocality_level_1' === addressArray[i].types[j] || 'locality' === addressArray[i].types[j]) {
-                        area = addressArray[i].long_name;
-                        return area;
+                        city = addressArray[i].long_name;
+                        return city;
                     }
                 }
             }
         }
     };
 
-    getState = (addressArray) => {
-        let state = '';
+    getDepartment = (addressArray) => {
+        let department = '';
         for (let i = 0; i < addressArray.length; i++) {
             for (let i = 0; i < addressArray.length; i++) {
                 if (addressArray[i].types[0] && 'administrative_area_level_1' === addressArray[i].types[0]) {
-                    state = addressArray[i].long_name;
-                    return state;
+                    department = addressArray[i].long_name;
+                    return department;
                 }
-            }
-        }
+            };
+        };
+    };
+
+    getNeighborhood = (addressArray) => {
+        let neighborhood = '';
+        for (let i = 0; i < addressArray.length; i++) {
+            for (let j = 0; j < addressArray[i].types.length; j++) {
+                if ('neighborhood' === addressArray[i].types[j] || 'political' === addressArray[i].types[j]) {
+                    neighborhood = addressArray[i].long_name;
+                    return neighborhood;
+                }
+            };
+        };
     };
 
     onChange = (event) => {
@@ -131,16 +151,16 @@ class LocationSearchModal extends React.Component {
 
         Geocode.fromLatLng(newLat, newLng).then(
             response => {
-                const address = response.results[0].formatted_address,
+                const street_number = response.results[0].formatted_address,
                     addressArray = response.results[0].address_components,
                     city = this.getCity(addressArray),
-                    area = this.getArea(addressArray),
-                    state = this.getState(addressArray);
+                    department = this.getDepartment(addressArray),
+                    neighborhood = this.getNeighborhood(addressArray);
                 this.setState({
-                    address: (address) ? address : '',
-                    area: (area) ? area : '',
+                    street_number: (street_number) ? street_number : '',
                     city: (city) ? city : '',
-                    state: (state) ? state : '',
+                    department: (department) ? department : '',
+                    neighborhood: (neighborhood) ? neighborhood : '',
                     markerPosition: {
                         lat: newLat,
                         lng: newLng
@@ -159,11 +179,11 @@ class LocationSearchModal extends React.Component {
 
     onPlaceSelected = (place) => {
         console.log('plc', place);
-        const address = place.formatted_address,
+        const street_number = place.formatted_address,
             addressArray = place.address_components,
             city = this.getCity(addressArray),
-            area = this.getArea(addressArray),
-            state = this.getState(addressArray),
+            department = this.getDepartment(addressArray),
+            neighborhood = this.getNeighborhood(addressArray),
             latValue = place.geometry.location.lat(),
             lngValue = place.geometry.location.lng();
 
@@ -172,10 +192,10 @@ class LocationSearchModal extends React.Component {
 
         // Set these values in the state.
         this.setState({
-            address: (address) ? address : '',
-            area: (area) ? area : '',
+            street_number: (street_number) ? street_number : '',
             city: (city) ? city : '',
-            state: (state) ? state : '',
+            department: (department) ? department : '',
+            neighborhood: (neighborhood) ? neighborhood : '',
             markerPosition: {
                 lat: latValue,
                 lng: lngValue
@@ -185,8 +205,7 @@ class LocationSearchModal extends React.Component {
                 lng: lngValue
             },
         })
-    };
-
+    }
 
     render() {
         const AsyncMap = 
@@ -230,7 +249,7 @@ class LocationSearchModal extends React.Component {
                                     position={{ lat: (this.state.markerPosition.lat + 0.0018), lng: this.state.markerPosition.lng }}
                                 >
                                     <div>
-                                        <span style={{ padding: 0, margin: 0 }}>{this.state.address}</span>
+                                        <span style={{ padding: 0, margin: 0 }}>{this.state.street_number}</span>
                                         <button onClick={this.confirmAddress}>Confirmar ubicación</button>
                                     </div>
                                 </InfoWindow>
@@ -240,23 +259,24 @@ class LocationSearchModal extends React.Component {
 
                         {/* Circle */}
                         {!this.state.allowAddress && 
-                            <Circle
-                                google={this.props.google}
-                                name={'Circle name'}
-                                draggable={true}
-                                onDragEnd={this.onMarkerDragEnd}
-                                radius={400}
-                                center={{ lat: this.state.markerPosition.lat, lng: this.state.markerPosition.lng }}
-                            >
-                                {/* <InfoWindow
+                            <>
+                                <Circle
+                                    google={this.props.google}
+                                    name={'Circle name'}
+                                    draggable={true}
+                                    onDragEnd={this.onMarkerDragEnd}
+                                    radius={400}
+                                    center={{ lat: this.state.markerPosition.lat, lng: this.state.markerPosition.lng }}
+                                />
+                                <InfoWindow
                                     onClose={this.onInfoWindowClose}
                                     position={{ lat: (this.state.markerPosition.lat + 0.0018), lng: this.state.markerPosition.lng }}
                                 >
                                     <div style={{ padding: 0, margin: 0 }}>
                                         <button onClick={this.confirmAddress}>Confirmar ubicación</button>
                                     </div>
-                                </InfoWindow>    */}
-                            </Circle> 
+                                </InfoWindow>   
+                            </>
                         }
                     </GoogleMap>
                     </>
@@ -266,16 +286,14 @@ class LocationSearchModal extends React.Component {
         return (
             <div style={{ padding: '1rem', margin: '0 auto', maxWidth: 1000 }}>
                 <Descriptions bordered>
-                    {/* <Descriptions.Item label="Ciudad">{this.state.city}</Descriptions.Item> */}
-                    <Descriptions.Item label="Ciudad">{this.state.area}</Descriptions.Item>
-                    <Descriptions.Item label="Departamento">{this.state.state}</Descriptions.Item>
-                    <Descriptions.Item label="Dirección">{this.state.address}</Descriptions.Item>
+                    <Descriptions.Item label="Ciudad">{this.state.city}</Descriptions.Item>
+                    <Descriptions.Item label="Departamento">{this.state.department}</Descriptions.Item>
+                    <Descriptions.Item label="Barrio">{this.state.neighborhood}</Descriptions.Item>
+                    <Descriptions.Item label="Dirección">{this.state.street_number}</Descriptions.Item>
                 </Descriptions>
                 <label htmlFor="allowAddress">Prefiero ocultar mi ubicación</label>
                 <input type="checkbox" name="allowAddress"
-                    /* checked= {!this.state.allowAddress}*/
-                    onClick={(e) => {
-                        // e.preventDefault();
+                    onClick={() => {
                         this.setState({ allowAddress: !this.state.allowAddress})
                     }} 
                 />
@@ -294,4 +312,17 @@ class LocationSearchModal extends React.Component {
 
 }
 
-export default LocationSearchModal;
+const mapStateToProps = (state) => ({
+    location: state.location
+  });
+  
+  
+function mapDispatchToProps(dispatch) {
+    return {
+        addLocation: function (location) {
+        dispatch(addLocation(location));
+      },
+    }
+  }
+
+export default connect(mapStateToProps, mapDispatchToProps)(LocationSearchModal);

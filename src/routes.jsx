@@ -17,7 +17,7 @@ import CreatePostContext from './Pages/NewPost/Contexts/CreatePostContext';
 import ProgressBar from './Pages/NewPost/ProgressBar';
 import ProtectedRoute from './Components/Auth0/ProtectedRoute/ProtectedRoute';
 import Successful from './Pages/Successful/Successful'
-import Render from './Components/GoogleMaps/FormMap.jsx';
+import Render from './Components/GoogleMaps/FormMap';
 
 export default function MyHouseRoutes() {
   return (
@@ -56,7 +56,11 @@ export default function MyHouseRoutes() {
           />
           <ProtectedRoute
             exact path="/Success/:planId/:planTitle"
-            component={Successful}
+            component={(routerProps) => (
+              <CreatePostContext {...routerProps}>
+                 <Successful />
+               </CreatePostContext>
+            )}
           />
           <Route
             component={NotFound}

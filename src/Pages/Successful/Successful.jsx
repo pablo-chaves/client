@@ -6,6 +6,7 @@ import image from '../../images/pago.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
+import useCreatePost from '../NewPost/hooks/useCreatePost';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import {
   addPostService,
@@ -15,12 +16,12 @@ import style from './Successful.module.css';
 
 const Successful = ({ match }) => {
   const { REACT_APP_API_BASE_ENDPOINT } = process.env;
-  const { planId, planTitle } = match.params;
   const search = useLocation().search;
   const { user } = useAuth0();
   const { session } = useSelector((store) => store);
   const [plans, setPlans] = useState([]);
   const [order, setOrder] = useState(false);
+  const { postDetails, planId, planTitle } = useCreatePost();
   function query(url) {
     const obj = {};
     const array = url.replace('?', '').split('&');
