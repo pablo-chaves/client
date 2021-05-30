@@ -29,7 +29,7 @@ const CreatePostProvider = ({ children, match, ...routerProps }) => {
     }
     return obj;
   }
-  
+
   const {
     planId, // id del plan
     planTitle, // basic o premium
@@ -44,7 +44,7 @@ const CreatePostProvider = ({ children, match, ...routerProps }) => {
   const [postDetails, setPostDetails] = useState({});
   useEffect(() => {
     setPostDetails({
-      orderId: external_reference,
+      // orderId: external_reference,
       premium: planTitle === 'Premium' ? true : false,
       post_name: '',
       prop_type: '',
@@ -84,7 +84,7 @@ const CreatePostProvider = ({ children, match, ...routerProps }) => {
     setPostDetails(JSON.parse(postDetailsLocalStorage));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  
+
   const handleOnchangeImage = (imageList) => {
     setPostDetails({ ...postDetails, images: imageList });
   };
@@ -117,7 +117,7 @@ const CreatePostProvider = ({ children, match, ...routerProps }) => {
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location])
-  
+
   const steps = [
     {
       title: 'Elige tu plan',
@@ -144,7 +144,7 @@ const CreatePostProvider = ({ children, match, ...routerProps }) => {
       content: <SixthStep />,
     },
   ];
-  
+
   return (
     <CreatePostContext.Provider
       value={{

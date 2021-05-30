@@ -131,9 +131,9 @@ export async function getGeoDataService() {
   const country_id = 'iso_alpha2:CO';
   let options = []
   const divisions = await axios.get(`https://api.teleport.org/api/countries/${encodeURI(country_id)}/admin1_divisions/`)
-  divisions.data._links['a1:items'].map (dep => 
+  divisions.data._links['a1:items'].map (dep =>
       options.push({value: dep.name, label: dep.name, dep_id: dep.href.slice(-12, -1)})
-    
+
   )
   options.map( async (e) =>{
     e.children = []
