@@ -9,7 +9,7 @@ import {
 import { FaCheck } from 'react-icons/fa';
 import SliderCarousel from '../../../Components/SliderCarousel/SliderCarousel';
 import styles from './Checkout.module.css';
-// import Map from '../../../Map/Map';
+import GoogleMap from '../../../Components/GoogleMaps/GoogleMap';
 
 function PostDetails() {
   const { postDetails } = useCreatePost();
@@ -57,19 +57,30 @@ function PostDetails() {
           </article>
           <article className={styles.hero_carousel}>
             <div className={styles.photo_gallery}>
-              <SliderCarousel elements={postDetails.images} />
+              <SliderCarousel elementsContainer={postDetails.images} />
             </div>
           </article>
         </section>
         <section className={styles.map_facilities}>
-          {/*             <article className={styles.map_container}>
-              <div>
-                <Map
+          <article className={styles.map_container}>
+            <div>
+              {postDetails.latitude && postDetails.longitude && (
+                <GoogleMap
                   lat={postDetails.latitude}
-                  lon={postDetails.longitude}
+                  lng={postDetails.longitude}
+                  allowAddress={
+                    postDetails.allowAddress ? postDetails.allowAddress : true
+                  }
+                  mapElement={
+                    <div style={{ height: `350px`, width: '600px' }} />
+                  }
+                  containerElement={
+                    <div style={{ height: '350px', width: '600px' }} />
+                  }
                 />
-              </div>
-            </article> */}
+              )}
+            </div>
+          </article>
           <article className={styles.facilities_container}>
             <h3 className={styles.tit}>Facilities</h3>
             <div className={styles.facilities}>

@@ -6,7 +6,7 @@ const FourthStep = () => {
   const { current, steps, setCurrent } = useCreatePost();
   return (
     <div className='ctn'>
-      {/* <PhotoUploader /> */}
+      <PhotoUploader />
       {current < steps.length - 1 && (
         <button onClick={() => setCurrent(current + 1)}>Siguiente</button>
       )}

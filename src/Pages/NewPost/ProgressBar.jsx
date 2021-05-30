@@ -19,7 +19,6 @@ const ProgressBar = () => {
   const { postDetails, current, setCurrent, steps, infoPlan } = useCreatePost();
   const { user } = useAuth0();
 
-
   const prev = () => {
     setCurrent(current - 1);
   };
@@ -41,21 +40,22 @@ const ProgressBar = () => {
   //   date: expirationDate,
   // };
   //====================Mercadopago=======================================================
-    const { REACT_APP_API_BASE_ENDPOINT } = process.env;
-    function createCheckoutButton(preference) {
-    const script = document.createElement("script");
-    const attrDataPreference = document.createAttribute('data-preference-id')
-    attrDataPreference.value = preference.id
-    script.src = "https://www.mercadopago.com.co/integrations/v1/web-payment-checkout.js";
-    script.setAttributeNode(attrDataPreference)
-    if(document.getElementById('buttonId')) {
-      document.getElementById('buttonId').innerHTML = "";
+  const { REACT_APP_API_BASE_ENDPOINT } = process.env;
+  function createCheckoutButton(preference) {
+    const script = document.createElement('script');
+    const attrDataPreference = document.createAttribute('data-preference-id');
+    attrDataPreference.value = preference.id;
+    script.src =
+      'https://www.mercadopago.com.co/integrations/v1/web-payment-checkout.js';
+    script.setAttributeNode(attrDataPreference);
+    if (document.getElementById('buttonId')) {
+      document.getElementById('buttonId').innerHTML = '';
       document.getElementById('buttonId').appendChild(script);
-      return () =>{
-          document.getElementById('buttonId').removeChild(script);
-        }
+      return () => {
+        document.getElementById('buttonId').removeChild(script);
+      };
     }
-    };
+  }
 
     useEffect(() => {
       if(current === 5) {
@@ -96,19 +96,19 @@ const ProgressBar = () => {
           <Button
             type='primary'
             id='buttonId'
-            /*onClick={handlerClick}
-            /*onClick={() => {
-              const resp = window.confirm(
-                `¿Quieres crear la publicación ${postDetails.post_name}?`
-              );
-              if (resp) {
-                addPostService(postDetails);
-                message.success(
-                  `Tu publicación '${postDetails.post_name}' creada correctamente `
-                );
-                sendPaymentEmail(post);
-              }
-            }}*/
+            // onClick={handlerClick}
+            // onClick={() => {
+            //   const resp = window.confirm(
+            //     `¿Quieres crear la publicación ${postDetails.post_name}?`
+            //   );
+            //   if (resp) {
+            //     addPostService(postDetails);
+            //     message.success(
+            //       `Tu publicación '${postDetails.post_name}' creada correctamente `
+            //     );
+            //     sendPaymentEmail(post);
+            //   }
+            //}}
           >
             Publicar
           </Button>

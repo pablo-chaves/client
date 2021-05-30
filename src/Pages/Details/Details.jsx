@@ -114,7 +114,7 @@ export default function Details({ routerProps }) {
             </article>
             <article className={styles.hero_carousel}>
               <div className={styles.photo_gallery}>
-                <SliderCarousel elements={property.images} />
+                <SliderCarousel elementsContainer={property.images} />
               </div>
             </article>
             <article className={styles.tour_schedule}>

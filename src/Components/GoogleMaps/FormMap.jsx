@@ -17,6 +17,8 @@ class LocationSearchModal extends React.Component {
         city: this.props.location.city || '',
         department: this.props.location.department || '',
         neighborhood: this.props.location.neighborhood || '',
+        latitude: this.props.location.latitude || 0,
+        longitude: this.props.location.longitude || 0,
         mapPosition: {
             lat: this.props.location.latitude || 0,
             lng: this.props.location.longitude || 0,
@@ -39,6 +41,8 @@ class LocationSearchModal extends React.Component {
                 city: this.props.location.city,
                 department: this.props.location.department,
                 neighborhood: this.props.location.neighborhood,
+                latitude: this.props.location.latitude,
+                longitude: this.props.location.longitude,
                 mapPosition: {
                     lat: this.props.location.latitude,
                     lng: this.props.location.longitude,
@@ -52,6 +56,8 @@ class LocationSearchModal extends React.Component {
         } else if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(position => {
                 this.setState({
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude,
                     mapPosition: {
                         lat: position.coords.latitude,
                         lng: position.coords.longitude,
@@ -161,6 +167,8 @@ class LocationSearchModal extends React.Component {
                     city: (city) ? city : '',
                     department: (department) ? department : '',
                     neighborhood: (neighborhood) ? neighborhood : '',
+                    latitude: newLat,
+                    longitude: newLng,
                     markerPosition: {
                         lat: newLat,
                         lng: newLng
@@ -196,6 +204,8 @@ class LocationSearchModal extends React.Component {
             city: (city) ? city : '',
             department: (department) ? department : '',
             neighborhood: (neighborhood) ? neighborhood : '',
+            latitude: latValue,
+            longitude: lngValue,
             markerPosition: {
                 lat: latValue,
                 lng: lngValue

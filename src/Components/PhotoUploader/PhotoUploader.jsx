@@ -15,8 +15,10 @@ const Uploader = () => {
   const handlerOnChange = async (event) => {
     const { target } = event;
     let { files } = target;
-  
-    const newFile = await Promise.all([...files].map((image) => getBase64(image)));
+
+    const newFile = await Promise.all(
+      [...files].map((image) => getBase64(image))
+    );
     const newFilesList = [...filesList, ...newFile];
     setFilesList(newFilesList);
     target.value = '';
@@ -33,7 +35,7 @@ const Uploader = () => {
     <div className='ctn'>
       <h1>Agrega imágenes de tu inmueble </h1>
       <div>
-        <div className={styles.photo_uploader_container}>
+        <div>
           {images.map((image, key) => {
             return (
               <img
