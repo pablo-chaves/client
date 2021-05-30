@@ -44,6 +44,7 @@ function EditPosts({ id, action, session, location, addLocation }) {
       longitude: action === 'edit' ? location.longitude : '',
       latitude: action === 'edit' ? location.latitude : '',
       neighborhood: action === 'edit' ? location.neighborhood : '',
+      allowAddress: action === 'edit' ? location.allowAddress : '',
       description: action === 'edit' ? postDetail.description : '',
       stratum: action === 'edit' ? postDetail.street_number : 1,
       price: action === 'edit' ? postDetail.price : 1,

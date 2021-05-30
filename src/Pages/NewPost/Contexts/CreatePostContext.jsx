@@ -54,6 +54,7 @@ const CreatePostProvider = ({ children, match, ...routerProps }) => {
       latitude: '',
       neighborhood: '',
       street_number: '',
+      allowAddress: '',
       description: '',
       stratum: '',
       price: 0,
@@ -111,6 +112,7 @@ const CreatePostProvider = ({ children, match, ...routerProps }) => {
         longitude: location.longitude,
         latitude: location.latitude,
         street_number: location.street_number,
+        allowAddress: location.allowAddress,
       })
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -163,5 +165,4 @@ const CreatePostProvider = ({ children, match, ...routerProps }) => {
   );
 };
 
-  // console.log('CNTX',CreatePostProvider)
 export default CreatePostProvider;
