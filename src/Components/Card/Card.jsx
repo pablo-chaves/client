@@ -16,7 +16,7 @@ export default function Card({
     <div className={style.ctn}>
       <div className={style.imgCtn}>
         <Link to={`/post/${id}`}>
-          <img src={image} alt={`${propType} en ${neighborhood}`} className={style.img} />
+          <img src={image} alt={`${propType} en ${neighborhood}`} className={style.img} loading='lazy'/>
         </Link>
       </div>
       <div className={style.texts}>
