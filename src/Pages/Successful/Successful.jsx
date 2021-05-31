@@ -99,7 +99,7 @@ const Successful = () => {
         <h2>{`$ ${plans[0]?.price}`}</h2>
         <div className={style.divInfo}>
         <h1>Gracias por elegir My House-App</h1>
-        <h1>Plublicación creada con exito</h1>
+        <h1>Publicación creada con exito</h1>
         <span>{`Recuerda que tu publicación tendra una ${plans[0]?.description.toLowerCase()} apartir de la fecha`}</span>
         <Link to='/home'>
           <button className={style.buttonExit}>Salir</button>
