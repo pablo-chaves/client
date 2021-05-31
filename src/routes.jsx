@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom';
 import Home from './Pages/Home/Home';
 import NavBar from './Components/NavBar/NavBar';
+import SideMenu from './Components/NavBar/SideMenu/SideMenu';
 import Details from './Pages/Details/Details';
 import About from './Pages/About/About';
 import Signin from './Pages/Signin/Signin';
@@ -20,10 +21,17 @@ import Successful from './Pages/Successful/Successful'
 import Render from './Components/GoogleMaps/FormMap';
 
 export default function MyHouseRoutes() {
+  // React state to know if display mobile menu
+  const [mobile, setMobile] = React.useState(false);
+  // Function to toggle menu
+  const isMobile = () =>{ setMobile(!mobile) };
+
+  // Menu will be display in all routes
   return (
     <Router>
       <div>
-        <NavBar />
+        <SideMenu mobile={mobile} isMobile={isMobile} />
+        <NavBar isMobile={isMobile}/>
         <Switch>
           <Route path="/maps" component={Render}/>
           <Route path="/home" component={Home} />

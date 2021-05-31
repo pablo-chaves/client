@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { FaBars } from 'react-icons/fa';
 import logo from '../../images/logoHorizontal-6pt.svg';
 import AuthNav from '../Auth0/Auth-nav/Auth-nav';
 import style from './NavBar.module.css';
 import { useAuth0 } from '@auth0/auth0-react';
 import { getGoogleUserData, userSession } from '../../Redux/Actions/index';
 
-function NavBar({ userInfo, getGoogleUser, userSession }) {
+function NavBar({ userInfo, getGoogleUser, userSession, isMobile }) {
   const { user, isAuthenticated } = useAuth0();
   useEffect(() => {
     if (isAuthenticated && !Object.keys(userInfo).length) {
@@ -27,15 +28,21 @@ function NavBar({ userInfo, getGoogleUser, userSession }) {
   }, [])
   
   return (
-    <nav>
-      <NavLink to="/" className={style.link}>
+    <nav className={style.nav}>
+      <NavLink to="/">
         <img className={style.logo} src={logo} alt="logo" />
       </NavLink>
       <div className={style.menu}>
-        {/* <NavLink to="/about" className={style.link} activeClassName={style.active}>About</NavLink> */}
-        <NavLink to="/create" className={style.link} activeClassName={style.active}>Publicar</NavLink>
-        <NavLink to="/panel/user" className={style.link} activeClassName={style.active}>Perfil</NavLink>
-        <AuthNav />
+        <div className={style.opt}>
+          <NavLink to="/create" className={style.link} activeClassName={style.active}>Publicar</NavLink>
+          {isAuthenticated && <NavLink to="/panel/user" className={style.link} activeClassName={style.active}>Mi cuenta</NavLink>}
+        </div>
+        <div className={style.authNav}>
+          <AuthNav />
+        </div>
+      </div>
+      <div className={style.mobileMenu} onClick = {isMobile}>
+        <FaBars/>
       </div>
     </nav>
   );

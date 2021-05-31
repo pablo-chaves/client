@@ -1,12 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import Card from '../Card/Card';
+import Loading from '../Auth0/Loading/loading';
 import { getAvailablePosts } from '../../Redux/Actions/index';
-// import style from './Cards.module.css';
+import style from './Cards.module.css';
 
 function Cards({ principalState, principal }) {
+  const [loading, setLoading] = useState(true);
     useEffect(() => {
-    if (!principalState.length) principal();
+      principal(); 
+      setLoading(false)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -17,6 +20,7 @@ function Cards({ principalState, principal }) {
       postName={e.post_name}
       propType={e.prop_type}
       neighborhood={e.neighborhood}
+      description={e.description}
       price={e.price}
       rooms={e.rooms}
       bathrooms={e.bathrooms}
@@ -26,9 +30,10 @@ function Cards({ principalState, principal }) {
     />
   ));
   return (
-    <div>
-      {list}
+    <div className={(!loading && style.ctn)}>
+      {loading ? <Loading/> : <div> {list} </div>}
     </div>
+    
   );
 }
 

@@ -2,14 +2,14 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable no-use-before-define */
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { getAvailableFilteredPropierties, changeURL } from '../../Redux/Actions/index';
 import './Paginacion.css';
 
 function Paginacion({
-  count, paginaActual, limit, functionNext = getAvailableFilteredPropierties,
+  home, count, paginaActual, limit, functionNext = getAvailableFilteredPropierties,
 }) {
   // console.log('renderizado Paginacion')
   const dispatch = useDispatch();
@@ -56,19 +56,18 @@ function Paginacion({
   }
 
   return (
-    <div>
-      <b style={{
-        color: '#b4c2cd', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', margin: '6px 0 0 0',
-      }}
-      >
-        Page:
-        {' '}
-        {paginaActual}
-        {' '}
-        from
-        {' '}
-        {ultimaPagina}
-      </b>
+    <div className="titlePages">
+      {home !== "top" &&
+        <p>
+          Página
+          {' '}
+          {paginaActual}
+          {'  '}
+          de
+          {' '}
+          {ultimaPagina}
+        </p>
+      }
       {ultimaPagina > 1
                 && (
                   <ul className="paginacion">
@@ -80,14 +79,14 @@ function Paginacion({
                             <li id="li-first">
                               <a onClick={() => paginate(primeraPagina)} className="page-link">
                                 {' '}
-                                <strong>First</strong>
+                                <strong>Primera</strong>
                                 {' '}
                               </a>
                             </li>
                             <li id="li-previous">
                               <a onClick={() => paginate(paginaActual - 1)} className="page-link">
                                 {' '}
-                                <strong>Previuos</strong>
+                                <strong>Anterior</strong>
                                 {' '}
                               </a>
                             </li>
@@ -117,14 +116,14 @@ function Paginacion({
                             <li id="li-next">
                               <a onClick={() => paginate(paginaActual + 1)} className="page-link">
                                 <strong>
-                                  Next
+                                  Siguiente
                                   {' '}
                                 </strong>
                               </a>
                             </li>
                             <li id="li-Last">
                               <a onClick={() => paginate(ultimaPagina)} className="page-link">
-                                <strong>Last</strong>
+                                <strong>Última</strong>
                               </a>
                             </li>
                           </>
