@@ -5,6 +5,21 @@
     align-items: center;
 }
 
+.titlePages {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.titlePages p{
+    color: #b4c2cd;
+    font-weight: 600;
+    text-align: center;
+    letter-spacing: 0.1em;
+}
+
 #li-first,#li-previous,#li-next,#li-Last{
     list-style: none;
     margin: 0.5rem;
@@ -22,4 +37,10 @@
     margin: 0.5rem;
     cursor: pointer;
     color: var(--blue);
+}
+
+@media screen and (max-width: 768px) {
+    .paginacion, .titlePages{
+        font-size: 0.8em;
+    }
 }

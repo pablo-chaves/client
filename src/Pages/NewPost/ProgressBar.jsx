@@ -10,8 +10,8 @@ import {
   sendPaymentEmail,
 } from '../../Services/properties.service';
 
-import 'antd/dist/antd.css';
-import './step.css';
+// import 'antd/dist/antd.css';
+// import './step.css';
 
 const { Step } = Steps;
 
