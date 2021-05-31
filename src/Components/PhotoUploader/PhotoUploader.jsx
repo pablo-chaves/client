@@ -47,13 +47,19 @@ const Uploader = () => {
             );
           })}
         </div>
-        <input
-          type='file'
-          multiple
-          name='images'
-          accept='image/*'
-          onChange={handlerOnChange}
-        />
+        <div className={styles.container_field_image}>
+          <label style={{position:'absolute'}}> 
+            {`Arrastre y suelte sus imagenes o haga click aqui para seleccionar`}
+          </label>
+          <input
+            className={styles.field_image}
+            type='file'
+            multiple
+            name='images'
+            accept='image/*'
+            onChange={handlerOnChange}
+          />
+        </div>
       </div>
     </div>
   );
