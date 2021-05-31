@@ -64,11 +64,7 @@ export default function MyHouseRoutes() {
           />
           <ProtectedRoute
             exact path="/Success/:planId/:planTitle"
-            component={(routerProps) => (
-              <CreatePostContext {...routerProps}>
-                 <Successful />
-               </CreatePostContext>
-            )}
+            component={Successful}
           />
           <Route
             component={NotFound}
