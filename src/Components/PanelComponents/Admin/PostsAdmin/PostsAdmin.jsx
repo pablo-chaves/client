@@ -40,11 +40,14 @@ function PostsAdmin({
   async function deleteAndGet(id, userId) {
     try {
       await deletePost(id)
-      const notificarReservaCanselada = [];
-      const bookingsId = posts.find(post => post.id=== id).visitDates.map(booking => booking.id);
-      bookingsId.forEach( id => notificarReservaCanselada.push(sendBookingEmailService(id)));
-      await Promise.all(notificarReservaCanselada);
-      await getAdminData(userId);  
+      const reservas = posts.find(post => post.id === id).visitDates;
+      if (reservas?.length) {
+        const notificarReservaCanselada = [];
+        const bookingsId = reservas.map(booking => booking.id);
+        bookingsId.forEach(id => notificarReservaCanselada.push(sendBookingEmailService(id)));
+        await Promise.all(notificarReservaCanselada);
+      }
+      await getAdminData(userId);
     } catch (error) {
       console.log(error);
     }

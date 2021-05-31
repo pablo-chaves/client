@@ -9,10 +9,7 @@ import {
   faUserTag,
 } from '@fortawesome/free-solid-svg-icons';
 import style from './UserDetails.module.css';
-import {
-  deleteUserService,
-  getUserDataService,
-} from '../../../../Services/properties.service';
+import { deleteUserService, getUserDataService } from '../../../../Services/user.service';
 import Loading from '../../../Auth0/Loading/loading';
 import DetailButtonBar from '../../ButtonsBar/DetailButtonBar/DetailButtonBar';
 
