@@ -5,7 +5,8 @@ import { FaCheck } from 'react-icons/fa';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBed, faBath, faRulerCombined } from '@fortawesome/free-solid-svg-icons';
 import SliderCarousel from '../../Components/SliderCarousel/SliderCarousel';
-import { getPostService, getUserDataService } from '../../Services/properties.service';
+import { getPostService } from '../../Services/properties.service';
+import { getUserDataService } from '../../Services/user.service';
 import { addBookingService, sendBookingEmailService } from '../../Services/booking.service';
 import styles from './Details.module.css';
 import GoogleMap from '../../Components/GoogleMaps/GoogleMap';
@@ -15,7 +16,6 @@ export default function Details({ routerProps }) {
   const [property, setProperty] = useState('');
   const [loading, setLoading] = useState(true);
   const [wasBooking, setWasBooking] = useState(false);
-
   const { session } = useSelector((state) => state);
 
   useEffect(() => {
@@ -32,10 +32,7 @@ export default function Details({ routerProps }) {
     let userInteresed = await getUserDataService(session.id);
     userInteresed = userInteresed.data.user;
     if (!userInteresed) return;
-    // console.log('userInteresed: ', userInteresed)
     const visitDates = userInteresed.visitDates
-    // console.log('visitDates: ', visitDates)
-    // console.log('Fue reservado?: ', !!visitDates.filter(booking=> booking.postId===id && booking.status !== 'Expired').length)
     if (!!visitDates.filter(booking => booking.postId === id && booking.status !== 'Expired').length) {
       setWasBooking(true);
     }
@@ -55,17 +52,15 @@ export default function Details({ routerProps }) {
 
     if (!session.id) {
       alert('Login is required to get a booking.');
-      return;// redirigir a login
+      return;// redirigir a login?
     }
-    // console.log('id user interested..', userId);
     const booking = {
-      idPost: property.id, 
-      idInterested: session.id, 
+      idPost: property.id,
+      idInterested: session.id,
       title: 'Primera reserva creada',
     }
     try {
-      const respuesta =  await addBookingService(booking);
-      // console.log("id  booking: ", respuesta.data.booking.id);
+      const respuesta = await addBookingService(booking);
       await sendBookingEmailService(respuesta.data.booking.id);
       alert('Your booking was successfully created!');
       setWasBooking(true);
@@ -121,7 +116,7 @@ export default function Details({ routerProps }) {
               <div className={styles.details}>
                 <h3>Arrange you tour</h3>
                 <label>{new Date().toLocaleDateString("es-ES")}</label>
-                {wasBooking && <label id='label-message' style={{color:'green'}}>You have already reserved it!</label>}
+                {wasBooking && <label id='label-message' style={{ color: 'green' }}>You have already reserved it!</label>}
                 <button type="submit" onClick={handleReservar}>Select</button>
               </div>
             </article>
@@ -129,19 +124,19 @@ export default function Details({ routerProps }) {
           <section className={styles.map_facilities}>
             <article className={styles.map_container}>
               <div>
-              {(property.latitude && property.longitude) &&
-                <GoogleMap
-                  lat={property.latitude}
-                  lng={property.longitude}
-                  allowAddress={property.allowAddress ? property.allowAddress : true}
-                  mapElement={
-                    <div style={{ height: `350px`, width: '600px' }} />
-                  }
-                  containerElement={
-                      <div style={{ height: '350px', width: '600px'}} />
-                  }
-                />
-              }
+                {(property.latitude && property.longitude) &&
+                  <GoogleMap
+                    lat={property.latitude}
+                    lng={property.longitude}
+                    allowAddress={property.allowAddress ? property.allowAddress : true}
+                    mapElement={
+                      <div style={{ height: `350px`, width: '600px' }} />
+                    }
+                    containerElement={
+                      <div style={{ height: '350px', width: '600px' }} />
+                    }
+                  />
+                }
               </div>
             </article>
             <article className={styles.facilities_container}>

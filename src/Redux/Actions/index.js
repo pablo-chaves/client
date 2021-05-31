@@ -3,20 +3,14 @@
 import {
   getPostsService,
   getFilteredPropiertiesService,
-  getAdminDataService,
-  getUserDataService,
-  findOrCreateGoogleUserService,
+  getAdminPostDataService,
   getPostService,
   addPostService,
   editPostService,
   deletePostService,
-  addUserService,
-  editUserService,
-  deleteUserService,
-  getAdminUsersDataService,
-  getAdminBookingsDataService,
 } from '../../Services/properties.service';
 import { getBookingService, addBookingService, editBookingService, deleteBookingService} from '../../Services/booking.service'
+import { addUserService, editUserService, deleteUserService, getAdminUsersDataService, getUserDataService, getAdminBookingsDataService, findOrCreateGoogleUserService } from '../../Services/user.service'
 // actipon types
 import {
   AVAILABLE_PROPERTIES,
@@ -114,7 +108,7 @@ export function orderBy(payload) {
 // ALL ADMIN POSTS DATA
 export const getAdminData = (id) => async function (dispatch) {
   console.log(id, 'del index ')
-  return getAdminDataService(id)
+  return getAdminPostDataService(id)
     .then((res) => {
       dispatch(
         {

@@ -12,13 +12,16 @@ function PostsUser({
   const { render } = panelUser;
   const { posts } = render;
   const { userId } = match.params;
+  const postsAvailable = posts.filter(post => post.active);
   useEffect(() => {
     getUserData(userId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const list = () => {
+    
+    console.log('postsAvailable: ', postsAvailable)
     const data = [];
-    posts.forEach((e) => {
+    postsAvailable.forEach((e) => {
       data.push({
         column1: new Intl.NumberFormat('de-DE').format(e.price),
         displayLink: true,
@@ -33,19 +36,22 @@ function PostsUser({
   async function deleteAndGet(id, userId) {
     try {
       await deletePost(id)
-      const notificarReservaCanselada = [];
-      const bookingsId = posts.find(post => post.id=== id).visitDates.map(booking => booking.id);
-      bookingsId.forEach( id => notificarReservaCanselada.push(sendBookingEmailService(id)));
-      await Promise.all(notificarReservaCanselada);
-      await getUserData(userId);  
+      const reservas = postsAvailable.find(post => post.id === id).visitDates;
+      if (reservas?.length) {
+        const notificarReservaCanselada = [];
+        const bookingsId = reservas.map(booking => booking.id);
+        bookingsId.forEach(id => notificarReservaCanselada.push(sendBookingEmailService(id)));
+        await Promise.all(notificarReservaCanselada);
+      }
+      await getUserData(userId);
     } catch (error) {
       console.log(error);
     }
   }
-  
+
   return (
     <div>
-      <TableButtonBar 
+      <TableButtonBar
         rol="user"
         path="post"
       />

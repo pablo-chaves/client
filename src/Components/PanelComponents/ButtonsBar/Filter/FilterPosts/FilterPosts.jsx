@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-// import { FaRegTimesCircle } from 'react-icons/fa';
 // eslint-disable-next-line import/extensions
 import { useHistory } from 'react-router-dom';
 import style from './FilterPosts.module.css';
@@ -75,39 +74,11 @@ function FilterPosts() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-
-// // forma optimizada para el filtro de home
-//   function changeURL(event) {
-//     console.log("changeURL")
-//     params.set(event.target.name, event.target.value);
-//     updatePath(params);
-//     setURL(window.location.href);
-//   }
-
-//   useEffect(() => {
-//     // document.getElementById('filters').className = 'openFilter';
-//     console.log('Hay cambios en la URL: ', URL);
-//     console.log('params.keys: ', params.keys());
-//     for(var key of params.keys()) {
-//       if (!params.get(key)) {
-//         console.log('eliminando: ', key);
-//         params.delete(key);
-//         updatePath(params);
-//       }
-//         queryBlock[key] = params.get(key);
-//     }
-//     setQueryBlock({ ...queryBlock });
-//   }, [URL]);
-
-
   function updatePath(params) {
     history.push(`${window.location.pathname}?${params.toString()}`);
   }
   return (
     <div className={style.filter}>
-      {/* <div type="button" className={style.closeIcon} onClick={clear}>
-        <FaRegTimesCircle />
-      </div> */}
       <form id="form" className={style.form}>
       <button type="submit" onClick={sendForm}> Enviar </button>
         {/* post_name */}

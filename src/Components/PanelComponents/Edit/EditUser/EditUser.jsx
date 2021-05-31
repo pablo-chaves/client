@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEraser } from '@fortawesome/free-solid-svg-icons';
-import { getUserDataService, editUserService, addUserService } from '../../../../Services/properties.service';
+import { getUserDataService, editUserService, addUserService } from '../../../../Services/user.service';
 import Loading from '../../../Auth0/Loading/loading';
 import EditButtonBar from '../../ButtonsBar/EditButtonBar/EditButtonBar';
 import style from '../Edit.module.css';

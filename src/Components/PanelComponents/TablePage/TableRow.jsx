@@ -23,7 +23,7 @@ export default function TableRow({
             { column2 }
           </td>
         )}
-      <td>{column3}</td>
+      <td style={{ textAlign: 'right'}}>{column3}</td>
       <td>
         <ButtonOptions
           userId={userId}

@@ -17,7 +17,7 @@ function BookingsOwner({
   const { posts } = render;
   const list = () => {
     const data = [];
-    posts.map((p) => p.visitDates.forEach((e) => {
+    posts?.map((p) => p.visitDates?.forEach((e) => {
       data.push({
         column1: e.date,
         displayLink: true,

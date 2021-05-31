@@ -10,6 +10,7 @@ import Paginacion from '../../../Paginacion/Paginacion';
 function BookingsAdmin({
   session, panelAdmin, getAdminData, deleteBooking,
 }) {
+  const options = { year: "numeric", month: "short", day: "numeric", timeZone: "UTC" };
   useEffect(() => {
     getAdminData(session.id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -27,7 +28,8 @@ function BookingsAdmin({
         displayLink: true,
         link: e.postId,
         column2: e.post.post_name,
-        column3: e.date,
+        // column3: new Date(e.date).toLocaleDateString('es-ES'), //probar esta opcion
+        column3: new Date(e.date).toLocaleDateString("es-ES", options).toLocaleUpperCase().replace('.', ''),
         id: e.id,
       });
     });

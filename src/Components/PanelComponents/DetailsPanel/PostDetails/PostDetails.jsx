@@ -1,5 +1,6 @@
 /* eslint-disable no-shadow */
 import { useState, useEffect } from 'react';
+import { useHistory } from "react-router-dom";
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -16,11 +17,13 @@ import SliderCarousel from '../../../SliderCarousel/SliderCarousel';
 import Map from '../../../GoogleMaps/GoogleMap'; // esta no se esta usando, se puede eliminar? @rennygalindez
 import DetailButtonBar from '../../ButtonsBar/DetailButtonBar/DetailButtonBar';
 import styles from './PostDetails.module.css';
+import { sendBookingEmailService } from '../../../../Services/booking.service';
+import { getUserData } from '../../../../Redux/Actions';
 
 function PostDetails({ session, id }) {
   const [property, setProperty] = useState('');
   const [loading, setLoading] = useState(true);
-
+  let history = useHistory();
   useEffect(() => {
     async function fetchApi(propertyId) {
       const propertyFetch = await getPostService(propertyId);
@@ -30,7 +33,23 @@ function PostDetails({ session, id }) {
     fetchApi(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  async function deleteAndGet(postId, userId) {
+    try {
+      await deletePostService(postId)
+      const reservas = property.visitDates;
+      if (reservas?.length) {
+        const notificarReservaCanselada = [];
+        const bookingsId = reservas.map(booking => booking.id);
+        bookingsId.forEach(id => notificarReservaCanselada.push(sendBookingEmailService(id)));
+        await Promise.all(notificarReservaCanselada);
+      }
+      history.push(`/panel/user/${session.id}/posts`);
+      await getUserData(userId);
+    } catch (error) {
+      console.log(error);
+    }
 
+  }
   return (
     <div>
       <DetailButtonBar
@@ -38,7 +57,7 @@ function PostDetails({ session, id }) {
         id={id}
         path='post'
         userId={session.id}
-        deleteAction={deletePostService}
+        deleteAction={()=>deleteAndGet(id, session.id)}
       />
       {!loading && (
         <main className={styles.container}>
