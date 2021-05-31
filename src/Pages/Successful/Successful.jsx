@@ -80,7 +80,6 @@ const Successful = () => {
           const r = await axios.post(`${REACT_APP_API_BASE_ENDPOINT}/mercadopago/order`, obj)
           // const r = await axios.post(`http://localhost:3001/mercadopago/order`, obj)
           setOrder(r.data.length ? r.data.filter((e) => e.id === external_reference) : r.data.id);
-          sendPaymentEmail(post);
           localStorage.setItem('local', payment_id )
       }
       if(localStorage.getItem('local')){
@@ -88,6 +87,16 @@ const Successful = () => {
       }
     })();
   }, [session]);
+
+  const handlerClick = () => {
+      const resp = window.confirm(
+        `¿Quieres enviar detalles de la publicación al siguiente correo: ${session.email}?`
+      );
+      if (resp) {
+        sendPaymentEmail(post);
+          alert('Correo enviado correctamente')
+      }
+  }
 
   return (
     <div className={style.ctn}>
@@ -107,6 +116,7 @@ const Successful = () => {
         <Link to={`/post/${external_reference}`}>
           <button>Ver publicación</button>
         </Link>
+        <button onClick={handlerClick} className={style.buttonExit}>Enviar comprobante al correo</button>
         </div>
       </div>}
     </div>
