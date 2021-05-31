@@ -23,23 +23,25 @@ export default function Home() {
       </div>
       <div className={style.main}>
         <div className={style.search_order}>
-          <Order />
-          <Searchbar />
+          <div className={style.topPag}>
+            {count && (
+              <Paginacion
+                home="top"
+                count={count}
+                paginaActual={page}
+                limit={limit}
+                functionNext={() => dispatch(getAvailableFilteredPropierties())}// pasarle el id user
+              />
+              )}
+            </div>
+          <div className={style.order}><Order /></div>  
         </div>
-        {count && (
-          <Paginacion
-            count={count}
-            paginaActual={page}
-            limit={limit}
-            functionNext={() => dispatch(getAvailableFilteredPropierties())}// pasarle el id user
-          />
-        )}
 
         <div className={style.cards}>
           <Cards />
         </div>
 
-        <div>
+        <div className={style.search_order}>
           {count && (
             <Paginacion
               count={count}
@@ -48,6 +50,7 @@ export default function Home() {
               functionNext={() => dispatch(getAvailableFilteredPropierties())}// pasarle el id user
             />
           )}
+          <div className={style.hideOrder}><Order /></div>
         </div>
       </div>
     </div>

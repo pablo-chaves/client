@@ -45,14 +45,14 @@ function Orders({ sorting, filter }) {
     <div className={style.selectNav}>
       <div className={style.selectMenu}>
         <select name="filters" value="" onChange={(e) => handleOrder(e)}>
-          <option value="" disabled hidden>Sort</option>
-          <optgroup label="Price">
-            <option name="price_ASC" value="price_ASC">- to +</option>
-            <option name="price_DESC" value="price_DESC">+ to -</option>
+          <option value="" disabled hidden>Ordenar</option>
+          <optgroup label="Precio">
+            <option name="price_ASC" value="price_ASC">- a +</option>
+            <option name="price_DESC" value="price_DESC">+ a -</option>
           </optgroup>
-          <optgroup label="Rooms">
-            <option name="rooms_ASC" value="rooms_ASC">- to +</option>
-            <option name="rooms_DESC" value="rooms_DESC">+ to -</option>
+          <optgroup label="Habitaciones">
+            <option name="rooms_ASC" value="rooms_ASC">- a +</option>
+            <option name="rooms_DESC" value="rooms_DESC">+ a -</option>
           </optgroup>
         </select>
       </div>

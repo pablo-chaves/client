@@ -54,5 +54,12 @@ code {
 
 a {
   text-decoration: none;
-  color: var(--dark);
+}
+
+.spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  height: 50%;
 }
