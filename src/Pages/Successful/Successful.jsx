@@ -67,7 +67,7 @@ const Successful = () => {
   useEffect(() => {
     (async function(){
       if(session.id && localStorage.getItem('local') !== payment_id){
-        const datapost = await addPostService({...postDetails, id: external_reference, idUser: session.id})
+        const datapost = await addPostService({...postDetails, id: external_reference, idUser: session.id, date: new Date()})
         const obj = {
           userId: session.id,
           servicePlanId: planId,
