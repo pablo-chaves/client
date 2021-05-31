@@ -30,19 +30,20 @@ function FilterPosts() {
     elevator: false,
     security: false,
     garden: false,
+    status: '',
   };
   // console.log('renderizando FilterPosts:');
   const [queryBlock, setQueryBlock] = useState(initialState);
 
- /*  function clear() {
-    setQueryBlock(initialState);
-    document.getElementById('form').reset();
-  } */
+  /*  function clear() {
+     setQueryBlock(initialState);
+     document.getElementById('form').reset();
+   } */
 
   const [display, setDisplay] = useState(false);
-  
+
   function handlerQueryBlock(event) {
-    setQueryBlock({ 
+    setQueryBlock({
       ...queryBlock,
       [event.target.name]: event.target.value,
     });
@@ -59,7 +60,7 @@ function FilterPosts() {
       if (queryBlock[keysQueryBlock[i]]) {
         params.set(key, queryBlock[key]);
         updatePath(params);
-      } else  {
+      } else {
         params.delete(key);
         updatePath(params);
       }
@@ -67,8 +68,8 @@ function FilterPosts() {
 
   }
   useEffect(() => {
-    for(var key of params.keys()) {
-        queryBlock[key] = params.get(key);
+    for (var key of params.keys()) {
+      queryBlock[key] = params.get(key);
     }
     setQueryBlock({ ...queryBlock });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -80,7 +81,10 @@ function FilterPosts() {
   return (
     <div className={style.filter}>
       <form id="form" className={style.form}>
-      <button type="submit" onClick={sendForm}> Enviar </button>
+        <button type="submit" onClick={sendForm}> Enviar </button>
+        <select className={style.selectFilter} name="status" value={queryBlock.status} onChange={handlerQueryBlock}>
+          {['Available', 'Not-Available', 'Expired'].map((type, i) => (<option key={i} value={type}>{type}</option>))}
+        </select>
         {/* post_name */}
         <div className={style.field}>
           <label>
