@@ -12,7 +12,7 @@ import { valueTypes } from '../../../Services/properties.service';
 
 export const CreatePostContext = createContext({});
 
-const CreatePostProvider = ({ children, match, ...routerProps }) => {
+const CreatePostProvider = ({ children, ...routerProps }) => {
   const [current, setCurrent] = useState(0);
   const [infoPlan, setInfoPlan] = useState({});
   const { session, location } = useSelector((store) => store);
@@ -29,24 +29,17 @@ const CreatePostProvider = ({ children, match, ...routerProps }) => {
     }
     return obj;
   }
-
   const {
-    planId, // id del plan
-    planTitle, // basic o premium
-  } = match.params;
-
-  const {
-    status, // se usa para crear la order (approved)
-    payment_id, // se usa para crear la order
     external_reference, // va a ser el id de la orden en la db
   } = query(search);
   // ======================================================================
   const [postDetails, setPostDetails] = useState({});
   useEffect(() => {
     console.log('useEffect sessio.id');
+    console.log('prueba___',infoPlan );
     setPostDetails({
       // orderId: external_reference,
-      premium: planTitle === 'Premium' ? true : false,
+      premium: infoPlan.title === 'Premium' ? true : false,
       post_name: '',
       prop_type: '',
       department: '',
@@ -76,7 +69,7 @@ const CreatePostProvider = ({ children, match, ...routerProps }) => {
       idUser: session.id,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [session.id]);
+  }, [session.id, infoPlan]);
   useEffect(() => {
     const postDetailsLocalStorage = localStorage.getItem('postDetails');
     if (!postDetailsLocalStorage) {
@@ -104,10 +97,10 @@ const CreatePostProvider = ({ children, match, ...routerProps }) => {
   };
 
   // Actualizar dirección
- 
+
   useEffect(() => {
     console.log('location en useEffect', location);
-  
+
     setPostDetails((postDetails) => ({
       ...postDetails,
       department: location.department,
