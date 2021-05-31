@@ -6,7 +6,6 @@ import image from '../../images/pago.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
-import useCreatePost from '../NewPost/hooks/useCreatePost';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import {
   addPostService,
@@ -21,7 +20,6 @@ const Successful = () => {
   const { session } = useSelector((store) => store);
   const [plans, setPlans] = useState([]);
   const [order, setOrder] = useState(false);
-  const { postDetails } = useCreatePost();
   function query(url) {
     const obj = {};
     const array = url.replace('?', '').split('&');
@@ -40,8 +38,9 @@ const Successful = () => {
    const path = search.pathname.split('/');
    const planId = path[2];
    const planTitle = path[3];
+   const postDetails = JSON.parse(localStorage.getItem('post'));
    const dateObj = new Date();
-   postDetails.premium
+   postDetails?.premium
      ? dateObj.setDate(dateObj.getDate() + 90)
      : dateObj.setDate(dateObj.getDate() + 30);
    const month = dateObj.getUTCMonth() + 1;
@@ -67,9 +66,8 @@ const Successful = () => {
 
   useEffect(() => {
     (async function(){
-      // await addPostService({...postDetails, external_reference})
-      console.log('prueba=======', postDetails)
-      if(session.id){
+      if(session.id && localStorage.getItem('local') !== payment_id){
+        const datapost = await addPostService({...postDetails, id: external_reference, idUser: session.id})
         const obj = {
           userId: session.id,
           servicePlanId: planId,
@@ -77,16 +75,16 @@ const Successful = () => {
           paymentStatus: status,
           paymentId: payment_id,
           id: merchant_order_id,
-          postId: "008f7095-3213-459a-841f-06f0d4956d37" || external_reference,
+          postId: external_reference,
         };
-        axios
-          .post(`${REACT_APP_API_BASE_ENDPOINT}/mercadopago/order`, obj)
-          // .post(`http://localhost:3001/mercadopago/order`, obj)
-          .then((r) => {
-            console.log(r.data)
-            setOrder(r.data.length ? r.data.filter((e) => e.id === external_reference) : r.data.id);
-            sendPaymentEmail(post);
-          });
+          const r = await axios.post(`${REACT_APP_API_BASE_ENDPOINT}/mercadopago/order`, obj)
+          // const r = await axios.post(`http://localhost:3001/mercadopago/order`, obj)
+          setOrder(r.data.length ? r.data.filter((e) => e.id === external_reference) : r.data.id);
+          sendPaymentEmail(post);
+          localStorage.setItem('local', payment_id )
+      }
+      if(localStorage.getItem('local')){
+        setOrder(merchant_order_id)
       }
     })();
   }, [session]);
@@ -106,7 +104,7 @@ const Successful = () => {
         <Link to='/home'>
           <button className={style.buttonExit}>Salir</button>
         </Link>
-        <Link to='/post/008f7095-3213-459a-841f-06f0d4956d37'>
+        <Link to={`/post/${external_reference}`}>
           <button>Ver publicación</button>
         </Link>
         </div>

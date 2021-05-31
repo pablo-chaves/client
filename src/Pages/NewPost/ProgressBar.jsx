@@ -1,15 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { useAuth0 } from '@auth0/auth0-react';
 import useCreatePost from './hooks/useCreatePost';
 import { Steps, Button, message } from 'antd';
 import axios from 'axios';
-
-import {
-  addPostService,
-  sendPaymentEmail,
-} from '../../Services/properties.service';
-
 import 'antd/dist/antd.css';
 import './step.css';
 
@@ -17,28 +9,10 @@ const { Step } = Steps;
 
 const ProgressBar = () => {
   const { postDetails, current, setCurrent, steps, infoPlan } = useCreatePost();
-  const { user } = useAuth0();
 
   const prev = () => {
     setCurrent(current - 1);
   };
-  // const dateObj = new Date();
-  // postDetails.premium
-  //   ? dateObj.setDate(dateObj.getDate() + 90)
-  //   : dateObj.setDate(dateObj.getDate() + 30);
-  // const month = dateObj.getUTCMonth() + 1;
-  // const day = dateObj.getUTCDate();
-  // const year = dateObj.getUTCFullYear();
-  // const expirationDate = day + '/' + month + '/' + year;
-  // const post = {
-  //   name: user.name,
-  //   email: user.email,
-  //   title: postDetails.post_name,
-  //   image: postDetails.images ? postDetails.images[0] : null,
-  //   price: postDetails.price,
-  //   plan: postDetails.premium ? 'Premium' : 'Basic',
-  //   date: expirationDate,
-  // };
   //====================Mercadopago=======================================================
   const { REACT_APP_API_BASE_ENDPOINT } = process.env;
   function createCheckoutButton(preference) {
@@ -59,7 +33,7 @@ const ProgressBar = () => {
 
     useEffect(() => {
       if(current === 5) {
-        console.log('prueba antes de pagar', postDetails)
+        localStorage.setItem('post', JSON.stringify(postDetails))
         // axios.post(`http://localhost:3001/mercadopago`, infoPlan)
         axios.post(`${REACT_APP_API_BASE_ENDPOINT}/mercadopago`, infoPlan)
           .then((r) => {
@@ -67,20 +41,6 @@ const ProgressBar = () => {
           })
       }
     }, [current, infoPlan]);
-    // const handlerClick = async () => {
-    //   const dataAxios = await axios.post(`http://localhost:3001/mercadopago`, infoPlan)
-    //   // const dataAxios = await axios.post(`${REACT_APP_API_BASE_ENDPOINT}/mercadopago`, infoPlan)
-    //   console.log('Im axios', dataAxios.data)
-    //   if (document.getElementById('buttonId').innerHTML === 'Publicar'){
-    //     document.getElementById('buttonId').style.width = '80%';
-    //     createCheckoutButton(dataAxios.data);
-    //
-    //   }else{
-    //     createCheckoutButton(dataAxios.data)();
-    //     document.getElementById('buttonId').style.width = '8em';
-    //     document.getElementById('buttonId').innerHTML = 'Publicar';
-    //   }
-    // };
     //====================Mercadopago=======================================================
 
   return (
