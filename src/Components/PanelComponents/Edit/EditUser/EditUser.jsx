@@ -1,6 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable no-shadow */
 import React, { useEffect, useState } from 'react';
+import { useHistory } from "react-router-dom";
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -15,8 +16,8 @@ function EditUser({ session, id, action }) {
   const [userDetail, setUserDetail] = useState({});
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState('');
-
-  const isAdmin = session.type === 'Admin' || session.type === 'SuperAdmin'; 
+  let history = useHistory();
+  const isAdmin = session.type === 'Admin' || session.type === 'SuperAdmin';
 
   useEffect(() => {
     async function fetchUser(id) {
@@ -39,9 +40,9 @@ function EditUser({ session, id, action }) {
       status: action === 'edit' ? userDetail.status : '',
       type: action === 'edit' ? userDetail.type : '',
     });
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [action === 'edit' && userDetail.status]);
-  
+
 
   function validate(input) {
     // const regEmail = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}/g;
@@ -77,10 +78,11 @@ function EditUser({ session, id, action }) {
           return alert('No se han realizado modificaciones')
         } else {
           const resp = window.confirm(`¿Quieres editar al usuario ${input.name}?`)
-          if (resp){
+          if (resp) {
             editUserService(id, input);
             alert(`Usuario ${input.name} editado correctamente `);
-          } 
+            history.push(`/panel/detail/user/${session.id}`);
+          }
         }
       } else if (action === 'create') {
         if (errors === '') {
@@ -90,7 +92,7 @@ function EditUser({ session, id, action }) {
           if (resp) {
             addUserService(input);
             alert(`Usuario ${input.name} agregado correctamente `);
-          } 
+          }
         }
       }
     }
@@ -105,90 +107,90 @@ function EditUser({ session, id, action }) {
 
   return (
     <div className={style.ctn}>
-      {!loading && 
-      <> 
-        <EditButtonBar rol={session.type ? session.type : 'user'} handleSubmit={handleSubmit} element="user" id={id}/>
-        <form onSubmit={handleSubmit} className={style.form} id="form">
-          <div className={style.field}>
-            <label htmlFor="name">Nombre</label>
-            <input
-              disabled={!isAdmin}
-              type="text"
-              value={input.name}
-              name="name"
-              onChange={handleChange}
-            />
-          </div>
-          {errors.name && (<p className={style.pdanger}>{errors.name}</p>)}
-          <div className={style.field}>
-            <label htmlFor="email">Correo electrónico</label>
-            <input
-              disabled={!isAdmin}
-              type="text"
-              value={input.email}
-              name="email"
-              onChange={handleChange}
-            />
-          </div>
-          {errors.email && (<p className={style.pdanger}>{errors.email}</p>)}
-          {isAdmin &&
-            <>
-              <div className={style.field}>
-                <label htmlFor="type">Rol</label>
-                <select className={style.selectFilter} name="type" value={input.type} onChange={handleChange}>
-                  {['User', 'Admin', 'SuperAdmin'].map((type, i) => (<option key={i} value={type}>{type}</option>))}
-                </select>
-              </div>
-              {errors.type && (<p className={style.pdanger}>{errors.type}</p>)}
-            </>
-          }
-          <div className={style.field}>
-            <label htmlFor="phone">Teléfono móvil</label>
-            <input
-              type="text"
-              value={input.phone}
-              name="phone"
-              onChange={handleChange}
-            />
-          </div>
-          <div className={style.field}>
-            <label htmlFor="city">Ciudad</label>
-            <input
-              type="text"
-              value={input.city}
-              name="city"
-              onChange={handleChange}
-            />
-          </div>
-          <div className={style.field}>
-            <label htmlFor="street_number">Dirección</label>
-            <input
-              type="text"
-              value={input.street_number}
-              name="street_number"
-              onChange={handleChange}
-            />
-          </div>
-          <div className={style.field}>
-            <label htmlFor="zip_code">Código postal</label>
-            <input
-              type="text"
-              value={input.zip_code}
-              name="zip_code"
-              onChange={handleChange}
-            />
-          </div>
-          <div className={style.btnReset}>
-            <button className={style.btn} type="button" onClick={(e)=>resetForm(e)}>
+      {!loading &&
+        <>
+          <EditButtonBar rol={session.type ? session.type : 'user'} handleSubmit={handleSubmit} element="user" id={id} />
+          <form onSubmit={handleSubmit} className={style.form} id="form">
+            <div className={style.field}>
+              <label htmlFor="name">Nombre</label>
+              <input
+                disabled={!isAdmin}
+                type="text"
+                value={input.name}
+                name="name"
+                onChange={handleChange}
+              />
+            </div>
+            {errors.name && (<p className={style.pdanger}>{errors.name}</p>)}
+            <div className={style.field}>
+              <label htmlFor="email">Correo electrónico</label>
+              <input
+                disabled={!isAdmin}
+                type="text"
+                value={input.email}
+                name="email"
+                onChange={handleChange}
+              />
+            </div>
+            {errors.email && (<p className={style.pdanger}>{errors.email}</p>)}
+            {isAdmin &&
+              <>
+                <div className={style.field}>
+                  <label htmlFor="type">Rol</label>
+                  <select className={style.selectFilter} name="type" value={input.type} onChange={handleChange}>
+                    {['User', 'Admin', 'SuperAdmin'].map((type, i) => (<option key={i} value={type}>{type}</option>))}
+                  </select>
+                </div>
+                {errors.type && (<p className={style.pdanger}>{errors.type}</p>)}
+              </>
+            }
+            <div className={style.field}>
+              <label htmlFor="phone">Teléfono móvil</label>
+              <input
+                type="text"
+                value={input.phone}
+                name="phone"
+                onChange={handleChange}
+              />
+            </div>
+            <div className={style.field}>
+              <label htmlFor="city">Ciudad</label>
+              <input
+                type="text"
+                value={input.city}
+                name="city"
+                onChange={handleChange}
+              />
+            </div>
+            <div className={style.field}>
+              <label htmlFor="street_number">Dirección</label>
+              <input
+                type="text"
+                value={input.street_number}
+                name="street_number"
+                onChange={handleChange}
+              />
+            </div>
+            <div className={style.field}>
+              <label htmlFor="zip_code">Código postal</label>
+              <input
+                type="text"
+                value={input.zip_code}
+                name="zip_code"
+                onChange={handleChange}
+              />
+            </div>
+            <div className={style.btnReset}>
+              <button className={style.btn} type="button" onClick={(e) => resetForm(e)}>
                 <FontAwesomeIcon icon={faEraser} />
                 {'  Borrar'}
-            </button>
-          </div>
-        </form>
-      </>
+              </button>
+            </div>
+          </form>
+        </>
       }
       {loading && <Loading />}
-      
+
     </div>
   );
 }
