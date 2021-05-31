@@ -29,7 +29,7 @@ class LocationSearchModal extends React.Component {
         },
         zoom: 15,
         height: 400,
-        allowAddress: this.props.location.state || true,
+        allowAddress: this.props.location.allowAddress || true,
         confirmed: false,
     }
 
