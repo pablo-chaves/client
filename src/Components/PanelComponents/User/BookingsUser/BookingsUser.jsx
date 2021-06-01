@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { getUserData, deleteBooking } from '../../../../Redux/Actions/index';
 import TablePage from '../../TablePage/TablePage';
 import TableButtonBar from '../../ButtonsBar/TableButtonBar/TableButtonBar';
-import { getAllBookingByUserService } from '../../../../Services/booking.service';
+import { getAllBookingByUserService, sendBookingEmailService } from '../../../../Services/booking.service';
 
 function Bookings({
   panelUser, getUserData, match, deleteBooking,
@@ -43,9 +43,14 @@ function Bookings({
     .catch(e => console.log(e))
   }, [panelUser]);
 
-  function deleteAndUpdate(id) {
-    deleteBooking(id);
-    getUserData(userId)
+  function deleteAndUpdate(bookingId) {
+    try {
+      deleteBooking(bookingId);
+      sendBookingEmailService(bookingId);
+      getUserData(userId)
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (

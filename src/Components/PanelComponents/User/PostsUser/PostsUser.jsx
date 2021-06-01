@@ -33,10 +33,10 @@ function PostsUser({
     });
     return data;
   };
-  async function deleteAndGet(id, userId) {
+  async function deleteAndGet(postId, userId) {
     try {
-      await deletePost(id)
-      const reservas = postsAvailable.find(post => post.id === id).visitDates;
+      await deletePost(postId)
+      const reservas = postsAvailable.find(post => post.id === postId).visitDates;
       if (reservas?.length) {
         const notificarReservaCanselada = [];
         const bookingsId = reservas.map(booking => booking.id);
