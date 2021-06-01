@@ -20,7 +20,7 @@ function Filter({
   const params = new URLSearchParams(querystring);
   const [URL, setURL] = useState('');
   const initialState = {
-    post_name: searched,
+    // post_name: searched,
     prop_type: '',
     city: '',
     stratum: '',
@@ -52,7 +52,7 @@ function Filter({
   }
 
   useEffect(() => {
-    params.set('post_name', searched);
+    // params.set('post_name', searched);
     params.set('orden', orderType);
     params.set('atributo', orderProp);
     if (!params.get('post_name')) {
@@ -67,7 +67,7 @@ function Filter({
     updatePath(params);
     setQueryBlock({
       ...queryBlock,
-      post_name: searched,
+      // post_name: searched,
       atributo: orderProp,
       orden: orderType,
     });// filter busca a la api externa
@@ -90,7 +90,7 @@ function Filter({
 
     setQueryBlock({
       ...queryBlock,
-      post_name: searched,
+      // post_name: searched,
       atributo: orderProp,
       orden: orderType,
     });
