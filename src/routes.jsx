@@ -34,7 +34,7 @@ export default function MyHouseRoutes() {
         <NavBar isMobile={isMobile}/>
         <Switch>
           <Route path="/maps" component={Render}/>
-          <Route path="/home" component={Home} />
+          <Route path="/home" render={() => <Home mobile={mobile} />} />
           <Route
             exact path="/post/:id"
             render={(routerPops) => <Details routerProps={routerPops} />}

@@ -42,3 +42,25 @@
   box-shadow: 1px 1px 0px #bdbdbd;
   transition: all 0.3s ease-in-out;
 }
+
+@media only screen and (max-width: 768px) {
+
+  .btnBar {
+    font-size: 0.8rem;
+    border-radius: 20px;
+    padding: 4%;
+    width: 8em;
+    height: 3em;
+    background: var(--white);
+    border: 2px solid var(--blue);
+    color: var(--blue)
+  }
+  .btnBar:hover {
+    background: var(--dark);
+    box-shadow: 1px 1px 0px #bdbdbd;
+    transition: all 0.3s ease-in-out;
+    border: 2px solid var(--dark);
+    color: var(--white);
+  }
+  
+}

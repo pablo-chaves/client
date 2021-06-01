@@ -5,11 +5,10 @@ import { withGoogleMap, GoogleMap, Marker, Circle } from "react-google-maps"
       defaultZoom={15}
       defaultCenter={{ lat: props.lat, lng: props.lng }}
     >
-      {props.allowAddress && 
+      {props.allowAddress ? 
         <Marker
           position={{ lat: props.lat, lng: props.lng }} />
-        }
-      {!props.allowAddress &&
+      :
         <Circle
           radius={250}
           center={{ lat: props.lat, lng: props.lng }}

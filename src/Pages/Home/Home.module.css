@@ -58,6 +58,10 @@
     visibility: hidden;
 }
 
+.mobileFilter {
+    display: none;
+}
+
 @media only screen and (max-width: 768px) {
     .home {
         padding: 20px;
@@ -84,7 +88,11 @@
     }
 
     .home .main .search_order {
-        justify-content: center;
+        justify-content: space-between;
+    }
+
+    .mobileFilter {
+        display: block;
     }
 
     .hideOrder {
