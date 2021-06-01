@@ -66,8 +66,7 @@ nav {
   nav {
     align-items: flex-start;
     justify-content: space-between;
-    top: 0;
-    right: 0;
+    width: 110%;
   }
 
   .mobileMenu {

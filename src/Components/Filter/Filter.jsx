@@ -1,13 +1,6 @@
-/* eslint-disable react/no-array-index-key */
-/* eslint-disable no-plusplus */
-/* eslint-disable guard-for-in */
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable prefer-const */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { FaRegTimesCircle } from 'react-icons/fa';
+import {  FaEraser } from 'react-icons/fa';
 import { useHistory } from 'react-router-dom';
 import style from './Filter.module.css';
 import { getAvailableFilteredPropierties } from '../../Redux/Actions';
@@ -20,7 +13,7 @@ function Filter({
   const params = new URLSearchParams(querystring);
   const [URL, setURL] = useState('');
   const initialState = {
-    post_name: searched,
+    // post_name: searched,
     prop_type: '',
     city: '',
     stratum: '',
@@ -52,7 +45,7 @@ function Filter({
   }
 
   useEffect(() => {
-    params.set('post_name', searched);
+    // params.set('post_name', searched);
     params.set('orden', orderType);
     params.set('atributo', orderProp);
     if (!params.get('post_name')) {
@@ -67,7 +60,7 @@ function Filter({
     updatePath(params);
     setQueryBlock({
       ...queryBlock,
-      post_name: searched,
+      // post_name: searched,
       atributo: orderProp,
       orden: orderType,
     });// filter busca a la api externa
@@ -90,7 +83,7 @@ function Filter({
 
     setQueryBlock({
       ...queryBlock,
-      post_name: searched,
+      // post_name: searched,
       atributo: orderProp,
       orden: orderType,
     });
@@ -108,50 +101,58 @@ function Filter({
     filter({});
     document.getElementById('form').reset();
   }
-
+  
   const [display, setDisplay] = useState(false);
+
+  var rangeSlider = document.getElementById("rsRangeLine");
+  var rangeBullet = document.getElementById("rsBullet");
+  
+  const showSliderValue = () => {
+    rangeBullet.innerHTML = rangeSlider.value;
+    let bulletPosition = (rangeSlider.value /rangeSlider.max);
+    rangeBullet.style.left = bulletPosition * 90+ '%';
+  } 
 
   return (
     <div className={style.filter}>
-      <div type="button" className={style.closeIcon} onClick={clear}>
-        <FaRegTimesCircle />
-      </div>
       <form id="form" className={style.form}>
         {/* City */}
         <div className={style.field}>
           <label>
-            City:&nbsp;
-            <input
-              className={style.inputFilter}
-              type="text"
-              name="city"
-              placeholder="City"
-              value={queryBlock.city}
-              onChange={changeURL}
-            />
+            Ciudad:&nbsp;
           </label>
+          <input
+            className={style.inputFilter}
+            type="text"
+            name="city"
+            placeholder="Ciudad"
+            value={queryBlock.city}
+            onChange={changeURL}
+          />
         </div>
 
         {/* Neighborhood */}
         <div className={style.field}>
           <label>
-            Neighborhood:
+            Barrio:
+          </label>
             <input
               className={style.inputFilter}
               type="text"
               name="neighborhood"
-              placeholder="Neighborhood"
+              placeholder="Barrio"
               value={queryBlock.neighborhood}
               onChange={changeURL}
             />
-          </label>
         </div>
 
         {/* Price min y max */}
         <div className={style.field}>
-          Price:&nbsp;
+          <label>
+            Precio (cop):&nbsp;
+          </label>
           <div className={style.from_to}>
-            from&nbsp;
+            desde&nbsp;
             <input
               className={style.inputMinMax}
               type="text"
@@ -160,12 +161,12 @@ function Filter({
               value={queryBlock.priceMin}
               onChange={changeURL}
             />
-            &nbsp;to&nbsp;
+            &nbsp;hasta&nbsp;
             <input
               className={style.inputMinMax}
               type="text"
               name="priceMax"
-              placeholder="max"
+              placeholder="máx"
               value={queryBlock.priceMax}
               onChange={changeURL}
             />
@@ -175,82 +176,63 @@ function Filter({
         {/* Rooms  */}
         <div className={style.field}>
           <label>
-            Rooms:&nbsp;
-            <input
-              className={style.inputMinMax}
-              type="number"
-              name="rooms"
-              placeholder="0"
-              min="0"
-              value={queryBlock.rooms}
-              onChange={changeURL}
-            />
+            Habitaciones:&nbsp;
           </label>
+          <div className={style.buttons}>
+            {['+1','+2','+3','+4','+5','+6'].map(
+              (el, index) => 
+              <button class={ el === queryBlock.stratum ? `${style.btnFilter} ${style.btnFilterActive}` : style.btnFilter} key={index} name="rooms" onClick={(e) =>{e.preventDefault(); changeURL(e);}} value={el}>{el}</button>
+            )}
+          </div>
         </div>
 
         {/* Bathrooms */}
         <div className={style.field}>
           <label>
-            Bathrooms:&nbsp;
-            <input
-              className={style.inputMinMax}
-              type="number"
-              name="bathrooms"
-              placeholder="0"
-              min="0"
-              value={queryBlock.bathrooms}
-              onChange={changeURL}
-            />
+            Baños:&nbsp;
           </label>
+          <div className={style.buttons}>
+            {['+1','+2','+3','+4','+5','+6'].map(
+              (el, index) => 
+                <button class={ el === queryBlock.stratum ? `${style.btnFilter} ${style.btnFilterActive}` : style.btnFilter} key={index} name="bathrooms" onClick={(e) =>{e.preventDefault(); changeURL(e);}} value={el}>{el}</button>
+            )}
+          </div>
         </div>
 
         {/* Area min y max */}
-        <div className={style.field}>
-          Area:&nbsp;
-          <div className={style.from_to}>
-            from&nbsp;
-            <input
-              className={style.inputMinMax}
-              type="text"
-              name="areaMin"
-              placeholder="min"
-              value={queryBlock.areaMin}
-              onChange={changeURL}
-            />
-            &nbsp;to&nbsp;
-            <input
-              className={style.inputMinMax}
-              type="text"
-              name="areaMax"
-              placeholder="max"
-              value={queryBlock.areaMax}
-              onChange={changeURL}
-            />
-          </div>
+        <div className={style.rangeField}>
+          <label>
+            Área desde:
+          </label>
+        </div>
+        <div class={style.rangeSlider}>
+          <span id="rsBullet" class={style.rsLabel}>0 m²</span>
+          <input id="rsRangeLine" class={style.rsRange} type="range" name="areaMin" defaultValue="0" /* value={queryBlock.areaMin} */
+            onChange={showSliderValue}
+            onMouseUp={changeURL} min="0" max="1000" />
+        </div>
+        <div class={style.boxMinmax}>
+          <span>0m²</span><span>1000m²</span>
         </div>
 
         {/* Stratum */}
         {/* Hay que cambiarlo debería ser un input type number */}
         <div className={style.field}>
           <label>
-            Stratum:  &nbsp;
-            <input
-              className={style.inputMinMax}
-              type="number"
-              name="stratum"
-              placeholder="0"
-              min="0"
-              max="6"
-              value={queryBlock.stratum}
-              onChange={changeURL}
-            />
+            Estrato:&nbsp;
           </label>
+          <div className={style.buttons}>
+            {[1,2,3,4,5,6].map(
+              (el, index) => 
+                <button class={ el === queryBlock.stratum ? `${style.btnFilter} ${style.btnFilterActive}` : style.btnFilter} key={index} name="stratum" onClick={(e) =>{e.preventDefault(); changeURL(e);}} value={el}>{el}</button>
+            )}
+          </div>
         </div>
 
         {/* Type of property */}
         <div className={style.field}>
           <select className={style.selectFilter} name="prop_type" value={queryBlock.prop_type} onChange={changeURL}>
-            <option>Type of property</option>
+            <option>Tipo de inmueble</option>
             {['Casa', 'Apartamento'].map((type, i) => (<option key={i} value={type}>{type}</option>))}
           </select>
         </div>
@@ -258,7 +240,7 @@ function Filter({
         {/* years */}
         <div className={style.field}>
           <label>
-            Years:  &nbsp;
+            Años:  &nbsp;
             <input
               className={style.inputMinMax}
               type="number"
@@ -266,6 +248,7 @@ function Filter({
               value={queryBlock.years}
               min="0"
               onChange={changeURL}
+              placeholder="0"
             />
           </label>
         </div>
@@ -273,33 +256,39 @@ function Filter({
         {/* Facilities */}
         <div className={style.field} onClick={() => setDisplay(!display)}>
           <p className={style.tit_facilities}>
-            Other facilities
+            Otras comodidades
           </p>
         </div>
         <div className={display ? style.facilities : style.noFacilities}>
           <input type="checkbox" onChange={changeURL} name="pool" value={!queryBlock.pool} />
-          <label htmlFor="pool"> Swimming pool</label>
+          <label htmlFor="pool"> Piscina</label>
           <br />
           <input type="checkbox" onChange={changeURL} name="backyard" value={!queryBlock.backyard} />
-          <label htmlFor="backyard"> Backyard</label>
+          <label htmlFor="backyard"> Patio</label>
           <br />
           <input type="checkbox" onChange={changeURL} name="gym" value={!queryBlock.gym} />
-          <label htmlFor="gym"> Gym</label>
+          <label htmlFor="gym"> Gimnasio</label>
           <br />
           <input type="checkbox" onChange={changeURL} name="bbq" value={!queryBlock.bbq} />
           <label htmlFor="bbq"> Barbecue</label>
           <br />
           <input type="checkbox" onChange={changeURL} name="parking_lot" value={!queryBlock.parking_lot} />
-          <label htmlFor="parking_lot"> Parking lot</label>
+          <label htmlFor="parking_lot"> Cochera</label>
           <br />
           <input type="checkbox" onChange={changeURL} name="elevator" value={!queryBlock.elevator} />
-          <label htmlFor="elevator"> Elevator</label>
+          <label htmlFor="elevator"> Ascensor</label>
           <br />
           <input type="checkbox" onChange={changeURL} name="security" value={!queryBlock.security} />
-          <label htmlFor="secutiry"> Security</label>
+          <label htmlFor="secutiry"> Seguridad</label>
           <br />
           <input type="checkbox" onChange={changeURL} name="garden" value={!queryBlock.garden} />
-          <label htmlFor="garden"> Garden</label>
+          <label htmlFor="garden"> Jardín</label>
+        </div>
+        <div className={style.btnReset}>
+          <button className={style.btn} type="button" onClick={(e)=>clear(e)}>
+            <FaEraser />
+            {'   Borrar'}
+          </button>
         </div>
       </form>
     </div>

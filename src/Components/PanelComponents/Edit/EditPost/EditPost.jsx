@@ -7,21 +7,26 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEraser } from '@fortawesome/free-solid-svg-icons';
-import { getPostService, editPostService, addPostService, valueTypes } from '../../../../Services/properties.service';
+import {
+  getPostService,
+  editPostService,
+  addPostService,
+  valueTypes,
+} from '../../../../Services/properties.service';
 import { addLocation } from '../../../../Redux/Actions/index';
 import Loading from '../../../Auth0/Loading/loading';
 import EditButtonBar from '../../ButtonsBar/EditButtonBar/EditButtonBar';
 import FormMap from '../../../GoogleMaps/FormMap';
 import style from '../Edit.module.css';
+import EditPhotoUploader from '../../../EditPhotoUploader/EditPhotoUploarder';
 
 function EditPosts({ id, action, session, location, addLocation }) {
-
-  const [input, setInput] = useState({})
+  const [input, setInput] = useState({});
   const [postDetail, setPostDetail] = useState({});
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = React.useState('');
-  
-  const isAdmin = session.type === 'Admin' || session.type === 'SuperAdmin'; 
+
+  const isAdmin = session.type === 'Admin' || session.type === 'SuperAdmin';
 
   useEffect(() => {
     async function fetchPost(id) {
@@ -31,10 +36,10 @@ function EditPosts({ id, action, session, location, addLocation }) {
     }
     fetchPost(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  
+  }, [id]);
+
   useEffect(() => {
-    addLocation(postDetail)
+    addLocation(postDetail);
     setInput({
       premium: action === 'edit' ? postDetail.premium : false,
       post_name: action === 'edit' ? postDetail.post_name : '',
@@ -67,24 +72,23 @@ function EditPosts({ id, action, session, location, addLocation }) {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [postDetail.id]);
-  
 
   function validate(input) {
     const errors = {};
     if (!input.post_name) {
       errors.post_name = 'El título es requerido';
     } else if (!input.premium && isAdmin) {
-      errors.premium = 'El plan contratado es requerido'; 
+      errors.premium = 'El plan contratado es requerido';
     } else if (!input.status && isAdmin) {
-      errors.status = 'El status es requerido'; 
-    } else if (!input.department) {
-      errors.depatment = 'El deparmento es requerido';
-    } else if (!input.city) {
-      errors.city = 'La ciudad es requerida';
-    } else if (!input.street_number) {
-      errors.street_number = 'La dirección es requerida';
-    } else if (!input.neighborhood) {
-      errors.neighborhood = 'El barrio es requerido';
+      errors.status = 'El status es requerido';
+      //} else if (!input.department) {
+      //errors.depatment = 'El deparmento es requerido';
+      // } else if (!input.city) {
+      //   errors.city = 'La ciudad es requerida';
+      // } else if (!input.street_number) {
+      //   errors.street_number = 'La dirección es requerida';
+      // } else if (!input.neighborhood) {
+      //   errors.neighborhood = 'El barrio es requerido';
     } else if (!input.price) {
       errors.price = 'El precio es requerido';
     } else if (!input.prop_type) {
@@ -102,40 +106,65 @@ function EditPosts({ id, action, session, location, addLocation }) {
   }
   function handleChange(e) {
     const { name, value } = e.target;
-    setErrors(validate({
-      ...input,
-      [name]: value,
-    }));
-    setInput(valueTypes({
-      ...input,
-      [name]: value,
-    }));
+    setErrors(
+      validate({
+        ...input,
+        [name]: value,
+      })
+    );
+    setInput(
+      valueTypes({
+        ...input,
+        [name]: value,
+      })
+    );
   }
-  console.log('changes ->', input)
+  function onClickDelete(imageToDelete) {
+    let photos;
+    let imagesContainer = input.images;
+    if (typeof imagesContainer[0] === 'string') {
+      photos = imagesContainer;
+    } else {
+      const [imagesObj] = imagesContainer;
+      photos = imagesObj.photo;
+    }
+    const newImagesSet = photos.filter((image) => image !== imageToDelete);
+    const newInput = { ...input, images: newImagesSet };
+    setInput(newInput);
+  }
+
+  function onChangeImage(newIamges) {
+    //verificar el numero de fotos
+    const newInput = { ...input, images: newIamges };
+    setInput(newInput);
+  }
 
   function handleSubmit(e) {
     e.preventDefault();
     if (Object.entries(errors).length > 0) {
-      return alert('Revisar campos requeridos')
+      return alert('Revisar campos requeridos');
     } else {
       if (action === 'edit') {
         if (errors === '') {
-          <Link to="/panel" />
-          return alert('No se han realizado modificaciones')
+          <Link to='/panel' />;
+          return alert('No se han realizado modificaciones');
         } else {
-          const resp = window.confirm(`¿Quieres editar la publicación ${input.post_name}?`)
+          const resp = window.confirm(
+            `¿Quieres editar la publicación ${input.post_name}?`
+          );
           if (resp) {
             editPostService(id, input);
             alert(`Publicación '${input.post_name}' editada correctamente `);
-          } 
+          }
         }
       } else if (action === 'create') {
         if (errors === '') {
-          return alert('Revisar campos requeridos')
+          return alert('Revisar campos requeridos');
         } else {
-          const resp = window.confirm(`¿Quieres crear la publicación ${input.post_name}?`)
+          const resp = window.confirm(
+            `¿Quieres crear la publicación ${input.post_name}?`
+          );
           if (resp) {
-            console.log(input)
             addPostService(input);
             alert(`Publicación '${input.post_name}' creada correctamente `);
           }
@@ -144,10 +173,10 @@ function EditPosts({ id, action, session, location, addLocation }) {
     }
   }
 
-  valueTypes(input)
+  valueTypes(input);
 
   function resetForm(e) {
-    e.preventDefault()
+    e.preventDefault();
     setInput({
       premium: '',
       post_name: '',
@@ -168,183 +197,268 @@ function EditPosts({ id, action, session, location, addLocation }) {
     });
     document.getElementById('form').reset();
   }
-  
+
   const [display, setDisplay] = useState(false);
   return (
     <div className={style.ctn}>
-      {!loading && 
+      {!loading && (
         <>
-          <EditButtonBar rol={session.type ? session.type : 'user'} handleSubmit={handleSubmit} element="post" id={id}/>
-          <form onSubmit={handleSubmit} className={style.form} id="form">
+          <EditButtonBar
+            rol={session.type ? session.type : 'user'}
+            handleSubmit={handleSubmit}
+            element='post'
+            id={id}
+          />
+          <form onSubmit={handleSubmit} className={style.form} id='form'>
             <div className={style.field}>
-              <label htmlFor="post_name">Título</label>
+              <label htmlFor='post_name'>Título</label>
               <textarea
-                type="text"
+                type='text'
                 value={input.post_name}
-                name="post_name"
+                name='post_name'
                 onChange={handleChange}
               />
             </div>
-            {errors.post_name && (<p className={style.pdanger}>{errors.post_name}</p>)}
-            {isAdmin &&
-            <>
-              <div className={style.field}>
-                <label htmlFor="premium"> Plan contratado</label>
-                <select className={style.selectFilter} name="premium" value={input.premium} onChange={handleChange}>
-                  <option key="1" value={false} >Basic</option>
-                  <option key="2" value={true} >Premium</option>
-                </select>
-              </div>
-              {errors.premium && (<p className={style.pdanger}>{errors.premium}</p>) }
-            </>
-            }
-            {isAdmin &&
-            <>
-              <div className={style.field}>
-                <label htmlFor="status"> Estado de la publicación</label>
-                <select className={style.selectFilter} name="status" value={input.status} onChange={handleChange}>
-                  {['Available', 'Not-Available', 'Expired'].map((type, i) => (<option key={i} value={type}>{type}</option>))}
-                </select>
-              </div>
-              {errors.status && (<p className={style.pdanger}>{errors.status}</p>) }
-            </>
-            }
-            < FormMap />
+            {errors.post_name && (
+              <p className={style.pdanger}>{errors.post_name}</p>
+            )}
+            {isAdmin && (
+              <>
+                <div className={style.field}>
+                  <label htmlFor='premium'> Plan contratado</label>
+                  <select
+                    className={style.selectFilter}
+                    name='premium'
+                    value={input.premium}
+                    onChange={handleChange}
+                  >
+                    <option key='1' value={false}>
+                      Basic
+                    </option>
+                    <option key='2' value={true}>
+                      Premium
+                    </option>
+                  </select>
+                </div>
+                {errors.premium && (
+                  <p className={style.pdanger}>{errors.premium}</p>
+                )}
+              </>
+            )}
+            {isAdmin && (
+              <>
+                <div className={style.field}>
+                  <label htmlFor='status'> Estado de la publicación</label>
+                  <select
+                    className={style.selectFilter}
+                    name='status'
+                    value={input.status}
+                    onChange={handleChange}
+                  >
+                    {['Available', 'Not-Available', 'Expired'].map(
+                      (type, i) => (
+                        <option key={i} value={type}>
+                          {type}
+                        </option>
+                      )
+                    )}
+                  </select>
+                </div>
+                {errors.status && (
+                  <p className={style.pdanger}>{errors.status}</p>
+                )}
+              </>
+            )}
+            <FormMap />
             <div className={style.field}>
-              <label htmlFor="price">Precio</label>
+              <label htmlFor='price'>Precio</label>
               <input
-                type="number"
+                type='number'
                 value={input.price}
-                name="price"
+                name='price'
                 onChange={handleChange}
               />
             </div>
-            {errors.price && (<p className={style.pdanger}>{errors.price}</p>)}
+            {errors.price && <p className={style.pdanger}>{errors.price}</p>}
             <div className={style.field}>
-              <label htmlFor="prop_type">Tipo de propiedad</label>
-              <select className={style.selectFilter} name="prop_type" value={input.prop_type} onChange={handleChange}>
-                <option value="" disabled hidden>Elija uno</option>
-                {['Casa', 'Apartamento'].map((type, i) => (<option key={i} value={type}>{type}</option>))}
+              <label htmlFor='prop_type'>Tipo de propiedad</label>
+              <select
+                className={style.selectFilter}
+                name='prop_type'
+                value={input.prop_type}
+                onChange={handleChange}
+              >
+                <option value='' disabled hidden>
+                  Elija uno
+                </option>
+                {['Casa', 'Apartamento'].map((type, i) => (
+                  <option key={i} value={type}>
+                    {type}
+                  </option>
+                ))}
               </select>
             </div>
-            {errors.prop_type && (<p className={style.pdanger}>{errors.prop_type}</p>)}
+            {errors.prop_type && (
+              <p className={style.pdanger}>{errors.prop_type}</p>
+            )}
             <div className={style.field}>
-              <label htmlFor="m2">Metros cuadrados</label>
+              <label htmlFor='m2'>Metros cuadrados</label>
               <input
-                type="number"
+                type='number'
                 value={input.m2}
-                name="m2"
-                min="0"
+                name='m2'
+                min='0'
                 onChange={handleChange}
               />
             </div>
-            {errors.m2 && (<p className={style.pdanger}>{errors.m2}</p>)}
+            {errors.m2 && <p className={style.pdanger}>{errors.m2}</p>}
             <div className={style.field}>
-              <label htmlFor="rooms">Habitaciones</label>
+              <label htmlFor='rooms'>Habitaciones</label>
               <input
-                type="number"
+                type='number'
                 value={input.rooms}
-                name="rooms"
-                min="0"
+                name='rooms'
+                min='0'
                 onChange={handleChange}
               />
             </div>
-            {errors.rooms && (<p className={style.pdanger}>{errors.rooms}</p>)}
+            {errors.rooms && <p className={style.pdanger}>{errors.rooms}</p>}
             <div className={style.field}>
-              <label htmlFor="bathrooms">Baños</label>
+              <label htmlFor='bathrooms'>Baños</label>
               <input
-                type="number"
+                type='number'
                 value={input.bathrooms}
-                name="bathrooms"
-                min="0"
+                name='bathrooms'
+                min='0'
                 onChange={handleChange}
               />
             </div>
-            {errors.bathrooms && (<p className={style.pdanger}>{errors.bathrooms}</p>)}
+            {errors.bathrooms && (
+              <p className={style.pdanger}>{errors.bathrooms}</p>
+            )}
             <div className={style.field}>
-              <label htmlFor="stratum">Estrato</label>
+              <label htmlFor='stratum'>Estrato</label>
               <input
-                type="number"
+                type='number'
                 value={input.stratum}
-                name="stratum"
-                min="0"
-                onChange={handleChange} 
+                name='stratum'
+                min='0'
+                onChange={handleChange}
               />
             </div>
-            {errors.stratum && (<p className={style.pdanger}>{errors.stratum}</p>)}
+            {errors.stratum && (
+              <p className={style.pdanger}>{errors.stratum}</p>
+            )}
             <div className={style.field}>
-              <label htmlFor="years">Años</label>
+              <label htmlFor='years'>Años</label>
               <input
-                type="number"
+                type='number'
                 value={input.years}
-                name="years"
-                min="0"
+                name='years'
+                min='0'
                 onChange={handleChange}
               />
             </div>
             <div className={style.field}>
-              <label htmlFor="description">Descripción</label>
+              <label htmlFor='description'>Descripción</label>
               <textarea
-                type="text"
+                type='text'
                 value={input.description}
-                name="description"
+                name='description'
                 onChange={handleChange}
               />
             </div>
-            <div className={style.field}>
-              <label htmlFor="photo">Fotos URL</label>
-              <input
-                type="text"
-                value={input.photo}
-                name="photo"
-                onChange={handleChange}
-              />
-            </div>
+
+            <EditPhotoUploader
+              imagesContainer={input.images}
+              onClickDelete={onClickDelete}
+              onChangeImage={onChangeImage}
+            />
             <div className={style.field} onClick={() => setDisplay(!display)}>
-              <p className={style.tit_facilities}>
-                Otras comodidades
-              </p>
+              <p className={style.tit_facilities}>Otras comodidades</p>
             </div>
             <div className={display ? style.facilities : style.noFacilities}>
-              <input type="checkbox" onChange={handleChange} name="pool" value={!input.pool} />
-              <label htmlFor="pool"> Piscina</label>
+              <input
+                type='checkbox'
+                onChange={handleChange}
+                name='pool'
+                value={!input.pool}
+              />
+              <label htmlFor='pool'> Piscina</label>
               <br />
-              <input type="checkbox" onChange={handleChange} name="backyard" value={!input.backyard} />
-              <label htmlFor="backyard"> Patio</label>
+              <input
+                type='checkbox'
+                onChange={handleChange}
+                name='backyard'
+                value={!input.backyard}
+              />
+              <label htmlFor='backyard'> Patio</label>
               <br />
-              <input type="checkbox" onChange={handleChange} name="gym" value={!input.gym} />
-              <label htmlFor="gym"> Gimnasio</label>
+              <input
+                type='checkbox'
+                onChange={handleChange}
+                name='gym'
+                value={!input.gym}
+              />
+              <label htmlFor='gym'> Gimnasio</label>
               <br />
-              <input type="checkbox" onChange={handleChange} name="bbq" value={!input.bbq} />
-              <label htmlFor="bbq"> Barbecue</label>
+              <input
+                type='checkbox'
+                onChange={handleChange}
+                name='bbq'
+                value={!input.bbq}
+              />
+              <label htmlFor='bbq'> Barbecue</label>
               <br />
-              <input type="checkbox" onChange={handleChange} name="parking_lot" value={!input.parking_lot} />
-              <label htmlFor="parking_lot"> Cochera</label>
+              <input
+                type='checkbox'
+                onChange={handleChange}
+                name='parking_lot'
+                value={!input.parking_lot}
+              />
+              <label htmlFor='parking_lot'> Cochera</label>
               <br />
-              <input type="checkbox" onChange={handleChange} name="elevator" value={!input.elevator} />
-              <label htmlFor="elevator"> Ascensor</label>
+              <input
+                type='checkbox'
+                onChange={handleChange}
+                name='elevator'
+                value={!input.elevator}
+              />
+              <label htmlFor='elevator'> Ascensor</label>
               <br />
-              <input type="checkbox" onChange={handleChange} name="security" value={!input.security} />
-              <label htmlFor="secutiry"> Seguridad</label>
+              <input
+                type='checkbox'
+                onChange={handleChange}
+                name='security'
+                value={!input.security}
+              />
+              <label htmlFor='secutiry'> Seguridad</label>
               <br />
-              <input type="checkbox" onChange={handleChange} name="garden" value={!input.garden} />
-              <label htmlFor="garden"> Jardín</label>
+              <input
+                type='checkbox'
+                onChange={handleChange}
+                name='garden'
+                value={!input.garden}
+              />
+              <label htmlFor='garden'> Jardín</label>
             </div>
             <div className={style.btnReset}>
-              <button className={style.btn} type="button" onClick={(e)=>resetForm(e)}>
+              <button
+                className={style.btn}
+                type='button'
+                onClick={(e) => resetForm(e)}
+              >
                 <FontAwesomeIcon icon={faEraser} />
                 {'  Borrar'}
               </button>
             </div>
           </form>
         </>
-      }
+      )}
       {loading && <Loading />}
     </div>
   );
 }
-
-
 
 const mapStateToProps = (state) => ({
   session: state.session,

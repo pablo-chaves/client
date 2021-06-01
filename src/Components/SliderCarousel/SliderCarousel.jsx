@@ -10,17 +10,17 @@ import {
   image,
 } from './SliderCarousel.module.css';
 
-
 const SliderCarousel = ({ elementsContainer }) => {
-
   const [current, setCurrent] = useState(0);
   let photo = [];
-  if (typeof elementsContainer[0] === 'string') {
+  if (
+    typeof elementsContainer[0] === 'string' ||
+    elementsContainer.length === 0
+  ) {
     photo = elementsContainer;
   } else {
     photo = elementsContainer[0].photo;
   }
- 
 
   const elementsLength = photo.length;
 

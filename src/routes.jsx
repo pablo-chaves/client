@@ -19,6 +19,7 @@ import ProgressBar from './Pages/NewPost/ProgressBar';
 import ProtectedRoute from './Components/Auth0/ProtectedRoute/ProtectedRoute';
 import Successful from './Pages/Successful/Successful'
 import Render from './Components/GoogleMaps/FormMap';
+import Landing from './Pages/Landing/Landing'
 
 export default function MyHouseRoutes() {
   // React state to know if display mobile menu
@@ -33,15 +34,13 @@ export default function MyHouseRoutes() {
         <SideMenu mobile={mobile} isMobile={isMobile} />
         <NavBar isMobile={isMobile}/>
         <Switch>
+          <Route exact path="/" component={Landing}/>
           <Route path="/maps" component={Render}/>
-          <Route path="/home" component={Home} />
+          <Route path="/home" render={() => <Home mobile={mobile} />} />
           <Route
             exact path="/post/:id"
             render={(routerPops) => <Details routerProps={routerPops} />}
           />
-          <Route exact path="/">
-            <Redirect to="/home" />
-          </Route>
           <ProtectedRoute
             exact path='/create'
             component={(routerProps) => (

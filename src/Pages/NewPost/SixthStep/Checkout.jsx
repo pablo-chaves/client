@@ -68,9 +68,7 @@ function PostDetails() {
                 <GoogleMap
                   lat={postDetails.latitude}
                   lng={postDetails.longitude}
-                  allowAddress={
-                    postDetails.allowAddress ? postDetails.allowAddress : true
-                  }
+                  allowAddress={postDetails.allowAddress}                 
                   mapElement={
                     <div style={{ height: `350px`, width: '600px' }} />
                   }

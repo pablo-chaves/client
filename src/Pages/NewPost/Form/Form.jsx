@@ -42,22 +42,23 @@ const Form = ({ config }) => {
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      {config.map((conponentConfig) => (
+      {config.map((componentConfig) => (
         <React.Fragment>
-          <label htmlFor={conponentConfig.name}>{conponentConfig.label}</label>
+          <label htmlFor={componentConfig.name}>{componentConfig.label}</label>
           <Controller
-            name={conponentConfig.name}
+            name={componentConfig.name}
             control={control}
-            rules={{ required: conponentConfig.type !== 'checkbox' }}
+            defaultValue={postDetails[componentConfig.name]}
+            rules={{ required: componentConfig.type !== 'checkbox' }}
             render={({ field }) => {
-              return InputComponents[conponentConfig.tag](
+              return InputComponents[componentConfig.tag](
                 field,
-                conponentConfig,
+                componentConfig
               );
             }}
           />
 
-          {errors[conponentConfig.name] && <span>This field is required</span>}
+          {errors[componentConfig.name] && <span>This field is required</span>}
         </React.Fragment>
       ))}
 

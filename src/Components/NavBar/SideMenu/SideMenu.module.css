@@ -18,12 +18,12 @@
     }
 
     .nav {
-        opacity: 0;
+        visibility: hidden;
         top: -100;
     }
 
     .mob{
-        opacity: '100%'; 
+        visibility: visible;
         top: 0;
     }
 
@@ -48,13 +48,12 @@
     
     .link {
         display: flex;
-        align-items: flex-end;
-        justify-content: center;
+        align-items: flex-start;
+        justify-content: flex-start;
         font-size: 1.8rem;
         transition: 0.2s ease-in-out;
         text-decoration: none;
         cursor: pointer;
-        font-family: 'Lato', sans-serif;
         color: var(--white);
         list-style: none;
     }

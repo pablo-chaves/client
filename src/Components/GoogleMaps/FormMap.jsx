@@ -11,7 +11,7 @@ Geocode.setApiKey(apiKey);
 Geocode.enableDebug();
 
 class LocationSearchModal extends React.Component {
-
+    
     state = {
         street_number: this.props.location.street_number || '',
         city: this.props.location.city || '',
@@ -51,7 +51,7 @@ class LocationSearchModal extends React.Component {
                     lat: this.props.location.latitude, 
                     lng: this.props.location.longitude,
                 },
-                allowAddress: this.props.location.state,
+                allowAddress: this.props.location.allowAddress,
             })
         } else if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(position => {
@@ -303,6 +303,7 @@ class LocationSearchModal extends React.Component {
                 </Descriptions>
                 <label htmlFor="allowAddress">Prefiero ocultar mi ubicación</label>
                 <input type="checkbox" name="allowAddress"
+                    checked = {!this.state.allowAddress}
                     onClick={() => {
                         this.setState({ allowAddress: !this.state.allowAddress})
                     }} 

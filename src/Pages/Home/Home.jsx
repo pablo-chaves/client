@@ -7,8 +7,9 @@ import Order from '../../Components/Order/Order';
 import style from './Home.module.css';
 import Paginacion from '../../Components/Paginacion/Paginacion';
 import { getAvailableFilteredPropierties } from '../../Redux/Actions/index';
+import MobileFilter from '../../Components/Filter/MobileFilter';
 
-export default function Home() {
+export default function Home({ mobile }) {
   const limit = 10;
   const {
     count, currentPage: page,
@@ -34,6 +35,7 @@ export default function Home() {
               />
               )}
             </div>
+          <div className={style.mobileFilter}>< MobileFilter /></div>
           <div className={style.order}><Order /></div>  
         </div>
 

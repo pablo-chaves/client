@@ -1,3 +1,4 @@
+
 *{
   margin: 0;
   padding: 0;
@@ -23,6 +24,7 @@ body {
 
 :root {
   --blackShadow: #00000049;
+  --gray: #353535ce;
   --black: #060606;
   --dark: #0F1A28;
   --blue: #0578AC;
