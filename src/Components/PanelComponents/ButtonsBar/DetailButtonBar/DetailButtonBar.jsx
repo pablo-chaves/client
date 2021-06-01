@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import style from '../ButtonsBar.module.css';
-import '../../globalFilters.css';
 
 function DetailButtonBar({ rol, id, path, userId, deleteAction }) {
   return (

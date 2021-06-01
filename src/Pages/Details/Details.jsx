@@ -128,7 +128,7 @@ export default function Details({ routerProps }) {
                   <GoogleMap
                     lat={property.latitude}
                     lng={property.longitude}
-                    allowAddress={property.allowAddress ? property.allowAddress : true}
+                    allowAddress={property.allowAddress}
                     mapElement={
                       <div style={{ height: `350px`, width: '600px' }} />
                     }

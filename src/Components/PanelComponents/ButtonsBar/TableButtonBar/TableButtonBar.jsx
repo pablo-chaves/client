@@ -4,13 +4,12 @@ import {
   faPlus, faSlidersH, faArrowLeft,
 } from '@fortawesome/free-solid-svg-icons';
 import { NavLink } from 'react-router-dom';
-import Filter from '../Filter/Filter';
 import style from '../ButtonsBar.module.css';
-import '../../globalFilters.css';
+import FilterPosts from '../Filter/FilterPosts/FilterPosts';
 
 function openFilters() {
   //console.log('openFilter TableButtonBar')
-  document.getElementById('filters').className = 'openFilter';
+  document.getElementById('filtersSide').className = 'openFilter';
 }
 
 function TableButtonBar({ rol, path }) {  
@@ -37,7 +36,7 @@ function TableButtonBar({ rol, path }) {
           }
         </div>
       </div>
-      <Filter />
+      <FilterPosts />
     </div>
   );
 }

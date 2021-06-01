@@ -4,7 +4,7 @@ import { Steps, Button, message } from 'antd';
 import axios from 'axios';
 
 // import 'antd/dist/antd.css';
-// import './step.css';
+import './step.css';
 
 const { Step } = Steps;
 
