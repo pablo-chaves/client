@@ -10,6 +10,7 @@ import { getUserDataService, editUserService, addUserService } from '../../../..
 import Loading from '../../../Auth0/Loading/loading';
 import EditButtonBar from '../../ButtonsBar/EditButtonBar/EditButtonBar';
 import style from '../Edit.module.css';
+import Swal from 'sweetalert2';
 
 function EditUser({ session, id, action }) {
   const [input, setInput] = useState({})
@@ -75,24 +76,49 @@ function EditUser({ session, id, action }) {
       if (action === 'edit') {
         if (errors === '') {
           <Link to="/panel" />
-          return alert('No se han realizado modificaciones')
+          return Swal.fire({
+            position: 'top-end',
+            icon: 'info',
+            title: `No se han realizado modificaciones`,//'Your work has been saved',
+            showConfirmButton: false,
+            timer: 1500
+          })
         } else {
-          const resp = window.confirm(`¿Quieres editar al usuario ${input.name}?`)
-          if (resp) {
-            editUserService(id, input);
-            alert(`Usuario ${input.name} editado correctamente `);
-            history.push(`/panel/detail/user/${session.id}`);
-          }
+          return editUserService(id, input).then(  () => {
+            Swal.fire({
+              position: 'top-end',
+              icon: 'success',
+              title: `Usuario ${input.name} editado correctamente `,
+              showConfirmButton: false,
+              timer: 2000
+            })
+            // history.push(`/panel/detail/user/${session.id}`);
+          })
+          .catch(e=>console.log(e));
+          
         }
       } else if (action === 'create') {
         if (errors === '') {
-          return alert('Revisar campos requeridos')
+          // return alert('Revisar campos requeridos')
+          return Swal.fire({
+            position: 'top-end',
+            icon: 'warning',
+            title: `Revisar campos requeridos`,//'Your work has been saved',
+            showConfirmButton: false,
+            timer: 1500
+          })
         } else {
-          const resp = window.confirm(`¿Quieres agregar al usuario ${input.name}?`)
-          if (resp) {
-            addUserService(input);
-            alert(`Usuario ${input.name} agregado correctamente `);
-          }
+          return addUserService(id, input).then(  () => {
+            Swal.fire({
+              position: 'top-end',
+              icon: 'success',
+              title: `Usuario ${input.name} agregado correctamente `,
+              showConfirmButton: true,
+              // timer: 2000
+            })
+            // history.push(`/panel/detail/user/${session.id}`);
+          })
+          .catch(e=>console.log(e));
         }
       }
     }

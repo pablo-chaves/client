@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { getUserData, deleteBooking } from '../../../../Redux/Actions/index';
 import TablePage from '../../TablePage/TablePage';
 import TableButtonBar from '../../ButtonsBar/TableButtonBar/TableButtonBar';
+import { sendBookingEmailService } from '../../../../Services/booking.service';
 
 function BookingsOwner({
   panelUser, getUserData, match, deleteBooking,
@@ -29,6 +30,16 @@ function BookingsOwner({
     }));
     return data;
   };
+
+  function deleteAndUpdate(bookingId) {
+    try {
+      deleteBooking(bookingId);
+      sendBookingEmailService(bookingId);
+      getUserData(userId) 
+    } catch (error) {
+      console.error(error);
+    }
+  }
   return (
     <div>
       <TableButtonBar 
@@ -36,7 +47,7 @@ function BookingsOwner({
         path="booking"
       />
       <TablePage
-        deleteAction={deleteBooking}
+        deleteAction={(id)=>deleteAndUpdate(id)}
         tableName="owner bookings"
         columns={['Fecha', 'Publicación', 'Estado']}
         data={list()}
