@@ -1,7 +1,7 @@
 .ctn{
     display: flex;
     position: absolute;
-    left: 20%;
+    left: 25%;
     top: 30%;
     background-color: rgba(255, 246, 246, 0.75);
 	width: 800px;

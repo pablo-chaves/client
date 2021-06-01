@@ -56,25 +56,25 @@ const Landing = () => {
 		<div className={style.ContenedorPrincipal}>
 			<div className={style.ContenedorSlideshow} ref={slideshow}>
                 <div className={style.Slide} >
-                    <img src={img1} alt=""/>
+                    <img src={img1} alt="image1"/>
                 </div>
                 <div className={style.Slide} >
-                    <img src={img2} alt=""/>
+                    <img src={img2} alt="image2"/>
                 </div>
                 <div className={style.Slide} >
-                    <img src={img3} alt=""/>
+                    <img src={img3} alt="image3"/>
                 </div>
                 <div className={style.Slide} >
-                    <img src={img4} alt=""/>
+                    <img src={img4} alt="image4"/>
                 </div>
                 <div className={style.Slide} >
-                    <img src={img5} alt=""/>
+                    <img src={img5} alt="image5"/>
                 </div>
                 <div className={style.Slide} >
-                    <img src={img6} alt=""/>
+                    <img src={img6} alt="image6"/>
                 </div>
                 <div className={style.Slide} >
-                    <img src={img7} alt=""/>
+                    <img src={img7} alt="image7"/>
                 </div>             
             </div>
             </div>
