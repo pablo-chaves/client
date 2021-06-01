@@ -119,14 +119,24 @@ function EditPosts({ id, action, session, location, addLocation }) {
       })
     );
   }
+  function onClickDelete(imageToDelete) {
+    let photos;
+    let imagesContainer = input.images;
+    if (typeof imagesContainer[0] === 'string') {
+      photos = imagesContainer;
+    } else {
+      const [imagesObj] = imagesContainer;
+      photos = imagesObj.photo;
+    }
+    const newImagesSet = photos.filter((image) => image !== imageToDelete);
+    const newInput = { ...input, images: newImagesSet };
+    setInput(newInput);
+  }
 
   function onChangeImage(newIamges) {
+    //verificar el numero de fotos
     const newInput = { ...input, images: newIamges };
     setInput(newInput);
-    console.log(
-      '🚀 ~ file: EditPost.jsx ~ line 126 ~ onChangeImage ~ newInput',
-      newInput
-    );
   }
 
   function handleSubmit(e) {
@@ -359,9 +369,9 @@ function EditPosts({ id, action, session, location, addLocation }) {
               />
             </div>
 
-            {/* aqui van las fotos */}
             <EditPhotoUploader
               imagesContainer={input.images}
+              onClickDelete={onClickDelete}
               onChangeImage={onChangeImage}
             />
             <div className={style.field} onClick={() => setDisplay(!display)}>

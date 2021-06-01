@@ -1,7 +1,10 @@
-import { useState, useEffect } from 'react';
 import styles from '../PhotoUploader/PhotoUploader.module.css';
 
-const EditPhotoUploader = ({ imagesContainer, onChangeImage }) => {
+const EditPhotoUploader = ({
+  imagesContainer,
+  onChangeImage,
+  onClickDelete,
+}) => {
   let photos;
   if (typeof imagesContainer[0] === 'string') {
     photos = imagesContainer;
@@ -16,7 +19,8 @@ const EditPhotoUploader = ({ imagesContainer, onChangeImage }) => {
     const newFile = await Promise.all(
       [...files].map((image) => getBase64(image))
     );
-    onChangeImage(newFile);
+    const newImages = [...photos, ...newFile];
+    onChangeImage(newImages);
     target.value = '';
   };
 
@@ -29,7 +33,7 @@ const EditPhotoUploader = ({ imagesContainer, onChangeImage }) => {
             return (
               <img
                 key={key}
-                // onClick={() => onClickDelete(image)}
+                onClick={() => onClickDelete(image)}
                 className={styles.image}
                 src={image}
               />
