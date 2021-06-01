@@ -10,6 +10,7 @@ import { getUserDataService } from '../../Services/user.service';
 import { addBookingService, sendBookingEmailService } from '../../Services/booking.service';
 import styles from './Details.module.css';
 import GoogleMap from '../../Components/GoogleMaps/GoogleMap';
+import Share from '../../Components/Share/Share';
 
 export default function Details({ routerProps }) {
   const { id } = routerProps.match.params;
@@ -106,6 +107,7 @@ export default function Details({ routerProps }) {
                   </p>
                 </div>
               </div>
+              <Share />
             </article>
             <article className={styles.hero_carousel}>
               <div className={styles.photo_gallery}>

@@ -31,14 +31,15 @@ function FilterPosts() {
     elevator: false,
     security: false,
     garden: false,
+    status: '',
   };
   
   const [queryBlock, setQueryBlock] = useState(initialState);
-
-  const [display, setDisplay] = useState(false);
   
+  const [display, setDisplay] = useState(false);
+
   function handlerQueryBlock(event) {
-    setQueryBlock({ 
+    setQueryBlock({
       ...queryBlock,
       [event.target.name]: event.target.value,
     });
@@ -55,7 +56,7 @@ function FilterPosts() {
       if (queryBlock[keysQueryBlock[i]]) {
         params.set(key, queryBlock[key]);
         updatePath(params);
-      } else  {
+      } else {
         params.delete(key);
         updatePath(params);
       }
@@ -63,8 +64,8 @@ function FilterPosts() {
 
   }
   useEffect(() => {
-    for(var key of params.keys()) {
-        queryBlock[key] = params.get(key);
+    for (var key of params.keys()) {
+      queryBlock[key] = params.get(key);
     }
     setQueryBlock({ ...queryBlock });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -103,6 +104,14 @@ function FilterPosts() {
               <FontAwesomeIcon icon={faChevronCircleRight} />
               {'Close Filters '}
             </button>
+
+            {/* Status */}
+            <div className={style.field}>
+              <select className={style.selectFilter} name="status" value={queryBlock.status} onChange={handlerQueryBlock}>
+                {['Available', 'Not-Available', 'Expired'].map((type, i) => (<option key={i} value={type}>{type}</option>))}
+              </select>
+            </div>
+
             {/* Post name */}
             <div className={style.field}>
                 <label>
@@ -117,6 +126,7 @@ function FilterPosts() {
                   onChange={handlerQueryBlock}
                 />
               </div>
+
               {/* City */}
               <div className={style.field}>
                 <label>
