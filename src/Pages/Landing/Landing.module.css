@@ -1,0 +1,28 @@
+.ContenedorPrincipal {
+    display: flex;
+	position: relative;
+    overflow: hidden;
+    justify-content: center;
+    align-content: center;
+}
+
+.ContenedorSlideshow {
+	display: flex;
+	flex-wrap: nowrap;
+}
+
+.Slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: .3s ease all;
+    min-width: 100%;
+    height: auto;
+	position: relative;
+    max-height: 100vh;
+}
+
+.Slide img {
+    width: 100%;    
+    opacity: 80%;
+}
