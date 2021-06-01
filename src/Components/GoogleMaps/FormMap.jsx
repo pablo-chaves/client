@@ -11,7 +11,7 @@ Geocode.setApiKey(apiKey);
 Geocode.enableDebug();
 
 class LocationSearchModal extends React.Component {
-
+    
     state = {
         street_number: this.props.location.street_number || '',
         city: this.props.location.city || '',
