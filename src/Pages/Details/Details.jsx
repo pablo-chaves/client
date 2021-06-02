@@ -11,6 +11,7 @@ import { addBookingService, sendBookingEmailService } from '../../Services/booki
 import styles from './Details.module.css';
 import GoogleMap from '../../Components/GoogleMaps/GoogleMap';
 import Share from '../../Components/Share/Share';
+import Swal from 'sweetalert2';
 
 export default function Details({ routerProps }) {
   const { id } = routerProps.match.params;
@@ -45,14 +46,22 @@ export default function Details({ routerProps }) {
 
   async function handleReservar(e) {
     if (wasBooking) {
-      alert('I had already booked it.')
+      Swal.fire({
+        icon: 'warning',
+        title: 'Ya lo has reservado!',
+        showConfirmButton: true,
+      })
       document.getElementById("label-message").style.color = "red";
       document.getElementById("label-message").style.fontWeight = "bold";
       return;
     }
 
     if (!session.id) {
-      alert('Login is required to get a booking.');
+      Swal.fire({
+        icon: 'warning',
+        title: 'Debe iniciar sesión para hacer una reserva!',
+        showConfirmButton: true,
+      })
       return;// redirigir a login?
     }
     const booking = {
@@ -62,9 +71,18 @@ export default function Details({ routerProps }) {
     }
     try {
       const respuesta = await addBookingService(booking);
-      await sendBookingEmailService(respuesta.data.booking.id);
-      alert('Your booking was successfully created!');
+      // await sendBookingEmailService(respuesta.data.booking.id);
+      // alert('Your booking was successfully created!');
+      await sendBookingEmailService(respuesta.data.booking.id)
+      Swal.fire({
+        icon: 'success',
+        title: 'Su reserva ha sido creada exitosamente!',
+        showConfirmButton: true,
+      })
+
+
       setWasBooking(true);
+
     } catch (error) {
       console.log('respuesta: ', error.message);
     }

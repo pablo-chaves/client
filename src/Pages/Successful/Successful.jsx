@@ -12,6 +12,7 @@ import {
   sendPaymentEmail,
 } from '../../Services/properties.service';
 import style from './Successful.module.css';
+import Swal from 'sweetalert2';
 
 const Successful = () => {
   const { REACT_APP_API_BASE_ENDPOINT } = process.env;
@@ -89,13 +90,26 @@ const Successful = () => {
   }, [session]);
 
   const handlerClick = () => {
-      const resp = window.confirm(
-        `¿Quieres enviar detalles de la publicación al siguiente correo: ${session.email}?`
-      );
-      if (resp) {
+    // sweetalert
+    Swal.fire({
+      // title: `Estás seguro?`,
+      text: `¿Quieres enviar detalles de la publicación al siguiente correo: ${session.email}?`,
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, enviar',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.isConfirmed) {
         sendPaymentEmail(post);
-          alert('Correo enviado correctamente')
+        Swal.fire(
+          'Enviado!',
+          `Correo enviado correctamente`,
+          'success'
+        )
       }
+    })
   }
 
   return (
