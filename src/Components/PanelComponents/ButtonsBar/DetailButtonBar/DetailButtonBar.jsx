@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import style from '../ButtonsBar.module.css';
 import Swal from 'sweetalert2';
 
-function DetailButtonBar({ rol, id, path, userId, deleteAction }) {
+function DetailButtonBar({ rol, id, postOwnerId, path, userId, deleteAction }) {
   let diccionario = {
     posts: 'publicación',
     bookings: 'reserva'
@@ -22,14 +22,16 @@ function DetailButtonBar({ rol, id, path, userId, deleteAction }) {
             {' Panel'}
           </label>
         </Link>
+        {(postOwnerId===userId || !postOwnerId) &&
+          /* si no soy el dueño de la publicación no puedo editarla ni eliminarla 
+          userId es el de la sesión, id puede ser un booking o post o user
+          */
         <div className={style.btnCtn}>
           {id !== userId &&
             <button type="button" className={style.btnBar} onClick={() => {
-              // const resp = window.confirm(`¿Quieres eliminar ${path} con id ${id}?`)
-              // if (resp) deleteAction(id, userId);
               Swal.fire({
                 title: 'Estas seguro?',
-                text: 'No podras revertir esto!',
+                text: 'Se notificará a todos los interesados sobre esta acción',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -38,7 +40,6 @@ function DetailButtonBar({ rol, id, path, userId, deleteAction }) {
                 cancelButtonText: 'Cancelar',
               }).then((result) => {
                 if (result.isConfirmed) {
-                  console.log('eliminando...');
                   deleteAction(id, userId);
                   Swal.fire(
                     'Eliminado!',
@@ -56,6 +57,7 @@ function DetailButtonBar({ rol, id, path, userId, deleteAction }) {
             {' Editar'}
           </Link>
         </div>
+        }
       </div>
     </div>
   );

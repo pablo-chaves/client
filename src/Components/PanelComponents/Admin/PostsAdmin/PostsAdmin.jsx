@@ -21,8 +21,6 @@ function PostsAdmin({
     render, count, currentPage,
   } = panelAdmin;
   const { posts } = render;
-  // esta publicacion no tiene dueño 5447c567-cd6e-437f-a1be-d4da07bec36c
-  // salta un error
   const list = () => {
     const data = [];
     posts?.forEach((e) => {
@@ -49,7 +47,7 @@ function PostsAdmin({
       }
       await getAdminData(userId);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
   return (

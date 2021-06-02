@@ -19,6 +19,7 @@ import EditButtonBar from '../../ButtonsBar/EditButtonBar/EditButtonBar';
 import FormMap from '../../../GoogleMaps/FormMap';
 import style from '../Edit.module.css';
 import EditPhotoUploader from '../../../EditPhotoUploader/EditPhotoUploarder';
+import Swal from 'sweetalert2';
 
 function EditPosts({ id, action, session, location, addLocation }) {
   const [input, setInput] = useState({});
@@ -142,32 +143,52 @@ function EditPosts({ id, action, session, location, addLocation }) {
   function handleSubmit(e) {
     e.preventDefault();
     if (Object.entries(errors).length > 0) {
-      return alert('Revisar campos requeridos');
+      return Swal.fire({
+        position: 'top-end',
+        icon: 'warning',
+        title: 'Revisar campos requeridos',
+        showConfirmButton: false,
+        timer: 1500
+      })
     } else {
       if (action === 'edit') {
         if (errors === '') {
           <Link to='/panel' />;
-          return alert('No se han realizado modificaciones');
+          return Swal.fire({
+            icon: 'info',
+            title: `No se han realizado modificaciones`,
+            showConfirmButton: false,
+            timer: 1500
+          })
         } else {
-          const resp = window.confirm(
-            `¿Quieres editar la publicación ${input.post_name}?`
-          );
-          if (resp) {
-            editPostService(id, input);
-            alert(`Publicación '${input.post_name}' editada correctamente `);
-          }
+          return editPostService(id, input).then(  () => {
+            Swal.fire({
+              icon: 'success',
+              title: `Publicación ${input.post_name} editado correctamente `,
+              showConfirmButton: true,
+              // timer: 2000
+            })
+          })
+          .catch(e=>console.log(e));
         }
       } else if (action === 'create') {
         if (errors === '') {
-          return alert('Revisar campos requeridos');
+          return Swal.fire({
+            icon: 'warning',
+            title: 'Revisar campos requeridos',
+            showConfirmButton: false,
+            timer: 1500
+          })
         } else {
-          const resp = window.confirm(
-            `¿Quieres crear la publicación ${input.post_name}?`
-          );
-          if (resp) {
-            addPostService(input);
-            alert(`Publicación '${input.post_name}' creada correctamente `);
-          }
+          return addPostService(input).then(  () => {
+            Swal.fire({
+              icon: 'success',
+              title: `Publicación ${input.post_name} creada correctamente `,
+              showConfirmButton: true,
+              // timer: 2000
+            })
+          })
+          .catch(e=>console.log(e));
         }
       }
     }

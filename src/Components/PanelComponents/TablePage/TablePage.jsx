@@ -11,7 +11,7 @@ function TablePage({
   buttonPath,
   path,
 }) {
-  // console.log('data.link: ', data[0].link)
+
   return (
     <>
       <h3 className={style.title}>{tableName}</h3>

@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable no-shadow */
 import React, { useEffect, useState } from 'react';
-import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -17,7 +17,7 @@ function EditUser({ session, id, action }) {
   const [userDetail, setUserDetail] = useState({});
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState('');
-  let history = useHistory();
+  // let history = useHistory();
   const isAdmin = session.type === 'Admin' || session.type === 'SuperAdmin';
 
   useEffect(() => {
@@ -71,26 +71,29 @@ function EditUser({ session, id, action }) {
   function handleSubmit(e) {
     e.preventDefault();
     if (Object.entries(errors).length > 0) {
-      return alert('Revisar campos requeridos')
+      return Swal.fire({
+        icon: 'warning',
+        title: 'Revisar campos requeridos',
+        showConfirmButton: false,
+        timer: 1500
+      })
     } else {
       if (action === 'edit') {
         if (errors === '') {
           <Link to="/panel" />
           return Swal.fire({
-            position: 'top-end',
             icon: 'info',
-            title: `No se han realizado modificaciones`,//'Your work has been saved',
+            title: `No se han realizado modificaciones`,
             showConfirmButton: false,
             timer: 1500
           })
         } else {
           return editUserService(id, input).then(  () => {
             Swal.fire({
-              position: 'top-end',
               icon: 'success',
               title: `Usuario ${input.name} editado correctamente `,
-              showConfirmButton: false,
-              timer: 2000
+              showConfirmButton: true,
+              // timer: 2000
             })
             // history.push(`/panel/detail/user/${session.id}`);
           })
@@ -99,24 +102,19 @@ function EditUser({ session, id, action }) {
         }
       } else if (action === 'create') {
         if (errors === '') {
-          // return alert('Revisar campos requeridos')
           return Swal.fire({
-            position: 'top-end',
             icon: 'warning',
-            title: `Revisar campos requeridos`,//'Your work has been saved',
+            title: `Revisar campos requeridos`,
             showConfirmButton: false,
             timer: 1500
           })
         } else {
           return addUserService(id, input).then(  () => {
             Swal.fire({
-              position: 'top-end',
               icon: 'success',
               title: `Usuario ${input.name} agregado correctamente `,
               showConfirmButton: true,
-              // timer: 2000
             })
-            // history.push(`/panel/detail/user/${session.id}`);
           })
           .catch(e=>console.log(e));
         }

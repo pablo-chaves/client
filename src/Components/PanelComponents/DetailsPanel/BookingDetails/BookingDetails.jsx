@@ -6,17 +6,15 @@ import Logo from '../../../../images/blue_slim/logoCirculo.png';
 export default function BookingDetails({ id }) {
   const [loading, setLoading] = useState(true);
   const [booking, setBooking] = useState({});
-  // console.log('id: ', id)
   
   useEffect(() => {
     getBookingService(id).then(
       res => {
-        // console.log('res.data', res.data.bookingSended || res.data.booking)
-        setBooking(res.data.bookingSended || res.data.booking);
+        setBooking( res.data.booking);
         setLoading(false);
       }
     )
-      .catch(e => console.log("Error: ", e.message))
+      .catch(e => console.error("Error: ", e.message))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

@@ -6,25 +6,22 @@ import TablePage from '../../TablePage/TablePage';
 import TableButtonBar from '../../ButtonsBar/TableButtonBar/TableButtonBar';
 import { getAllBookingByUserService, sendBookingEmailService } from '../../../../Services/booking.service';
 
-function Bookings({
-  panelUser, getUserData, match, deleteBooking,
-}) {
+function Bookings({ panelUser, getUserData, match, deleteBooking}) {
   const [visitDates, setVisitDates] = useState([])
   const { userId } = match.params;
+  const options = { year: "numeric", month: "short", day: "numeric", timeZone: "UTC" };
 
   useEffect(() => {
     getUserData(userId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  // const { visitDates } = panelUser.render;
+
   
   const list = () => {
     const data = [];
     visitDates?.forEach((e) => {
-      console.log('postId: ', e.postId)
-      console.log('visitDates: ', visitDates)
       data.push({
-        column1: e.date,
+        column1: new Date(e.date).toLocaleDateString("es-ES", options).toLocaleUpperCase().replace('.', ''),//e.date,
         displayLink: true,
         link: e.postId,
         column2: e.post.post_name,
@@ -36,11 +33,10 @@ function Bookings({
   };
 
   useEffect(() => {
-    console.log('hubo cambios');
     getAllBookingByUserService(userId).then(res=>{
       setVisitDates(res.data.bookings);
     })
-    .catch(e => console.log(e))
+    .catch(e => console.error(e))
   }, [panelUser]);
 
   function deleteAndUpdate(bookingId) {
@@ -60,7 +56,6 @@ function Bookings({
         path="booking"
       />
       <TablePage
-        // deleteAction={deleteBooking}
         deleteAction={(id)=>deleteAndUpdate(id)}
         tableName="bookings"
         columns={['Fecha', 'Publicación', 'Estado']}
