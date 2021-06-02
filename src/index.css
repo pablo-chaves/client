@@ -63,6 +63,8 @@ a {
 }
 
 .spinner {
+  position: absolute;
+  left: 30%;
   display: flex;
   justify-content: center;
   align-items: center;
