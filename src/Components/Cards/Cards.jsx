@@ -27,6 +27,7 @@ function Cards({ principalState, principal }) {
       m2={e.m2}
       id={e.id}
       premium={e.premium}
+      views={e.views}
     />
   ));
   return (
