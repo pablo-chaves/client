@@ -71,8 +71,6 @@ export default function Details({ routerProps }) {
     }
     try {
       const respuesta = await addBookingService(booking);
-      // await sendBookingEmailService(respuesta.data.booking.id);
-      // alert('Your booking was successfully created!');
       await sendBookingEmailService(respuesta.data.booking.id)
       Swal.fire({
         icon: 'success',
@@ -84,7 +82,7 @@ export default function Details({ routerProps }) {
       setWasBooking(true);
 
     } catch (error) {
-      console.log('respuesta: ', error.message);
+      console.error('respuesta: ', error.message);
     }
   }
 

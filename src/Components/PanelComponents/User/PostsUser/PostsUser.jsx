@@ -18,8 +18,6 @@ function PostsUser({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const list = () => {
-    
-    console.log('postsAvailable: ', postsAvailable)
     const data = [];
     postsAvailable.forEach((e) => {
       data.push({
@@ -45,7 +43,7 @@ function PostsUser({
       }
       await getUserData(userId);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 

@@ -36,21 +36,17 @@ function ButtonOptions({
           {' Editar'}
         </NavLink>
         <span className={style.NavLink} onClick={() => {
-          // const resp = window.confirm(`¿Quieres eliminar ${buttonPath} con id ${id}?`)
-          // if (resp) deleteAction(id, userId);
-          console.log('Location: ', window.location.pathname.split('/').slice(-1)[0]);
           Swal.fire({
-            title: 'Estas seguro?', // 'Are you sure?',
-            text: 'No podras revertir esto!', //"You won't be able to revert this!",
+            title: 'Estas seguro?',
+            text: 'Se notificará a todos los interesados sobre esta acción',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Si, eliminar',//'Yes, delete it!'
-            cancelButtonText: 'Cancelar',//'Yes, delete it!'
+            confirmButtonText: 'Si, eliminar',
+            cancelButtonText: 'Cancelar',
           }).then((result) => {
             if (result.isConfirmed) {
-              console.log('eliminando...');
               deleteAction(id, userId);
               Swal.fire(
                 'Eliminado!',

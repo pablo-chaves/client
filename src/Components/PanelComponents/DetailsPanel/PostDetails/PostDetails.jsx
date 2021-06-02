@@ -55,6 +55,7 @@ function PostDetails({ session, id }) {
       <DetailButtonBar
         rol={session.type}
         id={id}
+        postOwnerId={property.userId}
         path='post'
         userId={session.id}
         deleteAction={()=>deleteAndGet(id, session.id)}

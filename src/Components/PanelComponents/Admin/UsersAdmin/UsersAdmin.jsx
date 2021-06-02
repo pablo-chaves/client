@@ -19,7 +19,6 @@ function PostsAdmin({
     render, count, currentPage,
   } = panelAdmin;
   const { users } = render;
-  console.log(users)
   const list = () => {
     const data = [];
     users?.forEach((e) => {
@@ -35,8 +34,8 @@ function PostsAdmin({
     return data;
   };
   async function deleteAndGet(id, userId) {
-    await deleteUser(id)
-    await getAdminData(userId)
+    await deleteUser(id);
+    await getAdminData(userId);
   }
   return (
     <div>

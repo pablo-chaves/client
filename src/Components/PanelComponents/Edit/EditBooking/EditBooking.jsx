@@ -1,28 +1,27 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { useSelector } from 'react-redux';
-import { getBookingService, editBookingService } from '../../../../Services/booking.service'
+import { getBookingService, editBookingService, sendBookingEmailService } from '../../../../Services/booking.service'
 import styles from '../../DetailsPanel/BookingDetails/BookingDetails.module.css';
 import Logo from '../../../../images/blue_slim/logoCirculo.png';
 import EditButtonBar from '../../ButtonsBar/EditButtonBar/EditButtonBar';
 import Loading from '../../../Auth0/Loading/loading';
+import Swal from 'sweetalert2';
 
 export default function EditBooking({ id, action }) {
-  // path={path} action="edit" id={id}
   const { session } = useSelector(state => state);
   const [loading, setLoading] = useState(true);
   const [booking, setBooking] = useState({});
-  // console.log('id: ', id);
-  // console.log('action: ', action);
+  const [oldBookingStatus, setOldBookingStatus] = useState('')
 
   useEffect(() => {
     getBookingService(id).then(
       res => {
-        // console.log('res.data', res.data.bookingSended || res.data.booking)
-        setBooking(res.data.bookingSended || res.data.booking);
+        setBooking(res.data.booking);
+        setOldBookingStatus(res.data.booking.status);
         setLoading(false);
       }
     )
-      .catch(e => console.log("Error: ", e.message))
+      .catch(e => console.error("Error: ", e.message))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -39,9 +38,27 @@ export default function EditBooking({ id, action }) {
   }
 
   async function handleSubmit() {
-    // console.log('guardando...');
-    const respuesta = await editBookingService(id, booking);
-    if (respuesta.status===200) alert('Booking was updating');
+    if (oldBookingStatus===booking.status) {
+      return Swal.fire({
+        icon: 'info',
+        title: `No se han realizado modificaciones`,
+        timer: 1500
+      })
+    }
+    return editBookingService(id, booking).then(  () => {
+            Swal.fire({
+              icon: 'success',
+              title: `La reserva fue actualiada correctamente`,
+              text: `Se notificó a la contraparte sobre este cambio`,
+              showConfirmButton: true,
+              // timer: 2000
+            })
+          })
+          .then( ()=>{
+            // avisar a todos
+            sendBookingEmailService(id);
+          })
+          .catch(e=>console.error(e));
   }
 
   if (loading) {
