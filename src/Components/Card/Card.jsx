@@ -6,22 +6,30 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 // import { FaRegHeart } from 'react-icons/fa';
 import { RiVipCrownLine } from 'react-icons/ri';
-
 import style from './Card.module.css';
+import { addViewsService } from '../../Services/views.service';
 
 export default function Card({
-  image, postName, propType, neighborhood, description, price, rooms, bathrooms, m2, id, premium,
+  image, postName, propType, neighborhood, description, price, rooms, bathrooms, m2, id, premium, views
 }) {
+
+  async function contarVisita() {
+    try {
+      await addViewsService(id);
+    } catch (error) {
+      console.error(error);
+    }
+  }
   return (
     <div className={style.ctn}>
-      <div className={style.imgCtn}>
+      <div className={style.imgCtn} onClick={contarVisita}>
         <Link to={`/post/${id}`}>
           <img src={image} alt={`${propType} en ${neighborhood}`} className={style.img} loading='lazy'/>
         </Link>
       </div>
       <div className={style.texts}>
         <div className={style.propTitle}>
-          <div className={style.title}>
+          <div className={style.title} onClick={contarVisita}>
             <Link to={`/post/${id}`}>
               <h3>{postName}</h3>
             </Link>
@@ -64,6 +72,9 @@ export default function Card({
                     <FontAwesomeIcon icon={faRulerCombined} />
                   </span>
                 </p>
+              </div>
+              <div>
+                <sub>{views} visitas</sub>
               </div>
             </div>
           </div>
