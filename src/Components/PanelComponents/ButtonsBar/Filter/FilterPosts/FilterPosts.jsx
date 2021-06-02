@@ -123,7 +123,7 @@ function FilterPosts({ panel }) {
                   type="text"
                   name="post_name"
                   placeholder="Título"
-                  value={queryBlock.city}
+                  value={queryBlock.post_name}
                   onChange={handlerQueryBlock}
                 />
               </div>

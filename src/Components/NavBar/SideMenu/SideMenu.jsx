@@ -37,6 +37,7 @@ function SideMenu({ userInfo, getGoogleUser, userSession, mobile, isMobile }) {
             </div>
             <div className={style.opt}>
                 <NavLink to="/create" onClick={isMobile} className={style.link} activeClassName={style.active}>Publicar</NavLink>
+                <NavLink to="/home" className={style.link} activeClassName={style.active}>Home</NavLink>
                 {isAuthenticated && <NavLink to="/panel/user" onClick={isMobile} className={style.link} activeClassName={style.active}>Mi cuenta</NavLink>}
                 <span><AuthNav /></span>
             </div>
