@@ -11,6 +11,7 @@ import { addBookingService, sendBookingEmailService } from '../../Services/booki
 import styles from './Details.module.css';
 import GoogleMap from '../../Components/GoogleMaps/GoogleMap';
 import Share from '../../Components/Share/Share';
+import Swal from 'sweetalert2';
 
 export default function Details({ routerProps }) {
   const { id } = routerProps.match.params;
@@ -45,14 +46,22 @@ export default function Details({ routerProps }) {
 
   async function handleReservar(e) {
     if (wasBooking) {
-      alert('I had already booked it.')
+      Swal.fire({
+        icon: 'warning',
+        title: 'Ya lo has reservado!',
+        showConfirmButton: true,
+      })
       document.getElementById("label-message").style.color = "red";
       document.getElementById("label-message").style.fontWeight = "bold";
       return;
     }
 
     if (!session.id) {
-      alert('Login is required to get a booking.');
+      Swal.fire({
+        icon: 'warning',
+        title: 'Debe iniciar sesión para hacer una reserva!',
+        showConfirmButton: true,
+      })
       return;// redirigir a login?
     }
     const booking = {
@@ -62,11 +71,18 @@ export default function Details({ routerProps }) {
     }
     try {
       const respuesta = await addBookingService(booking);
-      await sendBookingEmailService(respuesta.data.booking.id);
-      alert('Your booking was successfully created!');
+      await sendBookingEmailService(respuesta.data.booking.id)
+      Swal.fire({
+        icon: 'success',
+        title: 'Su reserva ha sido creada exitosamente!',
+        showConfirmButton: true,
+      })
+
+
       setWasBooking(true);
+
     } catch (error) {
-      console.log('respuesta: ', error.message);
+      console.error('respuesta: ', error.message);
     }
   }
 
@@ -75,54 +91,80 @@ export default function Details({ routerProps }) {
       {!loading && (
         <main className={styles.container}>
           <section className={styles.title}>
-            <h1>{property.post_name}</h1>
-            <p>{property.prop_type}</p>
+            <div>
+              <h1>{property.post_name}</h1>
+              <p>{property.prop_type}</p>
+            </div>
+            <Share className={styles.share} />
           </section>
-          <section className={styles.photo_description}>
-            <article className={styles.address_detail}>
-              <div>
-                <h2>{`${property.department}, ${property.city}`}</h2>
-                <p>{property.neighborhood}</p>
-                <p>{`Stratum ${property.stratum}`}</p>
-                <p className={styles.price}>{`$${new Intl.NumberFormat('de-DE').format(property.price)}`}</p>
-                <p>{property.description}</p>
-                <div className={styles.details}>
-                  <p>
+          <article className={styles.hero_carousel}>
+            <div className={styles.photo_gallery}>
+            <SliderCarousel elementsContainer={property.images} />
+            </div>
+          </article>
+          <div className={styles.ctnDetails}>
+            <article className={styles.details}>
+              <div className={styles.divDetails}>
+                <section>
+                  <span className={styles.dicon}>
+                    <FontAwesomeIcon icon={faRulerCombined} />
+                  </span>
+                  {` ${property.m2} m²`}
+                </section>
+                <label>Área construida</label>
+              </div>
+              <div className={styles.divDetails2}>
+                <div>
+                  <section>
                     {property.rooms}
                     <span className={styles.dicon}>
-                      <FontAwesomeIcon icon={faBed} />
+                    <FontAwesomeIcon icon={faBed} />
                     </span>
-                  </p>
-                  <p>
-                    {property.bathrooms}
-                    <span className={styles.dicon}>
-                      <FontAwesomeIcon icon={faBath} />
-                    </span>
-                  </p>
-                  <p>
-                    {property.m2}
-                    <span className={styles.dicon}>
-                      <FontAwesomeIcon icon={faRulerCombined} />
-                    </span>
-                  </p>
+                  </section>
+                  <label>Habitaciones</label>
                 </div>
+                <div>
+                <section>
+                  {property.bathrooms}
+                  <span className={styles.dicon}>
+                  <FontAwesomeIcon icon={faBath} />
+                  </span>
+                </section>
+                <label>Baños</label>
               </div>
-              <Share />
-            </article>
-            <article className={styles.hero_carousel}>
-              <div className={styles.photo_gallery}>
-                <SliderCarousel elementsContainer={property.images} />
+              <div>
+                <section>
+                  {property.stratum}
+                </section>
+                <label>Estrato</label>
               </div>
-            </article>
+            </div>
+          </article>
+
+          <article className={styles.address_detail}>
+            <div>
+            <h2>{`${property.department}, ${property.city}`}</h2>
+            <p>{property.neighborhood}</p>
+            <p className={styles.price}>{`$${new Intl.NumberFormat('de-DE').format(property.price)}`}</p>
+            <p>{property.description}</p>
+            </div>
+          </article>
+          </div>
+          <div className={styles.divReservation}>
+            <div className={styles.divTitle}>
+              ¡Estoy Interesado!
+            </div>
             <article className={styles.tour_schedule}>
-              <div className={styles.details}>
-                <h3>Arrange you tour</h3>
+              <div className={styles.details2}>
+                <h3>Agenda tu cita</h3>
                 <label>{new Date().toLocaleDateString("es-ES")}</label>
-                {wasBooking && <label id='label-message' style={{ color: 'green' }}>You have already reserved it!</label>}
+                {wasBooking && <label id='label-message' style={{ color: 'green' }}>Ya lo has reservado!</label>}
                 <button type="submit" onClick={handleReservar}>Select</button>
               </div>
             </article>
-          </section>
+          </div>
+
+
           <section className={styles.map_facilities}>
             <article className={styles.map_container}>
               <div>
@@ -141,12 +183,13 @@ export default function Details({ routerProps }) {
                 }
               </div>
             </article>
+
             <article className={styles.facilities_container}>
-              <h3 className={styles.tit}>Facilities</h3>
+              <h3 className={styles.tit}>Instalaciones</h3>
               <div className={styles.facilities}>
                 {property.parking_lot && (
                   <div className={styles.facility}>
-                    PARKING LOT
+                    COCHERA
                     <span className={styles.icon}><FaCheck /></span>
                   </div>
                 )}
@@ -158,31 +201,31 @@ export default function Details({ routerProps }) {
                 )}
                 {property.elevator && (
                   <div className={styles.facility}>
-                    ELEVATOR
+                    ASCENSOR
                     <span className={styles.icon}><FaCheck /></span>
                   </div>
                 )}
                 {property.garden && (
                   <div className={styles.facility}>
-                    GARDEN
+                    JARDIN
                     <span className={styles.icon}><FaCheck /></span>
                   </div>
                 )}
                 {property.backyard && (
                   <div className={styles.facility}>
-                    BACKYARD
+                    PATIO
                     <span className={styles.icon}><FaCheck /></span>
                   </div>
                 )}
                 {property.private_security && (
                   <div className={styles.facility}>
-                    PRIVATE SECURITY
+                    SEGURIDAD
                     <span className={styles.icon}><FaCheck /></span>
                   </div>
                 )}
                 {property.pool && (
                   <div className={styles.facility}>
-                    SWIMMING POOL
+                    PISCINA
                     <span className={styles.icon}><FaCheck /></span>
                   </div>
                 )}
@@ -195,6 +238,7 @@ export default function Details({ routerProps }) {
               </div>
             </article>
           </section>
+
         </main>
       )}
       {loading && <div>Cargando...</div>}

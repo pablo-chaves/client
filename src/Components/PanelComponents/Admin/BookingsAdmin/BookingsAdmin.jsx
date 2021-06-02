@@ -6,6 +6,7 @@ import { deleteBooking, getAdminBookingsData } from '../../../../Redux/Actions/i
 import TableButtonBar from '../../ButtonsBar/TableButtonBar/TableButtonBar';
 import TablePage from '../../TablePage/TablePage';
 import Paginacion from '../../../Paginacion/Paginacion';
+import { sendBookingEmailService } from '../../../../Services/booking.service';
 
 function BookingsAdmin({
   session, panelAdmin, getAdminData, deleteBooking,
@@ -35,9 +36,10 @@ function BookingsAdmin({
     });
     return data;
   };
-  async function deleteAndGet(id, userId) {
-    await deleteBooking(id)
-    await getAdminData(userId)
+  async function deleteAndGet(bookingId, userId) {
+    await deleteBooking(bookingId);
+    await sendBookingEmailService(bookingId);
+    await getAdminData(userId);
   }
   return (
     <div>

@@ -1,9 +1,8 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faShareAlt } from '@fortawesome/free-solid-svg-icons';
 import { FaFacebookF, FaTwitter } from 'react-icons/fa';
 import { RiWhatsappFill } from "react-icons/ri";
+import { FiShare2 } from "react-icons/fi";
 import style from './Share.module.css';
 
 function Share () {
@@ -14,7 +13,7 @@ function Share () {
     <div className={style.ctn}>
       <input type="checkbox" id='123' className={style.checkbox} />
       <label htmlFor='123' className={style.button} title='Compartir'>
-        <FontAwesomeIcon icon={faShareAlt} />
+        <FiShare2 />
       </label>
       <div className={style.nav}>
         <a

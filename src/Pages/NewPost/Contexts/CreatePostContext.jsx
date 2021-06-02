@@ -48,7 +48,7 @@ const CreatePostProvider = ({ children, ...routerProps }) => {
       latitude: '',
       neighborhood: '',
       street_number: '',
-      allowAddress: '',
+      allowAddress: true,
       description: '',
       stratum: '',
       price: 0,

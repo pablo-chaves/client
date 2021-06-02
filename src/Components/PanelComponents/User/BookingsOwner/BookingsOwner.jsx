@@ -4,11 +4,12 @@ import { connect } from 'react-redux';
 import { getUserData, deleteBooking } from '../../../../Redux/Actions/index';
 import TablePage from '../../TablePage/TablePage';
 import TableButtonBar from '../../ButtonsBar/TableButtonBar/TableButtonBar';
+import { sendBookingEmailService } from '../../../../Services/booking.service';
 
-function BookingsOwner({
-  panelUser, getUserData, match, deleteBooking,
-}) {
+function BookingsOwner({ panelUser, getUserData, match, deleteBooking }) {
   const { userId } = match.params;
+  const options = { year: "numeric", month: "short", day: "numeric", timeZone: "UTC" };
+
   useEffect(() => {
     getUserData(userId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -19,7 +20,7 @@ function BookingsOwner({
     const data = [];
     posts?.map((p) => p.visitDates?.forEach((e) => {
       data.push({
-        column1: e.date,
+        column1: new Date(e.date).toLocaleDateString("es-ES", options).toLocaleUpperCase().replace('.', ''),//e.date,
         displayLink: true,
         link: p.postId,
         column2: p.post_name,
@@ -29,6 +30,16 @@ function BookingsOwner({
     }));
     return data;
   };
+
+  function deleteAndUpdate(bookingId) {
+    try {
+      deleteBooking(bookingId);
+      sendBookingEmailService(bookingId);
+      getUserData(userId) 
+    } catch (error) {
+      console.error(error);
+    }
+  }
   return (
     <div>
       <TableButtonBar 
@@ -36,7 +47,7 @@ function BookingsOwner({
         path="booking"
       />
       <TablePage
-        deleteAction={deleteBooking}
+        deleteAction={(id)=>deleteAndUpdate(id)}
         tableName="owner bookings"
         columns={['Fecha', 'Publicación', 'Estado']}
         data={list()}

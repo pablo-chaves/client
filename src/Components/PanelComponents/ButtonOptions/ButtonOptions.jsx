@@ -11,10 +11,15 @@ import {
   faTrashAlt,
 } from '@fortawesome/free-solid-svg-icons';
 import style from './ButtonOptions.module.css';
+import Swal from 'sweetalert2';
 
 function ButtonOptions({
   id, buttonPath, deleteAction, msg, userId
 }) {
+  let diccionario = {
+    posts:'publicación',
+    bookings:'reserva'
+ }
   return (
     <div className={style.ctn}>
       <input type="checkbox" id={id} className={style.checkbox} />
@@ -30,9 +35,29 @@ function ButtonOptions({
           <FontAwesomeIcon icon={faEdit} />
           {' Editar'}
         </NavLink>
-        <span className={style.NavLink} onClick={() => { 
-          const resp = window.confirm(`¿Quieres eliminar ${buttonPath} con id ${id}?`)
-          if(resp) deleteAction(id, userId);}}>
+        <span className={style.NavLink} onClick={() => {
+          Swal.fire({
+            title: 'Estas seguro?',
+            text: 'Se notificará a todos los interesados sobre esta acción',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, eliminar',
+            cancelButtonText: 'Cancelar',
+          }).then((result) => {
+            if (result.isConfirmed) {
+              deleteAction(id, userId);
+              Swal.fire(
+                'Eliminado!',
+                `Su ${diccionario[window.location.pathname.split('/').slice(-1)[0]]} ha sido eliminada`,//'Your file has been deleted.',
+                'success'
+              )
+            }
+          })
+
+        }}>
+
           <FontAwesomeIcon icon={faTrashAlt} />
           {' Eliminar'}
         </span>
