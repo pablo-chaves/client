@@ -11,7 +11,7 @@ function App() {
     return <Loading />;
   }
   return (
-    <div>
+    <div className='app'>
       <MyHouseRoutes />
     </div>
   );

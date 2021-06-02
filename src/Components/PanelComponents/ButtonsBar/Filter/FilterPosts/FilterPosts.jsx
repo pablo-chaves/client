@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import {  FaEraser } from 'react-icons/fa';
+import {  FaEraser, FaTimes } from 'react-icons/fa';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {  faChevronCircleRight } from '@fortawesome/free-solid-svg-icons';
 import { useHistory } from 'react-router-dom';
 import style from '../../../../Filter/Filter.module.css';
 import './FilterPosts.css';
 
-function FilterPosts() {
+function FilterPosts({ panel }) {
   const history = useHistory();
   const querystring = window.location.search;
   const params = new URLSearchParams(querystring);
@@ -100,17 +100,18 @@ function FilterPosts() {
       <div id="filtersSide" className='normal'>
         <div id='area' className={style.filter}>
           <form id="formm" className={style.form}>
-            <button type="button" className="back" onClick={closeFilters}>
-              <FontAwesomeIcon icon={faChevronCircleRight} />
-              {'Close Filters '}
-            </button>
+            <div className="ctnBack">
+              <button type="button" className="back" onClick={closeFilters}>
+                    <FaTimes/>
+              </button>
+            </div>
 
             {/* Status */}
-            <div className={style.field}>
+            {panel && <div className={style.field}>
               <select className={style.selectFilter} name="status" value={queryBlock.status} onChange={handlerQueryBlock}>
                 {['Available', 'Not-Available', 'Expired'].map((type, i) => (<option key={i} value={type}>{type}</option>))}
               </select>
-            </div>
+            </div>}
 
             {/* Post name */}
             <div className={style.field}>
@@ -226,7 +227,6 @@ function FilterPosts() {
               </div>
 
               {/* Stratum */}
-              {/* Hay que cambiarlo debería ser un input type number */}
               <div className={style.field}>
                 <label>
                   Estrato:&nbsp;

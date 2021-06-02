@@ -17,7 +17,7 @@ function DetailButtonBar({ rol, id, path, userId, deleteAction }) {
             {' Panel'}
           </label>
         </Link>
-        <div className={style.btnCtn}>
+       {/*  <div className={style.btnCtn}>
             {id !== userId && 
               <button type="button" className={style.btnBar} onClick={() => { 
                   const resp = window.confirm(`¿Quieres eliminar ${path} con id ${id}?`)
@@ -31,7 +31,7 @@ function DetailButtonBar({ rol, id, path, userId, deleteAction }) {
                 <FontAwesomeIcon icon={faEdit} />
                 {' Editar'}
             </Link>
-        </div>
+        </div> */}
       </div>
     </div>
   );

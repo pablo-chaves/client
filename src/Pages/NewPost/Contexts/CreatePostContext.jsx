@@ -41,7 +41,7 @@ const CreatePostProvider = ({ children, ...routerProps }) => {
       // orderId: external_reference,
       premium: infoPlan.title === 'Premium' ? true : false,
       post_name: '',
-      prop_type: '',
+      prop_type: 'Casa',
       department: '',
       city: '',
       longitude: '',
