@@ -18,7 +18,7 @@ const FourthStep = () => {
 
   return (
     <div className='ctn'>
-      <h1>Marca las facilidades que disponga tu inmueble </h1>
+      <h1 className='title'>Marca las facilidades que disponga tu inmueble </h1>
       <Form config={formInputsConfig} />
     </div>
   );

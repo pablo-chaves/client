@@ -5,6 +5,7 @@ import Autocomplete from 'react-google-autocomplete';
 import { Descriptions } from 'antd';
 import { connect } from 'react-redux';
 import { addLocation } from '../../Redux/Actions/index';
+import style from '../../Pages/NewPost/Form/Form.module.css'
 
 const apiKey = process.env.REACT_APP_GOOGLE_MAP_API;
 Geocode.setApiKey(apiKey);
@@ -13,6 +14,7 @@ Geocode.enableDebug();
 class LocationSearchModal extends React.Component {
     
     state = {
+        stratum: this.props.location.stratum || 0,
         street_number: this.props.location.street_number || '',
         city: this.props.location.city || '',
         department: this.props.location.department || '',
@@ -31,12 +33,14 @@ class LocationSearchModal extends React.Component {
         height: 400,
         allowAddress: this.props.location.allowAddress || true,
         confirmed: false,
+        errors: '',
     }
 
 
     componentDidMount() {
         if (Object.values(this.props.location).length > 0) {
             this.setState({
+                stratum: this.props.location.stratum || '',
                 street_number: this.props.location.street_number,
                 city: this.props.location.city,
                 department: this.props.location.department,
@@ -95,6 +99,12 @@ class LocationSearchModal extends React.Component {
             }
     };
 
+    validate = (state) => {
+        const errors = {};
+        if (!state.stratum) errors.stratum = 'El campo es requerido';
+        return errors;
+    }
+
     displayAddress = (e) => {
         e.preventDefault();
         this.setState({ allowAddress: !this.state.allowAddress})
@@ -146,6 +156,7 @@ class LocationSearchModal extends React.Component {
 
     onChange = (event) => {
         event.preventDefault();
+        this.setState({ errors: this.validate({ [event.target.name]: event.target.value })})
         this.setState({ [event.target.name]: event.target.value });
     };
 
@@ -222,101 +233,128 @@ class LocationSearchModal extends React.Component {
             withGoogleMap(
                 props => (
                     // For Auto complete Search Box 
-                    <>
-                    <Autocomplete
-                        style={{
-                            width: '100%',
-                            height: '40px',
-                            paddingLeft: '16px',
-                            marginTop: '2px',
-                            marginBottom: '2rem'
-                        }}
-                        onPlaceSelected={this.onPlaceSelected}
-                        options={{
-                            types: ["address"],
-                            componentRestrictions: { country: "co" },
-                        }}
-                    />
-                    <GoogleMap
-                        defaultZoom={this.state.zoom}
-                        defaultCenter={{ lat: this.state.mapPosition.lat, lng: this.state.mapPosition.lng }}
-                    >
+                    <div className={style.mapForm}>
 
-                         
-                        {/* InfoWindow on top of marker */}
-                        {/*Marker*/}
-                        {this.state.allowAddress === true && 
-                            <>
-                            <Marker
-                                google={this.props.google}
-                                name={'Marker name'}
-                                draggable={true}
-                                onDragEnd={this.onMarkerDragEnd}
-                                position={{ lat: this.state.markerPosition.lat, lng: this.state.markerPosition.lng }}
+                        <div className={style.autocomplete}>
+                            <Autocomplete
+                                style={{
+                                    display: 'block',
+                                    border: 'none',
+                                    padding: '10px',
+                                    fontSize: '1rem',
+                                    fontWeight: '300',
+                                    cursor: 'pointer',
+                                    background: 'transparent',
+                                    borderBottom: '2px solid rgba(255, 255, 255, .4)',
+                                    transition: 'all .3s ease-in-out',
+                                    color: 'var(--white)',
+                                    fontFamily: 'Poppins',
+                                    margin: '2% 0',
+                                    width: '100%',
+                                    height: '40px',
+                                    paddingLeft: '16px',
+                                }}
+                                onPlaceSelected={this.onPlaceSelected}
+                                options={{
+                                    types: ["address"],
+                                    componentRestrictions: { country: "co" },
+                                }}
                             />
-                                <InfoWindow
-                                    onClose={this.onInfoWindowClose}
-                                    position={{ lat: (this.state.markerPosition.lat + 0.0018), lng: this.state.markerPosition.lng }}
-                                >
-                                    <div>
-                                        <span style={{ padding: 0, margin: 0 }}>{this.state.street_number}</span>
-                                        <button onClick={this.confirmAddress}>Confirmar ubicación</button>
-                                    </div>
-                                </InfoWindow>
-                            <Marker />
-                            </>
-                        }
+                        </div>
+                        <GoogleMap
+                            defaultZoom={this.state.zoom}
+                            defaultCenter={{ lat: this.state.mapPosition.lat, lng: this.state.mapPosition.lng }}
+                        >
 
-                        {/* Circle */}
-                        {!this.state.allowAddress && 
-                            <>
-                                <Circle
+                            
+                            {/* InfoWindow on top of marker */}
+                            {/*Marker*/}
+                            {this.state.allowAddress === true && 
+                                <>
+                                <Marker
                                     google={this.props.google}
-                                    name={'Circle name'}
+                                    name={'Marker name'}
                                     draggable={true}
                                     onDragEnd={this.onMarkerDragEnd}
-                                    radius={400}
-                                    center={{ lat: this.state.markerPosition.lat, lng: this.state.markerPosition.lng }}
+                                    position={{ lat: this.state.markerPosition.lat, lng: this.state.markerPosition.lng }}
                                 />
-                                <InfoWindow
-                                    onClose={this.onInfoWindowClose}
-                                    position={{ lat: (this.state.markerPosition.lat + 0.0018), lng: this.state.markerPosition.lng }}
-                                >
-                                    <div style={{ padding: 0, margin: 0 }}>
-                                        <button onClick={this.confirmAddress}>Confirmar ubicación</button>
-                                    </div>
-                                </InfoWindow>   
-                            </>
-                        }
-                    </GoogleMap>
-                    </>
+                                    <InfoWindow
+                                        onClose={this.onInfoWindowClose}
+                                        position={{ lat: (this.state.markerPosition.lat + 0.0018), lng: this.state.markerPosition.lng }}
+                                    >
+                                        <div>
+                                            <span style={{ padding: 0, margin: 0 }}>{this.state.street_number}</span>
+                                        </div>
+                                    </InfoWindow>
+                                <Marker />
+                                </>
+                            }
+
+                            {/* Circle */}
+                            {!this.state.allowAddress && 
+                                <>
+                                    <Circle
+                                        google={this.props.google}
+                                        name={'Circle name'}
+                                        draggable={true}
+                                        onDragEnd={this.onMarkerDragEnd}
+                                        radius={400}
+                                        center={{ lat: this.state.markerPosition.lat, lng: this.state.markerPosition.lng }}
+                                    />
+                                </>
+                            }
+                        </GoogleMap>
+                    </div>
                 )
               )
 
         return (
             <div style={{ padding: '1rem', margin: '0 auto', maxWidth: 1000 }}>
-                <Descriptions bordered>
-                    <Descriptions.Item label="Ciudad">{this.state.city}</Descriptions.Item>
-                    <Descriptions.Item label="Departamento">{this.state.department}</Descriptions.Item>
-                    <Descriptions.Item label="Barrio">{this.state.neighborhood}</Descriptions.Item>
-                    <Descriptions.Item label="Dirección">{this.state.street_number}</Descriptions.Item>
-                </Descriptions>
-                <label htmlFor="allowAddress">Prefiero ocultar mi ubicación</label>
-                <input type="checkbox" name="allowAddress"
-                    checked = {!this.state.allowAddress}
-                    onClick={() => {
-                        this.setState({ allowAddress: !this.state.allowAddress})
-                    }} 
-                />
-
-                <AsyncMap                   
-                   mapElement={
-                       <div style={{ height: `100%` }} />
-                   }
-                    containerElement={
-                        <div style={{ height: this.state.height }} />
-                    }
-                />
+             <div className={style.col}>
+                <div className={style.field}>
+                    <label>Ciudad</label>
+                    <input disabled type='text' value={this.state.city} />
+                </div>
+                <div className={style.field}>
+                    <label>Departamento</label>
+                    <input disabled type='text' value={this.state.department} />
+                </div>
+                <div className={style.field}>
+                    <label>Barrio</label>
+                    <input disabled type='text' value={this.state.neighborhood} />
+                </div>
+                <div className={style.field}>
+                    <label>Dirección</label>
+                    <textarea disabled  type='text' value={this.state.street_number} />
+                </div>
+                <div className={style.field}>
+                    <label>Stratum</label>
+                    <input type='number' name="stratum" onChange={this.onChange} value={this.state.stratum} min="0" max="6" />
+                    {this.state.errors.stratum && ( <p className={style.pdanger}>{this.state.errors.stratum}</p>)}
+                </div>  
+             </div>
+            <div className={style.field}>
+                <label htmlFor="allowAddress">Prefiero ocultar mi ubicación
+                    <input type="checkbox" className={style.allowAddress} name="allowAddress"
+                        checked = {!this.state.allowAddress}
+                        onClick={() => {
+                            this.setState({ allowAddress: !this.state.allowAddress})
+                        }} 
+                    />
+                </label>
+            </div>
+            
+                <div className={style.ctnMap}>
+                    <AsyncMap                   
+                        mapElement={
+                            <div style={{ width: '100%', height: `100%` }} />
+                        }
+                        containerElement={
+                            <div style={{ height: this.state.height, margin: '5% 0' }} />
+                        }
+                    />
+                </div>
+                <button className={style.confirm} onClick={this.confirmAddress}>Confirmar ubicación</button>
             </div>
         )
     }

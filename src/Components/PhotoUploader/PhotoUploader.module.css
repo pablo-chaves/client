@@ -1,3 +1,7 @@
+.ctn {
+  margin: 7% 0;
+}
+
 .photo_uploader_container {
   width: 100%;
   display: flex;
@@ -22,8 +26,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: white;
-  border: rgb(51, 167, 206) dashed 0.2rem;
+  background-color: transparent;
+  border: var(--blue) dashed 0.4rem;
   width: 37.5rem;
   height: 18.75rem;
+}
+
+
+.container_field_image label {
+  position: absolute;
+  color: var(--white);
+  font-size: 1em;
 }

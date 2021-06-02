@@ -31,7 +31,6 @@ function MercadoPago() {
     <div className={style.ctn}>
       {!plans.length ? <h1>Cargando...</h1> : list}
     </div>
-
   );
 }
 

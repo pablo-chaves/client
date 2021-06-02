@@ -28,7 +28,7 @@ function TableButtonBar({ rol, path }) {
               <FontAwesomeIcon icon={faPlus} />
               {' Crear'}
             </NavLink>}
-          {path === 'post' && 
+          {(path === 'post' && rol ==='admin') && 
             <button type="button" className={style.btnBar} onClick={openFilters}>
             <FontAwesomeIcon icon={faSlidersH} />
             {' Filtrar'}
@@ -36,7 +36,7 @@ function TableButtonBar({ rol, path }) {
           }
         </div>
       </div>
-      <FilterPosts />
+      <FilterPosts panel={true}/>
     </div>
   );
 }

@@ -33,26 +33,31 @@
     display: flex;
 }
 
-.back {
-    background-color: var(--blue);
+.ctnBack{
+    border: 2px solid var(--blue);
+    background: var(--white);
+    cursor:  pointer;
+    border-radius: 15px;
+    transition: all 0.3s ease-in-out;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: flex-end;
 }
 
 .back {
+    background: transparent;
+    border: none;
     color: var(--blue);
     text-decoration: none;
     font-size: 0.8rem;
-    cursor:  pointer;
-    background: var(--white);
-    border-radius: 15px;
-    border: 2px solid var(--blue);
-    transition: all 0.3s ease-in-out;
     text-align: center;
     padding: 6px;
     font-family: 'Poppins';
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     width: 100%;
-    justify-content: space-between;
+    justify-content: flex-end;
 }
 .back:hover {
     background: var(--dark);
