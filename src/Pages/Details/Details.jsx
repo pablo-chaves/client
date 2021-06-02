@@ -123,7 +123,7 @@ export default function Details({ routerProps }) {
                     <FontAwesomeIcon icon={faBed} />
                     </span>
                   </section>
-                  <label>Habotaciones</label>
+                  <label>Habitaciones</label>
                 </div>
                 <div>
                 <section>
@@ -153,17 +153,17 @@ export default function Details({ routerProps }) {
           </article>
           </div>
           <div className={styles.divReservation}>
-          <div className={styles.divTitle}>
-            ¡Estoy Interesado!
-          </div>
-          <article className={styles.tour_schedule}>
-            <div className={styles.details2}>
-              <h3>Agenda tu cita</h3>
-              <label>{new Date().toLocaleDateString("es-ES")}</label>
-              {wasBooking && <label id='label-message' style={{ color: 'green' }}>You have already reserved it!</label>}
-              <button type="submit" onClick={handleReservar}>Select</button>
+            <div className={styles.divTitle}>
+              ¡Estoy Interesado!
             </div>
-          </article>
+            <article className={styles.tour_schedule}>
+              <div className={styles.details2}>
+                <h3>Agenda tu cita</h3>
+                <label>{new Date().toLocaleDateString("es-ES")}</label>
+                {wasBooking && <label id='label-message' style={{ color: 'green' }}>Ya lo has reservado!</label>}
+                <button type="submit" onClick={handleReservar}>Select</button>
+              </div>
+            </article>
           </div>
 
 
@@ -187,11 +187,11 @@ export default function Details({ routerProps }) {
             </article>
 
             <article className={styles.facilities_container}>
-              <h3 className={styles.tit}>Facilities</h3>
+              <h3 className={styles.tit}>Instalaciones</h3>
               <div className={styles.facilities}>
                 {property.parking_lot && (
                   <div className={styles.facility}>
-                    PARKING LOT
+                    COCHERA
                     <span className={styles.icon}><FaCheck /></span>
                   </div>
                 )}
@@ -203,31 +203,31 @@ export default function Details({ routerProps }) {
                 )}
                 {property.elevator && (
                   <div className={styles.facility}>
-                    ELEVATOR
+                    ASCENSOR
                     <span className={styles.icon}><FaCheck /></span>
                   </div>
                 )}
                 {property.garden && (
                   <div className={styles.facility}>
-                    GARDEN
+                    JARDIN
                     <span className={styles.icon}><FaCheck /></span>
                   </div>
                 )}
                 {property.backyard && (
                   <div className={styles.facility}>
-                    BACKYARD
+                    PATIO
                     <span className={styles.icon}><FaCheck /></span>
                   </div>
                 )}
                 {property.private_security && (
                   <div className={styles.facility}>
-                    PRIVATE SECURITY
+                    SEGURIDAD
                     <span className={styles.icon}><FaCheck /></span>
                   </div>
                 )}
                 {property.pool && (
                   <div className={styles.facility}>
-                    SWIMMING POOL
+                    PISCINA
                     <span className={styles.icon}><FaCheck /></span>
                   </div>
                 )}

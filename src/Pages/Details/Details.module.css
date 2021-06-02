@@ -3,7 +3,6 @@
   flex-wrap: wrap;
   margin: 4% 4%;
   width: 90%
-
 }
 .title {
   display: flex;
@@ -14,9 +13,6 @@
   width: 100%;
   border-bottom: 1px solid var(--blackShadow);
   margin-bottom: 5px;
-}
-.share:checked ~ .hero_carousel {
-  z-index: -1;
 }
 .hero_carousel {
   width: 100%;
@@ -41,12 +37,14 @@
   width: 50%;
   padding: 2% 5px 10px;
   text-align: center;
+  font-size: 90%;
 }
 .divDetails2 {
   display: flex;
   justify-content: space-between;
   width: 50%;
   padding: 1% 5% 1% 1%;
+  font-size: 90%;
 }
 .divDetails2 div {
     border-left: 1px solid var(--blackShadow);
@@ -81,6 +79,7 @@
   margin: 5px;
   background-color: var(--white);
   color: var(--light-blue);
+  border-radius: 25px;
 }
 .tour_schedule {
     margin: 5px;
@@ -96,8 +95,10 @@
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  text-align: center;
+  align-items: center;
+  justify-content: space-around;
   padding: 10px;
+  width: 80%;
 }
 .details2 button {
   border-radius: 20px;
@@ -109,31 +110,31 @@
   cursor: pointer;
   box-shadow: 1px 1px 4px 2px var(--blackShadow);
 }
-
-
-
-
-
-
-section.map_facilities {
+.map_facilities {
   display: flex;
-  justify-content: center;
-  height: 10%;
+  flex-wrap: wrap;
+  width: 100%;
+  min-height: 10%;
+  padding: 10px 0;
 }
-
-section.map_facilities > article {
+/* .map_facilities > article {
   width: 50%;
-}
+} */
 .map_container {
-  position: relative;
+  width: 70%;
+  /* position: relative; */
   overflow: hidden;
-  height: 50%;
-  margin: 4% auto;
+  /* height: 50%; */
+  margin: auto;
+  display: flex;
+  align-items: center;
+  border-right: 1px solid var(--blackShadow);
 }
 
 .facilities_container {
   text-align: center;
   margin: 4% auto;
+  width: 30%;
 }
 
 .facilities_container .tit{
@@ -143,13 +144,15 @@ section.map_facilities > article {
 }
 
 .facility{
-  width: 30%;
+  width: 50%;
   margin-bottom: 1rem;
+  text-align: left;
 }
 .facilities {
-  width: 80%;
+  width: 100%;
   margin: auto;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   flex-wrap: wrap;
 }
@@ -160,7 +163,68 @@ section.map_facilities > article {
 }
 
 article > img {
-  width: 100%;
+  /* width: 100%;
   border-radius: 5px;
-  height: 50%;
+  height: 50%; */
+}
+
+@media only screen and (max-width: 799px) {
+  .container {
+    width: 95%
+  }
+  .ctnDetails {
+    width: 100%;
+  }
+  .divReservation {
+    width: 100%;
+    height: 40vh;
+  }
+  .divTitle {
+    margin: 5px auto;
+    width: 70%;
+
+  }
+  .tour_schedule {
+      margin: 5px auto;
+      width: 70%;
+  }
+  .map_facilities {
+    flex-direction: column-reverse;
+  }
+  .map_container {
+    width: 100%;
+    padding-top: 10px;
+    border-top: 1px solid var(--blackShadow);
+  }
+  .facilities_container {
+    width: 90%;
+  }
+  .facility{
+    width: 30%;
+  }
+  .facilities {
+    flex-direction: row;
+  }
+
+
+}
+@media only screen and (max-width: 580px) {
+  .container {
+    width: 97%
+  }
+  .details {
+    flex-direction: column;
+  }
+  .divDetails {
+    width: 100%;
+  }
+  .divDetails2 {
+    justify-content: space-around;
+    width: 97%;
+    margin: auto;
+    border-top: 1px solid var(--blackShadow);
+  }
+  .divDetails2 div {
+      border-left: 0px;
+  }
 }
