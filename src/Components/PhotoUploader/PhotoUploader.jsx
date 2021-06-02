@@ -1,21 +1,40 @@
 import React, { useEffect, useState } from 'react';
 import useCreatePost from '../../Pages/NewPost/hooks/useCreatePost';
 import styles from './PhotoUploader.module.css';
-
+import { filesQuantityChecker, fileSizeChecker } from '../../utils';
+import Swal from 'sweetalert2';
 // Si tenemos tiempo, ver de no agregar imágenes repetidas
 
 const Uploader = () => {
   const {
     handleOnchangeImage,
     postDetails: { images },
+    infoPlan: { title },
   } = useCreatePost();
 
   const [filesList, setFilesList] = useState(images);
+  const imagesLimit = title === 'Basic' ? 10 : 20;
 
   const handlerOnChange = async (event) => {
     const { target } = event;
     let { files } = target;
 
+    const limit = imagesLimit;
+    const actual = images.length;
+
+    if (!filesQuantityChecker(files, limit, actual))
+      return Swal.fire({
+        icon: 'warning',
+        title: `Por revisa la cantidad de images a subir! recuerda que el limte es ${imagesLimit}`,
+        showConfirmButton: true,
+      });
+
+    if (fileSizeChecker(files))
+      return Swal.fire({
+        icon: 'warning',
+        title: 'Por favor carga images con una tamano de hasta 2mb!',
+        showConfirmButton: true,
+      });
     const newFile = await Promise.all(
       [...files].map((image) => getBase64(image))
     );
@@ -48,7 +67,7 @@ const Uploader = () => {
           })}
         </div>
         <div className={styles.container_field_image}>
-          <label style={{position:'absolute'}}> 
+          <label style={{ position: 'absolute' }}>
             {`Arrastre y suelte sus imagenes o haga click aqui para seleccionar`}
           </label>
           <input
