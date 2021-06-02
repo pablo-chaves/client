@@ -1,13 +1,21 @@
-import img1 from '../../images/landing/1.jpg';
-import img2 from '../../images/landing/2.jpg';
-import img3 from '../../images/landing/3.jpg';
-import img4 from '../../images/landing/4.jpg';
-import img5 from '../../images/landing/5.jpg';
-import img6 from '../../images/landing/6.jpg';
-import img7 from '../../images/landing/7.jpg';
+// import img1 from '../../images/landing/1.jpg';
+// import img2 from '../../images/landing/2.jpg';
+// import img3 from '../../images/landing/3.jpg';
+// import img4 from '../../images/landing/4.jpg';
+// import img5 from '../../images/landing/5.jpg';
+// import img6 from '../../images/landing/6.jpg';
+// import img7 from '../../images/landing/7.jpg';
 import React, {useRef, useEffect, useCallback} from 'react';
 import style from './Landing.module.css';
 import LandSearchBar from '../../Components/LandSearchBar/LandSearchBar';
+
+const img1 = 'https://res.cloudinary.com/my-house-app/image/upload/q_20/v1622643894/landing/1_fbvgn7.jpg';
+const img2 = 'https://res.cloudinary.com/my-house-app/image/upload/q_20/v1622643890/landing/2_cke4fm.jpg';
+const img3 = 'https://res.cloudinary.com/my-house-app/image/upload/q_20/v1622643893/landing/3_ghovm9.jpg';
+const img4 = 'https://res.cloudinary.com/my-house-app/image/upload/q_20/v1622643889/landing/4_kzoo4z.jpg';
+const img5 = 'https://res.cloudinary.com/my-house-app/image/upload/q_20/v1622643896/landing/5_pxev5b.jpg';
+const img6 = 'https://res.cloudinary.com/my-house-app/image/upload/q_20/v1622643895/landing/6_ezbq1k.jpg';
+const img7 = 'https://res.cloudinary.com/my-house-app/image/upload/q_20/v1622643894/landing/7_mbdtnd.jpg';
 
 const Landing = () => {
 	const slideshow = useRef(null);
