@@ -49,10 +49,10 @@ const Uploader = () => {
   };
   useEffect(() => {
     handleOnchangeImage(filesList);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filesList]);
   return (
-    <div className='ctn'>
-      <h1>Agrega imágenes de tu inmueble </h1>
+    <div className={styles.ctn}>
       <div>
         <div>
           {images.map((image, key) => {
@@ -62,12 +62,13 @@ const Uploader = () => {
                 onClick={() => onClickDelete(image)}
                 className={styles.image}
                 src={image}
+                alt='imagen'
               />
             );
           })}
         </div>
         <div className={styles.container_field_image}>
-          <label style={{ position: 'absolute' }}>
+          <label> 
             {`Arrastre y suelte sus imagenes o haga click aqui para seleccionar`}
           </label>
           <input

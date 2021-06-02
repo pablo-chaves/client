@@ -66,47 +66,68 @@ function PostDetails({ session, id }) {
             <h4>{property.status}</h4>
           </div>
           <section className={styles.title}>
-            <h1>{property.post_name}</h1>
-            <p>{property.prop_type}</p>
+            <div>
+              <h1>{property.post_name}</h1>
+              <p>{property.prop_type}</p>
+            </div>
           </section>
-          <section className={styles.photo_description}>
+          <article className={styles.hero_carousel}>
+            <div className={styles.photo_gallery}>
+              <SliderCarousel elementsContainer={property.images} />
+            </div>
+          </article>
+
+          <div className={styles.ctnDetails}>
+            <article className={styles.details}>
+              <div className={styles.divDetails}>
+                <section>
+                  <span className={styles.dicon}>
+                  <FontAwesomeIcon icon={faRulerCombined} />
+                  </span>
+                  {` ${property.m2} m²`}
+                </section>
+                <label>Área construida</label>
+              </div>
+              <div className={styles.divDetails2}>
+                <div>
+                  <section>
+                  {property.rooms}
+                  <span className={styles.dicon}>
+                  <FontAwesomeIcon icon={faBed} />
+                  </span>
+                  </section>
+                  <label>Habitaciones</label>
+                </div>
+                <div>
+                  <section>
+                  {property.bathrooms}
+                  <span className={styles.dicon}>
+                  <FontAwesomeIcon icon={faBath} />
+                  </span>
+                  </section>
+                  <label>Baños</label>
+                </div>
+                <div>
+                  <section>
+                    {property.stratum}
+                  </section>
+                  <label>Estrato</label>
+                </div>
+              </div>
+            </article>
+
             <article className={styles.address_detail}>
               <div>
                 <h2>{`${property.department}, ${property.city}`}</h2>
                 <p>{property.neighborhood}</p>
-                <p>{`Stratum ${property.stratum}`}</p>
                 <p className={styles.price}>{`$${new Intl.NumberFormat(
                   'de-DE'
                 ).format(property.price)}`}</p>
                 <p>{property.description}</p>
-                <div className={styles.details}>
-                  <p>
-                    {property.rooms}
-                    <span className={styles.dicon}>
-                      <FontAwesomeIcon icon={faBed} />
-                    </span>
-                  </p>
-                  <p>
-                    {property.bathrooms}
-                    <span className={styles.dicon}>
-                      <FontAwesomeIcon icon={faBath} />
-                    </span>
-                  </p>
-                  <p>
-                    {property.m2}
-                    <span className={styles.dicon}>
-                      <FontAwesomeIcon icon={faRulerCombined} />
-                    </span>
-                  </p>
-                </div>
               </div>
             </article>
-            <article className={styles.hero_carousel}>
-              <div className={styles.photo_gallery}>
-                <SliderCarousel elementsContainer={property.images} />
-              </div>
-            </article>
-          </section>
+          </div>
+
           <section className={styles.map_facilities}>
             <article className={styles.map_container}>
               <div>
@@ -130,7 +151,7 @@ function PostDetails({ session, id }) {
               <div className={styles.facilities}>
                 {property.parking_lot && (
                   <div className={styles.facility}>
-                    PARKING LOT
+                    COCHERA
                     <span className={styles.icon}>
                       <FaCheck />
                     </span>
@@ -146,7 +167,7 @@ function PostDetails({ session, id }) {
                 )}
                 {property.elevator && (
                   <div className={styles.facility}>
-                    ELEVATOR
+                    ASCENSOR
                     <span className={styles.icon}>
                       <FaCheck />
                     </span>
@@ -154,7 +175,7 @@ function PostDetails({ session, id }) {
                 )}
                 {property.garden && (
                   <div className={styles.facility}>
-                    GARDEN
+                    JARDIN
                     <span className={styles.icon}>
                       <FaCheck />
                     </span>
@@ -162,7 +183,7 @@ function PostDetails({ session, id }) {
                 )}
                 {property.backyard && (
                   <div className={styles.facility}>
-                    BACKYARD
+                    PATIO
                     <span className={styles.icon}>
                       <FaCheck />
                     </span>
@@ -170,7 +191,7 @@ function PostDetails({ session, id }) {
                 )}
                 {property.private_security && (
                   <div className={styles.facility}>
-                    PRIVATE SECURITY
+                    SEGURIDAD
                     <span className={styles.icon}>
                       <FaCheck />
                     </span>
@@ -178,7 +199,7 @@ function PostDetails({ session, id }) {
                 )}
                 {property.pool && (
                   <div className={styles.facility}>
-                    SWIMMING POOL
+                    PISCINA
                     <span className={styles.icon}>
                       <FaCheck />
                     </span>

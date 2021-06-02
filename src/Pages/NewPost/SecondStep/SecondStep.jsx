@@ -29,7 +29,7 @@ const SecondStep = () => {
 
   return (
     <div className='ctn'>
-      <h1>Cuéntanos sobre tu propiedad</h1>
+      <h1 className='title'>Cuéntanos sobre tu propiedad</h1>
       <Form config={formInputsConfig} />
     </div>
   );

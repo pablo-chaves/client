@@ -22,9 +22,13 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.app {
+  height: 100vh;
+}
+
 :root {
   --blackShadow: #00000049;
-  --gray: #353535ce;
+  --gray: ;
   --black: #060606;
   --dark: #0F1A28;
   --blue: #0578AC;
@@ -59,9 +63,12 @@ a {
 }
 
 .spinner {
+  position: absolute;
+  left: 30%;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 50%;
   height: 50%;
+  position: absolute;
 }

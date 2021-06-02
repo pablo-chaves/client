@@ -2,6 +2,7 @@ import React from 'react';
 import useCreatePost from '../hooks/useCreatePost';
 import { useForm, Controller } from 'react-hook-form';
 import NextButton from './NextButton';
+import style from './Form.module.css';
 
 const InputComponents = {
   textarea: (field, ...args) => <textarea {...field}></textarea>,
@@ -38,30 +39,34 @@ const Form = ({ config }) => {
 
   const onSubmit = (data) => {
     setPostDetails({ ...postDetails, ...data });
+    // console.log('current before next ',current)
+    let element = document.getElementById(current)
+    element.className = 'active';
     setCurrent(current + 1);
   };
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form className={style.form} onSubmit={handleSubmit(onSubmit)}>
       {config.map((componentConfig) => (
-        <React.Fragment>
-          <label htmlFor={componentConfig.name}>{componentConfig.label}</label>
-          <Controller
-            name={componentConfig.name}
-            control={control}
-            defaultValue={postDetails[componentConfig.name]}
-            rules={{ required: componentConfig.type !== 'checkbox' }}
-            render={({ field }) => {
-              return InputComponents[componentConfig.tag](
-                field,
-                componentConfig
-              );
-            }}
-          />
-
-          {errors[componentConfig.name] && <span>This field is required</span>}
-        </React.Fragment>
+        <div className={style.col}>
+          <div className={style.field}>
+            <label htmlFor={componentConfig.name}>{componentConfig.label}</label>
+            <Controller
+              name={componentConfig.name}
+              control={control}
+              defaultValue={postDetails[componentConfig.name]}
+              rules={{ required: componentConfig.type !== 'checkbox' }}
+              render={({ field }) => {
+                return InputComponents[componentConfig.tag](
+                  field,
+                  componentConfig
+                );
+              }}
+            />
+            {errors[componentConfig.name] && <span className={style.pdanger}>El campo es requerido</span>}
+          </div>
+        </div>
       ))}
-
       <NextButton />
     </form>
   );

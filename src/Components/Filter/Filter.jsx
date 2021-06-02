@@ -116,6 +116,21 @@ function Filter({
   return (
     <div className={style.filter}>
       <form id="form" className={style.form}>
+      {/* Post name */}
+      <div className={style.field}>
+        <label>
+          Título:&nbsp;
+        </label>
+        <input
+          className={style.inputFilter}
+          type="text"
+          name="post_name"
+          placeholder="Título"
+          value={queryBlock.post_name}
+          onChange={changeURL}
+        />
+      </div>
+
         {/* City */}
         <div className={style.field}>
           <label>
@@ -181,7 +196,12 @@ function Filter({
           <div className={style.buttons}>
             {['+1','+2','+3','+4','+5','+6'].map(
               (el, index) => 
-              <button class={ el === queryBlock.stratum ? `${style.btnFilter} ${style.btnFilterActive}` : style.btnFilter} key={index} name="rooms" onClick={(e) =>{e.preventDefault(); changeURL(e);}} value={el}>{el}</button>
+              <button class={ el === queryBlock.stratum ? `${style.btnFilter} ${style.btnFilterActive}` : style.btnFilter} key={index} name="rooms"
+              onClick={(e) =>{e.preventDefault(); changeURL(e);}} value={el[1]}
+              onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
+              >
+                {el}
+              </button>
             )}
           </div>
         </div>
@@ -194,7 +214,12 @@ function Filter({
           <div className={style.buttons}>
             {['+1','+2','+3','+4','+5','+6'].map(
               (el, index) => 
-                <button class={ el === queryBlock.stratum ? `${style.btnFilter} ${style.btnFilterActive}` : style.btnFilter} key={index} name="bathrooms" onClick={(e) =>{e.preventDefault(); changeURL(e);}} value={el}>{el}</button>
+                <button class={ el === queryBlock.stratum ? `${style.btnFilter} ${style.btnFilterActive}` : style.btnFilter} key={index} name="bathrooms"
+                onClick={(e) =>{e.preventDefault(); changeURL(e);}} value={el[1]}
+                onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
+                >
+                  {el}
+                </button>
             )}
           </div>
         </div>
@@ -216,7 +241,6 @@ function Filter({
         </div>
 
         {/* Stratum */}
-        {/* Hay que cambiarlo debería ser un input type number */}
         <div className={style.field}>
           <label>
             Estrato:&nbsp;
@@ -224,7 +248,12 @@ function Filter({
           <div className={style.buttons}>
             {[1,2,3,4,5,6].map(
               (el, index) => 
-                <button class={ el === queryBlock.stratum ? `${style.btnFilter} ${style.btnFilterActive}` : style.btnFilter} key={index} name="stratum" onClick={(e) =>{e.preventDefault(); changeURL(e);}} value={el}>{el}</button>
+                <button class={ el === queryBlock.stratum ? `${style.btnFilter} ${style.btnFilterActive}` : style.btnFilter} key={index} name="stratum"
+                onClick={(e) =>{e.preventDefault(); changeURL(e);}} value={el}
+                onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
+                >
+                  {el}
+                </button>
             )}
           </div>
         </div>

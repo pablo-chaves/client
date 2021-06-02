@@ -1,19 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import useCreatePost from './hooks/useCreatePost';
-import { Steps, Button, message } from 'antd';
 import axios from 'axios';
 
-// import 'antd/dist/antd.css';
 import './step.css';
 
-const { Step } = Steps;
 
 const ProgressBar = () => {
   const { postDetails, current, setCurrent, steps, infoPlan } = useCreatePost();
 
   const prev = () => {
     setCurrent(current - 1);
+    console.log('prev ', current)
+    let element = document.getElementById(current-1)
+    element.className = '';
   };
+
   //====================Mercadopago=======================================================
   const { REACT_APP_API_BASE_ENDPOINT } = process.env;
   function createCheckoutButton(preference) {
@@ -44,43 +45,30 @@ const ProgressBar = () => {
     }, [current, infoPlan]);
     //====================Mercadopago=======================================================
 
+
   return (
-    <div className='ctn'>
-      <Steps current={current}>
-        {steps.map((item) => (
-          <Step key={item.title} title={item.title} />
-        ))}
-      </Steps>
-      <div className='steps-content'>{steps[current].content}</div>
-      <div className='steps-action'>
-        {current === steps.length - 1 && (
-          <Button
-            type='primary'
-            id='buttonId'
-            // onClick={handlerClick}
-            // onClick={() => {
-            //   const resp = window.confirm(
-            //     `¿Quieres crear la publicación ${postDetails.post_name}?`
-            //   );
-            //   if (resp) {
-            //     addPostService(postDetails);
-            //     message.success(
-            //       `Tu publicación '${postDetails.post_name}' creada correctamente `
-            //     );
-            //     sendPaymentEmail(post);
-            //   }
-            //}}
-          >
-            Publicar
-          </Button>
-        )}
-        {current > 0 && (
-          <Button style={{ margin: '0 8px' }} onClick={() => prev()}>
-            Volver
-          </Button>
-        )}
+      <div className='step_form'>
+        <div className='steps-content'>
+          <ul className='progressbar'>
+            <span current={current}>
+              {steps.map((item, index) => (
+                <li key={item.title} id={index}>{item.title}</li>
+              ))}
+            </span>
+          </ul>
+          <div id='content'>{steps[current].content}</div>
+            {current === steps.length - 1 && (
+              <button type='button' id='buttonId'>
+                Publicar
+              </button>
+            )}
+            {current > 0 && (
+              <button type='button' id='backBtn' className="btns" style={{ margin: '0 8px' }} onClick={() => prev()}>
+                Volver
+              </button>
+            )}
+        </div>
       </div>
-    </div>
   );
 };
 
