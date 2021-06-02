@@ -14,7 +14,7 @@ nav {
   cursor: pointer;
   transition: all .2s ease-in-out;
   margin-left: 10%;
-  margin-right: 10%;
+  margin-right: 8%;
 }
 .link:hover {
   font-size: 1.03rem;
@@ -26,8 +26,8 @@ nav {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  width: 60%;
-  margin-right: 6%;
+  width: 80%;
+  margin-right: 2%;
 }
 
 .authNav {
@@ -40,7 +40,7 @@ nav {
 }
 
 .opt {
-  width: 30%;
+  width: 40%;
   display: flex;
   align-items: center;
   justify-content: flex-end;

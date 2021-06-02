@@ -126,7 +126,7 @@ function Filter({
           type="text"
           name="post_name"
           placeholder="Título"
-          value={queryBlock.city}
+          value={queryBlock.post_name}
           onChange={changeURL}
         />
       </div>
@@ -197,7 +197,7 @@ function Filter({
             {['+1','+2','+3','+4','+5','+6'].map(
               (el, index) => 
               <button class={ el === queryBlock.stratum ? `${style.btnFilter} ${style.btnFilterActive}` : style.btnFilter} key={index} name="rooms"
-              onClick={(e) =>{e.preventDefault(); changeURL(e);}} value={el}
+              onClick={(e) =>{e.preventDefault(); changeURL(e);}} value={el[1]}
               onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
               >
                 {el}
@@ -215,7 +215,7 @@ function Filter({
             {['+1','+2','+3','+4','+5','+6'].map(
               (el, index) => 
                 <button class={ el === queryBlock.stratum ? `${style.btnFilter} ${style.btnFilterActive}` : style.btnFilter} key={index} name="bathrooms"
-                onClick={(e) =>{e.preventDefault(); changeURL(e);}} value={el}
+                onClick={(e) =>{e.preventDefault(); changeURL(e);}} value={el[1]}
                 onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
                 >
                   {el}
