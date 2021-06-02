@@ -63,23 +63,54 @@
   padding: 5px 5px 5px 10px;
   margin: 10px 0 5px 0;
 }
-article.address_detail p{
+.address_detail p{
   margin: 0.5rem 0;
 }
-article.address_detail .price {
+.address_detail .price {
   font-size: 2em;
   color: var(--light-blue);
 }
 .divReservation {
-  background-color: var(--blackShadow);
+  background-color: #dadada;
   width: 30%;
 }
-.tour_schedule {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  height: 100%;
+.divTitle {
+  border-bottom: 2px solid var(--light-blue);
+  padding: 5px;
+  text-align: center;
+  margin: 5px;
+  background-color: var(--white);
+  color: var(--light-blue);
 }
+.tour_schedule {
+    margin: 5px;
+    background: var(--white);
+    border-radius: 25px;
+    box-shadow: 0px 3px 6px 0px var(--blackShadow);
+    height: 80%;
+    display: flex;
+    justify-content: center;
+
+}
+.details2 {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  text-align: center;
+  padding: 10px;
+}
+.details2 button {
+  border-radius: 20px;
+  background-color: var(--light-blue);
+  border: 1px solid var(--light-blue);
+  color: var(--white);
+  padding: 10px;
+  width: 100%;
+  cursor: pointer;
+  box-shadow: 1px 1px 4px 2px var(--blackShadow);
+}
+
+
 
 
 
@@ -100,21 +131,6 @@ section.map_facilities > article {
   margin: 4% auto;
 }
 
-.tour_schedule .details {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-/*   justify-content: space-evenly; */
-/*   align-items: flex-end; */
-  margin: 0;
-  height: 60%;
-  width: 60%;
-  text-align: center;
-  background: var(--white);
-  border: 2px solid var(--blue);
-  border-radius: 20px;
-  box-shadow: 0px 3px 6px 0px var(--blackShadow);
-}
 .facilities_container {
   text-align: center;
   margin: 4% auto;

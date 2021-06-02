@@ -135,8 +135,11 @@ export default function Details({ routerProps }) {
           </article>
           </div>
           <div className={styles.divReservation}>
+          <div className={styles.divTitle}>
+            ¡Estoy Interesado!
+          </div>
           <article className={styles.tour_schedule}>
-            <div className={styles.details}>
+            <div className={styles.details2}>
               <h3>Agenda tu cita</h3>
               <label>{new Date().toLocaleDateString("es-ES")}</label>
               {wasBooking && <label id='label-message' style={{ color: 'green' }}>You have already reserved it!</label>}
