@@ -3,10 +3,52 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 10%;
+    position: relative;
+    margin-top: 60%;
     color: var(--dark);
 }
 
 .title {
-    font-size: 2rem;
+    display: flex;
+    font-size: 1.3rem;
+    margin: 5% 0;
+}
+
+.volver {
+    display: flex;
+    font-size: 1.1rem;
+    margin-top: 5%
+}
+
+.img {
+    display: flex;
+    width: 40%;
+    height: auto;
+    border-radius: 60%;
+}
+
+.ctn .form .btnReset {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 40%;
+}
+.btn {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 1.3rem;
+    cursor:  pointer;
+    background: var(--blue);
+    border-radius: 1em;
+    transition: all 0.3s ease-in-out;
+    text-align: center;
+    padding: 8px;
+    border: none;
+    font-family: 'Poppins';
+  }
+
+.btn:hover {
+    background: var(--dark);
+    box-shadow: var(--blackhadow);
+    transition: all 0.3s ease-in-out;
 }
