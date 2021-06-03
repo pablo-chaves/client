@@ -18,19 +18,21 @@ const Uploader = () => {
   const handlerOnChange = async (event) => {
     const { target } = event;
     let { files } = target;
-    target.value = '';
 
     const limit = imagesLimit;
     const actual = images.length;
 
-    if (!filesQuantityChecker(files, limit, actual))
+    if (!filesQuantityChecker(files, limit, actual)) {
+      target.value = '';
       return Swal.fire({
         icon: 'warning',
         title: `Por revisa la cantidad de images a subir! recuerda que el limte es ${imagesLimit}`,
         showConfirmButton: true,
       });
+    }
 
     if (fileSizeChecker(files)) {
+      target.value = '';
       return Swal.fire({
         icon: 'warning',
         title: 'Por favor carga images con una tamano de hasta 2mb!',
@@ -42,6 +44,7 @@ const Uploader = () => {
     );
     const newFilesList = [...filesList, ...newFile];
     setFilesList(newFilesList);
+    target.value = '';
   };
 
   const onClickDelete = (url) => {
