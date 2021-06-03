@@ -1,6 +1,7 @@
 import styles from '../PhotoUploader/PhotoUploader.module.css';
 import Swal from 'sweetalert2';
 import { filesQuantityChecker, fileSizeChecker } from '../../utils';
+import PhotoUpLoaderItem from '../PhotoUpLoaderItem/PhotoUpLoaderItem';
 
 const EditPhotoUploader = ({
   imagesContainer,
@@ -51,33 +52,21 @@ const EditPhotoUploader = ({
   return (
     <div className='ctn'>
       <h1>Agrega imágenes de tu inmueble </h1>
-      <div>
-        <div>
-          {photos.map((image, key) => {
-            return (
-              <img
-                key={key}
-                onClick={() => onClickDelete(image)}
-                className={styles.image}
-                src={image}
-              />
-            );
-          })}
-        </div>
-        <div className={styles.container_field_image}>
-          <label style={{ position: 'absolute' }}>
-            {`Arrastre y suelte sus imagenes o haga click aqui para seleccionar`}
-          </label>
-          <input
-            className={styles.field_image}
-            type='file'
-            multiple
-            name='images'
-            accept='image/*'
-            onChange={handlerOnChange}
-          />
-        </div>
+
+      <div className={styles.container_field_image}>
+        <label style={{ position: 'absolute' }}>
+          {`Arrastre y suelte sus imagenes o haga click aqui para seleccionar`}
+        </label>
+        <input
+          className={styles.field_image}
+          type='file'
+          multiple
+          name='images'
+          accept='image/*'
+          onChange={handlerOnChange}
+        />
       </div>
+      <PhotoUpLoaderItem items={photos} onDelete={onClickDelete} />
     </div>
   );
 };
