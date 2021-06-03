@@ -7,10 +7,10 @@
   box-shadow: 2px 4px 6px 3px var(--blackShadow);
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
 }
 .divImg {
-  width: 30%;
+  width: 50%;
+  padding: 5%;
 }
 .img {
     width: 70%;
@@ -18,7 +18,7 @@
 .divInfo {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   width: 50%;
   height: 100%;

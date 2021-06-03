@@ -3,11 +3,12 @@
   background-color: var(--white);
   padding: 10px;
   position: relative;
+  box-shadow: 1px 1px 6px 1px var(--blackShadow);
 }
 .ctn label{
   cursor: pointer;
   text-decoration: none;
-  color: var(--dark);
+  color: var(--blue);
 }
 
 .elementsCtn {
@@ -62,5 +63,5 @@
     border: 2px solid var(--dark);
     color: var(--white);
   }
-  
+
 }

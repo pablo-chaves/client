@@ -22,12 +22,12 @@ function SideMenu({ session }) {
         <div className={`${style.ctn} ${state && style.ctnFixed}`} id="navPanel">
           <label>NAVEGACIÓN</label>
             <div className={style.divTitle}>
-              <NavLink to={`/panel/detail/user/${session.id}`} className={style.link} activeClassName={style.active}>
-                <h2 title='Mi perfil'>
-                  <FontAwesomeIcon icon={faUserShield} />
-                  {` ${session.name}`}
-                </h2>
-              </NavLink>
+              <h2 title='Mi perfil'>
+                <NavLink to={`/panel/detail/user/${session.id}`} className={style.link} activeClassName={style.active}>
+                    <FontAwesomeIcon icon={faUserShield} />
+                    {` ${session.name}`}
+                </NavLink>
+              </h2>
             </div>
             <div className={style.divTitle}>
               <h3>Gestión de usuarios</h3>
