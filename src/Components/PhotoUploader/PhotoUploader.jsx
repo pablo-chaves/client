@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import useCreatePost from '../../Pages/NewPost/hooks/useCreatePost';
 import styles from './PhotoUploader.module.css';
 import { filesQuantityChecker, fileSizeChecker } from '../../utils';
+import PhotoUpLoaderItem from '../PhotoUpLoaderItem/PhotoUpLoaderItem';
 import Swal from 'sweetalert2';
 // Si tenemos tiempo, ver de no agregar imágenes repetidas
 
@@ -57,34 +58,20 @@ const Uploader = () => {
   }, [filesList]);
   return (
     <div className={styles.ctn}>
-      <div>
-        <div>
-          {images.map((image, key) => {
-            return (
-              <img
-                key={key}
-                onClick={() => onClickDelete(image)}
-                className={styles.image}
-                src={image}
-                alt='imagen'
-              />
-            );
-          })}
-        </div>
-        <div className={styles.container_field_image}>
-          <label>
-            {`Arrastre y suelte sus imagenes o haga click aqui para seleccionar`}
-          </label>
-          <input
-            className={styles.field_image}
-            type='file'
-            multiple
-            name='images'
-            accept='image/*'
-            onChange={handlerOnChange}
-          />
-        </div>
+      <div className={styles.container_field_image}>
+        <label>
+          {`Arrastre y suelte sus imagenes o haga click aqui para seleccionar`}
+        </label>
+        <input
+          className={styles.field_image}
+          type='file'
+          multiple
+          name='images'
+          accept='image/*'
+          onChange={handlerOnChange}
+        />
       </div>
+      <PhotoUpLoaderItem items={filesList} onDelete={onClickDelete} />
     </div>
   );
 };

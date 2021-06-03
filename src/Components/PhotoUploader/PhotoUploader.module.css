@@ -8,13 +8,8 @@
   justify-content: space-evenly;
 }
 
-.image {
-  max-width: 20%;
-}
-
-.field_image{
-  size:60;
-  margin: 0;
+.field_image {
+  size: 60;
   padding: 0;
   width: 100%;
   height: 100%;
@@ -22,7 +17,8 @@
   cursor: pointer;
 }
 
-.container_field_image{
+.container_field_image {
+  margin: auto;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -31,7 +27,6 @@
   width: 37.5rem;
   height: 18.75rem;
 }
-
 
 .container_field_image label {
   position: absolute;
