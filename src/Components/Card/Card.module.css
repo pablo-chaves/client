@@ -52,7 +52,9 @@
   margin-left: 0.5em;
   color: goldenrod;
 }
-
+.eye{
+  margin-right: 0.3em;
+}
 .general {
   display: flex;
   flex-direction: column;

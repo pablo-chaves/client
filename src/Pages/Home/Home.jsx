@@ -8,6 +8,7 @@ import style from './Home.module.css';
 import Paginacion from '../../Components/Paginacion/Paginacion';
 import { getAvailableFilteredPropierties } from '../../Redux/Actions/index';
 import MobileFilter from '../../Components/Filter/MobileFilter';
+import NotFound from '../NotFound/NotFound'
 
 export default function Home({ mobile }) {
   const limit = 10;
@@ -25,8 +26,10 @@ export default function Home({ mobile }) {
       <div className={style.main}>
         <div className={style.search_order}>
           <div className={style.topPag}>
-            {count && (
-              <Paginacion
+            {count === 0 ? (
+              <NotFound />
+              ) : (
+                <Paginacion
                 home="top"
                 count={count}
                 paginaActual={page}

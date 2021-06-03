@@ -2,10 +2,10 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
 import {
-  faBed, faBath, faRulerCombined,
+  faBed, faBath, faRulerCombined, faEye,
 } from '@fortawesome/free-solid-svg-icons';
-// import { FaRegHeart } from 'react-icons/fa';
 import { RiVipCrownLine } from 'react-icons/ri';
+import { FaRegEye } from 'react-icons/fa';
 import style from './Card.module.css';
 import { addViewsService } from '../../Services/views.service';
 
@@ -74,7 +74,12 @@ export default function Card({
                 </p>
               </div>
               <div>
-                <sub>{views} visitas</sub>
+              <p>
+                <span className={style.eye}>
+                  <FontAwesomeIcon icon={faEye}/>  
+                </span>
+                  {views} visitas
+                </p>
               </div>
             </div>
           </div>
