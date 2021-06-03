@@ -12,23 +12,23 @@ function openFilters() {
   document.getElementById('filtersSide').className = 'openFilter';
 }
 
-function TableButtonBar({ rol, path }) {  
+function TableButtonBar({ rol, path }) {
   return (
     <div className={style.ctn}>
       <div className={style.elementsCtn}>
         <NavLink to={`/panel/${rol}`}>
-          <label>
+          <label className={style.elementsCtn}>
             <FontAwesomeIcon icon={faArrowLeft} />
-            {' Panel'}
+            {' Inicio'}
           </label>
         </NavLink>
         <div className={style.btnCtn}>
-          {((rol !== 'user' && path !== 'post') && path !== 'booking') && 
+          {((rol !== 'user' && path !== 'post') && path !== 'booking') &&
             <NavLink to={`/panel/${path}/create`} className={style.btnBar}>
               <FontAwesomeIcon icon={faPlus} />
               {' Crear'}
             </NavLink>}
-          {(path === 'post' && rol ==='admin') && 
+          {(path === 'post' && rol ==='admin') &&
             <button type="button" className={style.btnBar} onClick={openFilters}>
             <FontAwesomeIcon icon={faSlidersH} />
             {' Filtrar'}

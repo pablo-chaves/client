@@ -4,24 +4,24 @@ import { useSelector} from 'react-redux';
 
 function Dashboard() {
   const { session } = useSelector((store) => store);
-  
+
   const isAdmin = session.type === 'Admin' || session.type === 'SuperAdmin'
 
   return (
     <div className={style.ctn}>
       {isAdmin && (
         <>
-          <h3 className={style.title}>Welcome to My House-App</h3>
+          <h3 className={style.title}>Bienvenido a My House-App</h3>
           <p className={style.description}>
-            Here you can manage the entire database on the page.
+            Aquí puede administrar toda la base de datos de la App.
           </p>
         </>
       )}
       {!isAdmin && (
         <>
-          <h3 className={style.title}>Welcome to your personal area</h3>
+          <h3 className={style.title}>Bienvenido a tu área personal</h3>
           <p className={style.description}>
-            Here you can manage your account setting, posts and more.
+            Aquí puedes administrar la configuración de tu cuenta, publicaciones y más.
           </p>
         </>
       )}
