@@ -18,6 +18,7 @@ const Uploader = () => {
   const handlerOnChange = async (event) => {
     const { target } = event;
     let { files } = target;
+    target.value = '';
 
     const limit = imagesLimit;
     const actual = images.length;
@@ -29,18 +30,18 @@ const Uploader = () => {
         showConfirmButton: true,
       });
 
-    if (fileSizeChecker(files))
+    if (fileSizeChecker(files)) {
       return Swal.fire({
         icon: 'warning',
         title: 'Por favor carga images con una tamano de hasta 2mb!',
         showConfirmButton: true,
       });
+    }
     const newFile = await Promise.all(
       [...files].map((image) => getBase64(image))
     );
     const newFilesList = [...filesList, ...newFile];
     setFilesList(newFilesList);
-    target.value = '';
   };
 
   const onClickDelete = (url) => {
@@ -68,7 +69,7 @@ const Uploader = () => {
           })}
         </div>
         <div className={styles.container_field_image}>
-          <label> 
+          <label>
             {`Arrastre y suelte sus imagenes o haga click aqui para seleccionar`}
           </label>
           <input

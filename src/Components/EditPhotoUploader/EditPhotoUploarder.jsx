@@ -18,6 +18,7 @@ const EditPhotoUploader = ({
   }
 
   const handlerOnChange = async (event) => {
+    target.value = '';
     const { target } = event;
     let { files } = target;
     const actual = photos.length;
