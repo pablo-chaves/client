@@ -24,7 +24,7 @@ function SideMenu({ session }) {
             <div className={style.divTitle}>
               <h2 title='Mi perfil'>
                 <NavLink to={`/panel/detail/user/${session.id}`} className={style.link} activeClassName={style.active}>
-                    <FontAwesomeIcon icon={faUserShield} />
+                    <FontAwesomeIcon icon={faUserShield} className={style.icon} />
                     {` ${session.name}`}
                 </NavLink>
               </h2>
@@ -33,7 +33,7 @@ function SideMenu({ session }) {
               <h3>Gestión de usuarios</h3>
               <p>
                 <NavLink to="/panel/admin/users" className={style.link} activeClassName={style.active}>
-                    <FontAwesomeIcon icon={faUser} />
+                    <FontAwesomeIcon icon={faUser} className={style.icon}/>
                     {' Usuarios'}
                 </NavLink>
               </p>
@@ -42,13 +42,13 @@ function SideMenu({ session }) {
               <h3>Gestión de publicaciones</h3>
               <p>
                 <NavLink to={`/panel/admin/posts`} className={style.link} activeClassName={style.active}>
-                    <FontAwesomeIcon icon={faHouseUser} />
+                    <FontAwesomeIcon icon={faHouseUser} className={style.icon}/>
                     {' Publicaciones'}
                 </NavLink>
               </p>
               <p>
                 <NavLink to="/panel/admin/bookings" className={style.link} activeClassName={style.active}>
-                    <FontAwesomeIcon icon={faCalendarAlt} />
+                    <FontAwesomeIcon icon={faCalendarAlt} className={style.icon}/>
                     {' Reservas'}
                 </NavLink>
               </p>
@@ -61,7 +61,7 @@ function SideMenu({ session }) {
             <div className={style.divTitle}>
               <h2 title='Mi perfil'>
                 <NavLink to={`/panel/detail/user/${session.id}`} className={style.link} activeClassName={style.active}>
-                    <FontAwesomeIcon icon={faUser} />
+                    <FontAwesomeIcon icon={faUser} className={style.icon}/>
                     {` ${session.name}`}
                 </NavLink>
               </h2>
@@ -70,7 +70,7 @@ function SideMenu({ session }) {
               <h3>Publicaciones</h3>
               <p>
                 <NavLink to={`/panel/user/${session.id}/posts`} className={style.link} activeClassName={style.active}>
-                  <FontAwesomeIcon icon={faHouseUser} />
+                  <FontAwesomeIcon icon={faHouseUser} className={style.icon}/>
                   {' Mis publicaciones'}
                 </NavLink>
               </p>
@@ -79,13 +79,13 @@ function SideMenu({ session }) {
               <h3>Reservas</h3>
               <p>
                 <NavLink to={`/panel/user/${session.id}/bookings`} className={style.link} activeClassName={style.active}>
-                  <FaRegCalendar />
+                  <FaRegCalendar className={style.icon}/>
                   {' Mis reservas'}
                 </NavLink>
               </p>
               <p>
                 <NavLink to={`/panel/user/${session.id}/bookingsowner`} className={style.link} activeClassName={style.active}>
-                    <FontAwesomeIcon icon={faCalendarAlt} />
+                    <FontAwesomeIcon icon={faCalendarAlt} className={style.icon}/>
                     {' Reservas como propietario'}
                 </NavLink>
               </p>

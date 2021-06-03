@@ -2,10 +2,10 @@
   margin-top: 1%;
   background-color: var(--white);
   padding: 10px;
-  position: relative;
   box-shadow: 1px 1px 6px 1px var(--blackShadow);
 }
 .ctn label{
+  margin-left: 5%;
   cursor: pointer;
   text-decoration: none;
   color: var(--blue);
