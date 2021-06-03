@@ -24,6 +24,7 @@ import Swal from 'sweetalert2';
 function EditPosts({ id, action, session, location, addLocation }) {
   const [input, setInput] = useState({});
   const [postDetail, setPostDetail] = useState({});
+
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = React.useState('');
 
@@ -148,8 +149,8 @@ function EditPosts({ id, action, session, location, addLocation }) {
         icon: 'warning',
         title: 'Revisar campos requeridos',
         showConfirmButton: false,
-        timer: 1500
-      })
+        timer: 1500,
+      });
     } else {
       if (action === 'edit') {
         if (errors === '') {
@@ -158,18 +159,19 @@ function EditPosts({ id, action, session, location, addLocation }) {
             icon: 'info',
             title: `No se han realizado modificaciones`,
             showConfirmButton: false,
-            timer: 1500
-          })
+            timer: 1500,
+          });
         } else {
-          return editPostService(id, input).then(  () => {
-            Swal.fire({
-              icon: 'success',
-              title: `Publicación ${input.post_name} editado correctamente `,
-              showConfirmButton: true,
-              // timer: 2000
+          return editPostService(id, input)
+            .then(() => {
+              Swal.fire({
+                icon: 'success',
+                title: `Publicación ${input.post_name} editado correctamente `,
+                showConfirmButton: true,
+                // timer: 2000
+              });
             })
-          })
-          .catch(e=>console.log(e));
+            .catch((e) => console.log(e));
         }
       } else if (action === 'create') {
         if (errors === '') {
@@ -177,18 +179,19 @@ function EditPosts({ id, action, session, location, addLocation }) {
             icon: 'warning',
             title: 'Revisar campos requeridos',
             showConfirmButton: false,
-            timer: 1500
-          })
+            timer: 1500,
+          });
         } else {
-          return addPostService(input).then(  () => {
-            Swal.fire({
-              icon: 'success',
-              title: `Publicación ${input.post_name} creada correctamente `,
-              showConfirmButton: true,
-              // timer: 2000
+          return addPostService(input)
+            .then(() => {
+              Swal.fire({
+                icon: 'success',
+                title: `Publicación ${input.post_name} creada correctamente `,
+                showConfirmButton: true,
+                // timer: 2000
+              });
             })
-          })
-          .catch(e=>console.log(e));
+            .catch((e) => console.log(e));
         }
       }
     }
@@ -394,6 +397,7 @@ function EditPosts({ id, action, session, location, addLocation }) {
               imagesContainer={input.images}
               onClickDelete={onClickDelete}
               onChangeImage={onChangeImage}
+              limit={postDetail.premium ? 20 : 10}
             />
             <div className={style.field} onClick={() => setDisplay(!display)}>
               <p className={style.tit_facilities}>Otras comodidades</p>
