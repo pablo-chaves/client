@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faHouseUser, faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faHouseUser, faCalendarAlt, faUserShield } from '@fortawesome/free-solid-svg-icons';
 import { FaRegCalendar } from 'react-icons/fa';
 import style from './SideMenu.module.css';
 
@@ -18,40 +18,40 @@ function SideMenu({ session }) {
   };
   return (
     <>
-      {isAdmin && 
+      {isAdmin &&
         <div className={`${style.ctn} ${state && style.ctnFixed}`} id="navPanel">
           <label>NAVEGACIÓN</label>
             <div className={style.divTitle}>
-              <NavLink to={`/panel/detail/user/${session.id}`} activeStyle={{ color: 'var(--white)' }}>
-                <h4>
-                  <FontAwesomeIcon icon={faUser} />
-                  {'  Mi perfil'}
-                </h4>
+              <NavLink to={`/panel/detail/user/${session.id}`} className={style.link} activeClassName={style.active}>
+                <h2 title='Mi perfil'>
+                  <FontAwesomeIcon icon={faUserShield} />
+                  {` ${session.name}`}
+                </h2>
               </NavLink>
             </div>
             <div className={style.divTitle}>
               <h3>Gestión de usuarios</h3>
-              <NavLink to="/panel/admin/users" activeStyle={{ color: 'var(--white)' }}>
-                <h4>
-                  <FontAwesomeIcon icon={faUser} />
-                  {' Usuarios'}
-                </h4>
-              </NavLink>
+              <p>
+                <NavLink to="/panel/admin/users" className={style.link} activeClassName={style.active}>
+                    <FontAwesomeIcon icon={faUser} />
+                    {' Usuarios'}
+                </NavLink>
+              </p>
             </div>
             <div className={style.divTitle}>
               <h3>Gestión de publicaciones</h3>
-              <NavLink to={`/panel/admin/posts`} activeStyle={{ color: 'var(--white)' }}>
-                <h4>
-                  <FontAwesomeIcon icon={faHouseUser} />
-                  {' Publicaciones'}
-                </h4>
-              </NavLink>
-              <NavLink to="/panel/admin/bookings" activeStyle={{ color: 'var(--white)' }}>
-                <h4>
-                  <FontAwesomeIcon icon={faCalendarAlt} />
-                  {' Reservas'}
-                </h4>
-              </NavLink>
+              <p>
+                <NavLink to={`/panel/admin/posts`} className={style.link} activeClassName={style.active}>
+                    <FontAwesomeIcon icon={faHouseUser} />
+                    {' Publicaciones'}
+                </NavLink>
+              </p>
+              <p>
+                <NavLink to="/panel/admin/bookings" className={style.link} activeClassName={style.active}>
+                    <FontAwesomeIcon icon={faCalendarAlt} />
+                    {' Reservas'}
+                </NavLink>
+              </p>
             </div>
         </div>
         }
@@ -59,36 +59,36 @@ function SideMenu({ session }) {
         <div className={`${style.ctn} ${style.ctnUser} ${state && style.ctnFixed}`} id="navPanel">
           <label>NAVEGACIÓN</label>
             <div className={style.divTitle}>
-              <NavLink to={`/panel/detail/user/${session.id}`} activeStyle={{ color: 'var(--white)' }}>
-                <h4>
-                  <FontAwesomeIcon icon={faUser} />
-                  {'  Mi perfil'}
-                </h4>
-              </NavLink>
+              <h2 title='Mi perfil'>
+                <NavLink to={`/panel/detail/user/${session.id}`} className={style.link} activeClassName={style.active}>
+                    <FontAwesomeIcon icon={faUser} />
+                    {` ${session.name}`}
+                </NavLink>
+              </h2>
             </div>
             <div className={style.divTitle}>
               <h3>Publicaciones</h3>
-              <NavLink to={`/panel/user/${session.id}/posts`} activeStyle={{ color: 'var(--white)' }}>
-                <h4>
+              <p>
+                <NavLink to={`/panel/user/${session.id}/posts`} className={style.link} activeClassName={style.active}>
                   <FontAwesomeIcon icon={faHouseUser} />
                   {' Mis publicaciones'}
-                </h4>
-              </NavLink>
+                </NavLink>
+              </p>
             </div>
             <div className={style.divTitle}>
               <h3>Reservas</h3>
-              <NavLink to={`/panel/user/${session.id}/bookings`} activeStyle={{ color: 'var(--white)' }}>
-                <h4>
+              <p>
+                <NavLink to={`/panel/user/${session.id}/bookings`} className={style.link} activeClassName={style.active}>
                   <FaRegCalendar />
                   {' Mis reservas'}
-                </h4>
-              </NavLink>
-              <NavLink to={`/panel/user/${session.id}/bookingsowner`} activeStyle={{ color: 'var(--white)' }}>
-                <h4>
-                  <FontAwesomeIcon icon={faCalendarAlt} />
-                  {' Reservas como propietario'}
-                </h4>
-              </NavLink>
+                </NavLink>
+              </p>
+              <p>
+                <NavLink to={`/panel/user/${session.id}/bookingsowner`} className={style.link} activeClassName={style.active}>
+                    <FontAwesomeIcon icon={faCalendarAlt} />
+                    {' Reservas como propietario'}
+                </NavLink>
+              </p>
             </div>
         </div>
       )}

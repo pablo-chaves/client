@@ -1,27 +1,37 @@
 .ctn{
   position: absolute;
-  /* background-color: blue; */
   width: 20%;
   height: 100%;
-  background-color: var(--blue);
-  color: var(--white);
+  background-color: var(--white);
+  border-right: 2px solid var(--blackShadow);
+  box-shadow: 2px 8px 6px 3px var(--blackShadow);
+  color: var(--blue);
   padding: 1%;
-  font-size: 1em;
+  /* font-size: 1em; */
 }
 .ctnUser {
-  background-color: var(--blue);
+  /* background-color: var(--blue); */
 }
 .ctnFixed {
   position: fixed;
   top:0;
 }
 .ctn label{
-  color: var(--white);
-  font-size: 1em;
+  /* color: var(--white); */
+  font-size: 12px;
 }
-.ctn a{
+.ctn p {
+  margin: 10px 0 10px;
+}
+.link {
+  padding: 5px 0px 5px 5px !important;
   text-decoration: none;
   color: var(--black);
+}
+.active::before {
+  content: '➤ ';
+  color: var(--blue);
+
 }
 .ctn h4 {
   font-size: 1.1em;
@@ -29,8 +39,17 @@
 }
 
 .ctn h3 {
-  margin-top: 8%;
+  margin: 8% 0;
+}
+.ctn h2 {
+  margin-top: 15px;
+  text-align: center;
+  font-size: 120%;
+  color: var(--dark);
 }
 .divTitle {
-  margin: 10% 0;
+  margin: 7px 0;
+  border-top: 1px solid var(--blackShadow);
+  border-bottom: 1px solid var(--blackShadow);
+  padding-bottom: 5px;
 }
