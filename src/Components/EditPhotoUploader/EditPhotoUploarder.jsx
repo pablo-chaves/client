@@ -1,10 +1,14 @@
 import styles from '../PhotoUploader/PhotoUploader.module.css';
+import Swal from 'sweetalert2';
+import { filesQuantityChecker, fileSizeChecker } from '../../utils';
 
 const EditPhotoUploader = ({
   imagesContainer,
   onChangeImage,
   onClickDelete,
+  limit,
 }) => {
+  console.log('🚀 ~ file: EditPhotoUploarder.jsx ~ line 11 ~ limit', limit);
   let photos;
   if (typeof imagesContainer[0] === 'string') {
     photos = imagesContainer;
@@ -16,6 +20,21 @@ const EditPhotoUploader = ({
   const handlerOnChange = async (event) => {
     const { target } = event;
     let { files } = target;
+    const actual = photos.length;
+    if (!filesQuantityChecker(files, limit, actual))
+      return Swal.fire({
+        icon: 'warning',
+        title: `Por revisa la cantidad de images a subir! recuerda que el limite es ${limit}`,
+        showConfirmButton: true,
+      });
+
+    if (fileSizeChecker(files))
+      return Swal.fire({
+        icon: 'warning',
+        title: 'Por favor carga images con una tamano de hasta 2mb!',
+        showConfirmButton: true,
+      });
+
     const newFile = await Promise.all(
       [...files].map((image) => getBase64(image))
     );
