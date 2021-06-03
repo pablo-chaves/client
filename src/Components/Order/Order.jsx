@@ -19,15 +19,11 @@ function Orders({ sorting, filter }) {
   });
 
   function handleOrder(e) {
-    // console.log('e.target.value: ', e.target.value);
     const [prop, type] = e.target.value.split('_');
     const parameters = window.location.search ? window.location.search.slice(1).split('&') : null;
     const queryBlock = {};
-    // console.log('window.location.search:', window.location.search);
-    // console.log('parameters:', parameters);
     if (parameters) {
       parameters.forEach((param) => {
-        // console.log('param: ', param);
         if (param.split('=')[0] !== 'page') {
           // eslint-disable-next-line prefer-destructuring
           queryBlock[`${param.split('=')[0]}`] = param.split('=')[1];
@@ -35,7 +31,6 @@ function Orders({ sorting, filter }) {
         }
       });
     }
-    // console.log('queryBlock:', queryBlock);
     history.push(`/home?${params.toString()}`);
     sorting({ prop, type });
     filter(queryBlock);
@@ -53,6 +48,10 @@ function Orders({ sorting, filter }) {
           <optgroup label="Habitaciones">
             <option name="rooms_ASC" value="rooms_ASC">- a +</option>
             <option name="rooms_DESC" value="rooms_DESC">+ a -</option>
+          </optgroup>
+          <optgroup label="Visitas">
+            <option name="views_ASC" value="views_ASC">- a +</option>
+            <option name="views_DESC" value="views_DESC">+ a -</option>
           </optgroup>
         </select>
       </div>
